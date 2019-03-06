@@ -1,0 +1,604 @@
+/*-- login.html --*/
+*{
+	padding: 0;
+	margin: 0;
+}
+input{
+	vertical-align: middle;
+	width: 0.27rem;
+	line-height: 0.035rem;
+	font-size: 0.025rem;
+	height: 0.035rem;
+	border: none;
+	outline: none;
+}
+	
+#login_frame{
+	width: 0.554rem;
+	height: 0.34rem;
+	background: rgba(255,255,255,0.15);
+	margin: 0.165rem auto;
+}
+			
+#login_frame .login_header{
+	width: 100%;
+	height: 0.1rem;
+	text-align: center;
+				
+	/* Safari、Opera 以及 Chrome */
+	display:-webkit-box;
+	-webkit-box-pack:center;
+	-webkit-box-align:center;
+			}
+			
+#login_frame .login_header .logo{
+	width: 0.1rem;
+	vertical-align: middle;
+				
+}
+			
+#login_frame .login_header .name{
+	font-size: 0.03rem;
+	font-weight: bolder;
+	vertical-align: middle;
+}
+			
+.separator-line{
+	width: 100%;
+	height:0.001rem;
+	background-color: white;
+}
+			
+form{
+	text-align: center;
+}
+			
+.text-line{
+	margin-top: 0.02rem;
+}
+			
+.text-line label{
+	font-size: 0.028rem;
+	font-weight: bolder;
+	vertical-align: middle;
+	margin-right: 0.02rem;
+}
+			
+.alert-message{
+	margin-top: 0.005rem;
+	color: #D9544F;
+	visibility: hidden;
+}
+			
+.btn-frame input{
+	color: #ffffff;
+	background-color: #28728E;
+	font-size: 0.023rem;
+	font-family: "微软雅黑";
+	height: 0.04rem;
+	width: 0.11rem;
+	border-radius: 0.006rem;
+	margin:0.01rem 0.01rem;
+}
+
+/*-- 顶部 --*/
+.top-body{
+	width: 1rem;
+	height: 0.065rem;
+    background: linear-gradient(#0F3462, #185D91);
+	box-shadow: 0.003px 0.003px 0.003px #000000;
+	opacity:0.8;
+    text-align: center;
+    z-index: 2;	
+}
+.topleft{
+	height:0.065rem;
+	float:left; 
+}
+.logo-img{
+	margin-top:0.002rem;
+	margin-bottom: 0.01rem;
+	width: 0.083rem;
+	height: 0.049rem;
+	vertical-align: middle;
+}
+.logo-name{
+	margin-left: 0.01rem;
+	height: 0.049rem;
+	line-height: 0.065rem;	
+	font-family: "微软雅黑";
+	font-size: 0.031rem;
+	color: white;
+	vertical-align:center;
+}
+.topright{
+	height:0.065rem;
+	float:right; 
+}
+.user-area img{
+    margin-top:0.015rem;
+    margin-bottom: 0.01rem;
+	width: 0.039rem;
+	height: 0.037rem;
+	margin-right: 0.01rem;
+	float:right;
+	display: inline; 
+	vertical-align:center;
+        cursor: pointer;
+	}
+/*--底部 --*/
+.navbar{
+	width: 1rem;
+	height: 0.065rem;
+	margin-top: 0.605rem;
+	border: none;
+    background: linear-gradient(#185D91,#0F3462);
+    box-shadow: 0.003px -0.001rem 0.003rem #000000;
+    opacity:0.8;
+    text-align: center;
+}
+.nav{
+	width: 1rem;
+	height:0.065rem;
+	margin: 0 ;
+	padding: 0; 
+	display: inline-block;
+}
+.nav li{
+	display: inline-block;
+	list-style: none;
+        cursor: pointer;
+}
+.nav li img{
+	display: inline-block;
+	height: 0.065rem;
+	padding: 0.001rem  0.03rem;
+	z-index: 1;
+}
+.nav li img:hover{
+		background:#063C6A;
+}
+.nav :first-child{
+	background-color:#063C6A;
+	}
+.body2{
+	background: #005D98;
+	width:1rem;
+	height: 0.62rem;
+}
+
+
+/*-- 左边栏 --*/
+.left-body{
+	width: 21.6%;
+	height: 0.605rem;
+	float: left;
+	border: 0.001rem solid  #063C6A;
+	/*margin: 0.07rem 0.08rem 0.08rem 0.04rem;*/
+    opacity: 1;
+    background-color:#005D98 ;
+    box-shadow: 0rem 0.003rem 0.003rem #000000;
+}
+.list-group{
+	height:0.29rem;
+	width: 0.2rem;
+	}
+.list-group-item{
+	height: 0.029rem;
+	width: 0.2rem;
+	line-height: 0.018rem;
+	vertical-align: middle;
+	text-align: left;
+	font-size: 0.0176rem;
+	font-family: "微软雅黑";
+	color: white;	
+	background: linear-gradient(#004873,#005D98);
+}
+.badge{
+    background: linear-gradient(#004873,#005D98);
+	font-weight: 100;
+	font-size: 0.0176rem;
+	font-family: "微软雅黑";
+	color: white;
+	min-width: 0;
+	padding: 0rem 0rem;
+	vertical-align: middle;
+	text-align: right;
+	line-height: 0.018rem;
+}
+.btn-group-vertical{
+	width: 0.2rem;
+	height: 0.25rem;
+	margin: auto;
+}
+.btn-group-vertical .btn{
+	background: linear-gradient(#004873,#005D98);
+	margin-bottom: 0.01rem;
+	vertical-align: middle;
+	line-height: 0.029rem; 
+	text-align: center;
+	width: 0.2rem;
+	height: 0.039rem;
+    border-radius:5px;
+    box-shadow: 0rem 0.003rem 0.003rem #000000;
+    font-size: 0.027rem;
+	font-family: "微软雅黑";
+	color: white;	
+}
+
+/*-- 右边主体 --*/
+.right-body{
+	width: 78.4%;
+	height: 0.605rem;
+	/*border: 1px solid black;*/
+	float: right;
+	overflow: hidden;
+	background:#005D98 ;
+	box-shadow: 0rem 0.003rem 0.003rem #000000;
+}
+#iframe-area{
+	height: 0.605rem;
+	border: 1px solid #2E75B6;
+	overflow: hidden;
+}
+#iframe-area iframe{
+	scrolling:"no";
+	height: 0.605rem;
+	width:100%;
+	border-style: none;
+	float: right;
+	overflow: hidden;
+}
+
+
+/*底部导航页面的css*/
+.home-body{
+	overflow: hidden;
+	height: 0.783rem;
+	font-size:0.03rem;
+	font-family: "微软雅黑";
+	color: white;
+	width: 100%;
+	border: 0.001rem solid  #063C6A;
+	/*margin: 0.07rem 0.08rem 0.08rem 0.08rem;*/
+	z-index: 2;
+	background: #005D98;
+    opacity: 1;	
+}
+label{
+	font-weight: 100;
+}
+
+/*-- index.html --*/
+#homePage-pic{
+	height: 0.34rem;
+	margin: auto;
+	background: url(../img/fanPic.png) no-repeat;
+	background-size: 0.614rem 0.318rem;
+	background-position:0.1rem;
+	margin-left: 0.13rem;
+}
+
+/*机舱开始*/
+#cabin-module{
+	width: 0.12rem;
+	height: 0.12rem;
+	/*border: 1px solid #41719C;*/
+	position: absolute;
+	left: 0.758rem;
+	top:0.011rem;
+}
+#cabin-module img{
+	width: 0.12rem;
+	height: 0.12rem;
+	position: absolute;
+}
+/*指示灯定位开始*/
+.indicator{
+	width: 0.02rem;
+	height: 0.02rem;
+	border-radius: 0.02rem;
+	background-color: #92D050;
+	box-shadow: inset #92D050;
+	position: absolute;
+	border: 1px solid #41719C;
+}
+#pitch-system-alarm{
+	left: 0.232rem;
+	top: 0.16rem;
+}
+
+#trans-chain-alarm{
+	left: 0.455rem;
+	top: 0.16rem;
+}
+
+#converter-grid-alarm{
+	left: 0.563rem;
+	top: 0.248rem;
+}
+
+#off-course-alarm{
+	left: 0.81rem;
+	top: 0.16rem;
+}
+
+#safe-chain-alarm{
+	left: 0.37rem;
+	top: 0.02rem;
+}
+#io-module-alarm{
+	left: 0.49rem;
+	top: 0.02rem;
+}
+/*标签定位开始*/
+.labels{
+	position: absolute;
+}
+
+#safe-chain-label{
+	left: 0.36rem;
+	top: 0.05rem;
+}
+
+#io-module-label{
+	left: 0.47rem;
+	top: 0.05rem;
+}
+
+#pitch-system-label{
+	left: 0.1rem;
+	top: 0.22rem;
+}
+
+#trans-chain-label{
+	left: 0.438rem;
+	top: 0.188rem;
+}
+
+#converter-grid-label{
+	left: 0.555rem;
+	top: 0.3rem;
+}
+
+#off-course-label{
+    left: 0.785rem;
+    top: 0.2rem;
+}
+/*数据部分开始*/
+.homePage-data{
+	position: absolute;
+}
+
+.data-frame{
+	width: 0.1rem;
+	height: 0.03rem;
+	border: 1px solid #41719C;
+}
+
+.data-frame p{
+	font-size: 0.02rem;
+	line-height: 0.03rem;
+	margin-left: 0.005rem;
+}
+
+#pitch-data{
+	top: 0.015rem;
+	left: 0.1rem;
+}
+
+#pitch-data .data-frame{
+	margin-top: 0.01rem;
+}
+
+#gearbox-data{
+	top: 0.105rem;
+	left: 0.31rem;
+}
+
+#gearbox-data .data-frame,#gearbox-data p{
+	float:left;
+}
+
+#gearbox-data .data-frame{
+	width: 0.12rem;
+	margin-left: 0.01rem;
+}
+
+#alternator-data{
+	top: 0.115rem;
+	left: 0.55rem;
+}
+#alternator-data .data-frame,#alternator-data p{
+	float:left;
+}
+#alternator-data .data-frame{
+	margin-left: 0.01rem;
+	width: 0.12rem;
+}
+
+#windspeed-data{
+	left: 0.63rem;
+	top: 0.03rem;
+}
+
+#windspeed-data .data-frame{
+	width: 0.12rem;
+}
+
+#principal-axis-data{
+	left: 0.292rem;
+	top: 0.188rem;
+}
+
+
+#principal-axis-data .data-frame{
+	width: 0.12rem;
+	margin-top: 0.01rem;
+}
+.separator-line2{
+	width: 100%;
+	height:0.001rem;
+	background-color: white;
+	margin-top: 0.065rem;
+}
+	
+/*数据部分结束*/
+#homePage-info{
+	width: 0.784rem;
+	height: 0.2rem;
+	margin-top: 0.05rem;
+}
+
+#fault-info{
+	width: 0.45rem;
+	float: left;
+}
+
+#fault-info table{
+	width: 100%;
+}
+
+#fault-info table td {
+    width: 50%;
+    height: 0.06rem;
+    text-align: center;
+}
+
+#fault-info table td img{
+	width: 0.03rem;
+	height: 0.03rem;
+	float: right;
+	vertical-align: middle;
+}
+
+#version-info{
+	float: left;
+	text-align: center;
+	margin-left: 0.03rem;
+}
+#version-info p{
+	line-height: 0.06rem;
+}
+#version-info .version{
+	margin-top: 0.04rem;
+}
+#version-info .version-name{
+	font-family: "微软雅黑";
+	font-size: 0.025rem;
+}
+#maintain{
+	width: 0.25rem;
+	margin-top: 0.01rem;
+	margin-left: 0.7rem;
+	padding-top: 0.045rem;
+}
+#maintain td{
+	font-size: 0.0334rem;
+}
+#maintain table{
+	width: 100%;
+	text-align: center;
+	line-height: 0.04rem;
+}
+
+#maintain table td{
+	height: 0.05rem;
+	text-align: center;
+}
+
+.toggle-off{
+	width: 0.07rem;
+	height: 0.035rem;
+	border: 0.003rem solid #47738C;
+	border-radius: 0.0185rem;
+	margin: auto;
+	background-color: #64A5E1;
+}
+
+
+.toggle-off .toggle-button{
+	float: left;
+	width: 0.031rem;
+	height: 0.031rem;
+	margin-top:0.002rem;
+	margin-left: 0.001rem;
+	background-color: #444249;
+	border-radius: 19px; 
+	cursor: pointer;
+
+}
+			
+.toggle-off .toggle-text-on{
+	background: url(../img/OFF.png);
+	background-size: 0.031rem 0.031rem;
+	margin-top:0.002rem;
+	float: left;
+	height: 0.031rem;
+	width: 0.031rem;
+	
+}
+
+.toggle-on{
+	width: 0.07rem;
+	height: 0.035rem;
+	border: 0.003rem solid #47738C;
+	border-radius: 0.0185rem;
+	margin: auto;
+	background-color: #FE3736;
+}
+
+.toggle-on .toggle-button{
+	float: right;
+	width: 0.031rem;
+	height: 0.031rem;
+	margin-top:0.002rem;
+	margin-right: 0.002rem;
+	background-color: #444249;
+	border-radius: 0.02rem; 
+	cursor: pointer;
+}
+			
+.toggle-on .toggle-text-on{
+	background: url(../img/ON3.png);
+	background-size: 0.031rem 0.031rem;
+	margin-top:0.002rem;
+	float: right;
+	height: 0.031rem;
+	width: 0.031rem;
+}
+/*system.html*/
+#system-table{
+	position:relative;
+	top: 0.1rem;
+	width: 0.72rem;
+	height: 0.439rem;
+	margin: 0 auto;
+	border: 0.001rem solid #42B1C4;
+	border-collapse:collapse;
+}
+#system-table tr{
+	height:0.01rem;
+	border: 0.001rem solid #42B1C4;
+}
+#system-table td{
+	height:0.01rem;
+	width: 50%;
+    vertical-align:middle;
+    text-align:left;
+	font-size:0.035rem;
+	font-family: "微软雅黑";
+	border: 0.001rem solid #42B1C4;
+}
+#system-table a{
+	height:0.01rem;
+	width: 50%;
+    vertical-align:middle;
+    text-align:left;
+	font-size:0.035rem;
+	color: white;
+	font-family: "微软雅黑";
+}
+.right-span{
+	float: right;
+}

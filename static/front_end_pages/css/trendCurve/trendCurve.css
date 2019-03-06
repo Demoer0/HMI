@@ -1,0 +1,62 @@
+*{
+	padding: 0;
+	margin: 0;
+}
+
+body{
+-moz-user-select:none;/*火狐*/
+-webkit-user-select:none;/*webkit浏览器*/
+-ms-user-select:none;/*IE10*/
+-khtml-user-select:none;/*早期浏览器*/
+user-select:none;
+/*cursor: default;*/
+}
+
+p,span{
+	font-size:0.018rem ;
+}
+
+.header{
+	height: 0.04rem;
+	background-color: #9DC3E6;
+	font-size: 0.025rem;
+	line-height: 0.04rem;
+	border: 1px solid #41719C;
+	padding-left: 0.02rem;
+}
+
+#header span{
+	height: 0.038rem;
+	font-size: 0.025rem;
+	line-height: 0.038rem;
+}
+.checked{
+	text-align: center;
+	background: #9DC3E6;
+	width: 0.17rem;
+	font-size: 0.025rem;
+	line-height: 0.035rem;
+	border-radius: 0.009rem;
+	border: 1px solid #41719C;	
+	display: inline-block;
+}
+
+.unchecked{
+	text-align: center;
+	background: #EDEDED;
+	width: 0.17rem;
+	font-size: 0.025rem;
+	line-height: 0.035rem;
+	border-radius: 0.009rem;
+	border: 1px solid #41719C;	
+	display: inline-block;
+}
+
+#iframe{
+	width: 0.996rem;
+	margin: 0.001rem;
+	margin-top: 0.002rem;
+	height: 0.6rem;
+	float: left;
+	border: none;
+}

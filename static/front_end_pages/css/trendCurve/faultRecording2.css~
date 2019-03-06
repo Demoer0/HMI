@@ -1,0 +1,53 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+
+th,td,span,p,label{
+	font-size: 0.0205rem;
+}
+table{
+	border:0;
+	border-collapse: collapse;
+	text-align: center;
+	width:100%;
+}
+#faultRecording-table {
+	text-align: center;
+	background: #F2F2F2;
+	border-collapse: collapse;
+	width: 100%;
+	margin: auto;
+}
+td{
+	border: 1px solid black;
+	white-space:nowrap;
+	height: 0.047rem;
+	font-size:0.0205rem ;
+	font-family: "微软雅黑";
+	color: white;
+}
+th{
+	border: 1px solid black;
+	white-space:nowrap;
+	height: 0.047rem;
+	font-size:0.0205rem ;
+        background-color: #005D98;
+	font-family: "微软雅黑";
+        color: white;
+}
+#recording-bottom{
+	position: sticky;
+	bottom: 0;
+	right:0;
+}
+
+#recording-bottom span{
+	text-align: center;
+	background-color: #9Dc3E6;
+	display: inline-block;
+	width: 0.15rem;
+	padding:0.005rem 0;
+	border-radius: 0.01rem;
+	border: 1px solid #41719C;
+}

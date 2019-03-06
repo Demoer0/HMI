@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>fault</title>
+		<script src="../js/jquery-3.2.0.js"></script>
+		<script type="text/javascript" src="../js/SelfAdaption.js"></script>
+		<script type="text/javascript" src="../js/config.js" ></script>
+		<script type="text/javascript" src="../js/load.js" ></script>
+		<link rel="stylesheet" href="../css/faultList.css" />
+                <link rel="stylesheet" href="../css/scrollBtn.css" />
+		<script type="text/javascript" src="../js/fault/faultList.js" ></script>
+	    <script type="text/javascript" src="../js/fault/fault.js" ></script>
+
+	    <script>
+	    	window.onload = function(){
+	    		$(".total").click(function(){
+	    			$(this).parent().parent().parent().next().find("p").slideToggle(500)
+//	    			$(this).parent().parent().parent().next().find("label").slideToggle(500)
+	    			$(this).parent().parent().parent().next().find("td").slideToggle(500)
+	    		})
+	    		switchPage();
+	    	}
+	    </script>
+	</head>
+
+	<body style="overflow-x: hidden;overflow-y: hidden;">
+		<div style="width: 100%;" id="div-style">
+			<div id="table-content">
+			</div>
+		</div>
+                <div id="scroll-btns">
+			<p><img src="../img/scrollTop1.png" id="pull-up"/></p>
+			<p><img src="../img/scrollBottom1.png" id="drop-down"/></p>
+		</div>
+	</body>
+</html>

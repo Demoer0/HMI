@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="../css/common.css" />
+		<link rel="stylesheet" href="../css/loginCheck/AddAccount.css" />
+	</head>
+	<body>
+		<table>
+			<tr>
+				<td style="width: 25%;" class="left-td">用户等级：</td>
+				<td style="width: 75%;">
+					<div class="select-box">
+				        <span id="account-level" class="select-title">1</span>
+				        <ul class="select-con none">
+				        	<li id="level-1">1</li>
+				        	<li id="level-2">2</li>
+				        	<li id="level-3">3</li>
+				        	<li id="level-4">4</li>
+				        	<li id="level-5">5</li>
+				        </ul>
+				    </div>
+				</td>
+			</tr>
+			<tr>
+				<td class="left-td">用户名：</td>
+				<td>
+					<input type="text" name="username" />
+				</td>
+			</tr>
+			<tr>
+				<td class="left-td">用户密码：</td>
+				<td>
+					<input type="password" name="password1"/>
+				</td>
+			</tr>
+			<tr>
+				<td class="left-td">确认密码：</td>
+				<td>
+					<input type="password" name="password2"/>
+					<label id="warning-text" style="color: red;"></label>
+				</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td>
+					<p id="AccountConfirm">
+						<label class="addAccount-btn submit" id="account-submit">提交</label>
+						<label class="addAccount-btn reset"  id="account-reset">重置</label>
+					</p>
+				</td>
+			</tr>
+		</table>
+		<div class="mask"></div>
+		<script type="text/javascript" src="../js/utils/cookie.js" ></script>
+		<script type="text/javascript" src="../js/config.js" ></script>
+		<script type="text/javascript" src="../js/SelfAdaption.js" ></script>
+		<script type="text/javascript" src="../js/jquery-3.2.0.js" ></script>
+		<script type="text/javascript" src="../js/loginCheck/AddAccount.js" ></script>
+	</body>
+</html>

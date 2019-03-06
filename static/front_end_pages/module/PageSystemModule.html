@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script type="text/javascript" src="../js/jquery-3.2.0.js" ></script>
+		<style type="text/css">
+			.sysMenu{
+				width: 100%;
+				background-color:transparent;
+				font-size: 0.02rem;
+				border-collapse:collapse;
+				/*border: 1px solid #fff;*/		
+				background: #F2F2F2;
+			}
+			td{
+				font-weight:bold ;
+				border: 2px solid black;
+			}
+		</style>
+		<script>
+			/*数据模块尝试*/
+			init();
+//			var pageurl="3.2.1";
+			function init() {
+				var location = document.getElementById("menu").getAttribute("location");
+				loadXML(location);				
+			}   
+			
+			/*读取XML文件*/
+			function loadXML(location){
+				var xmlDoc;
+				try{ //IE
+				xmlDoc = new ActiveXObject("Microsoft.XMLDOM");
+				}catch(e){ //firefox,opera
+				xmlDoc = document.implementation.createDocument("","",null);
+				}
+				try{
+				xmlDoc.asyc = false; //是否异步调用
+				xmlDoc.load("../HmiApp_170814.xml"); //文件路径
+				}catch(e){ //chrome
+				var xmlhttp = new window.XMLHttpRequest();
+				xmlhttp.open("GET","../HmiApp_170814.xml",false); //创建一个新的http请求，并指定此请求的方法、URL以及验证信息
+				xmlhttp.send(null);
+				xmlDoc = xmlhttp.responseXML;
+				}
+				//return xmlDoc;
+				/*创建id为page的div的内容*/
+				var root =xmlDoc.documentElement;
+				var dataArr =root.getElementsByTagName("Page");
+				for (var j=0;j<dataArr.length;j++){
+					if(dataArr[j].getAttribute('name') == location){
+
+						var tableNum = dataArr[j].getElementsByTagName("Table").length;
+						for(var k = 0;k<tableNum;k++){
+							creatDataTable(dataArr[j].getElementsByTagName("Table")[k]);
+							
+						}
+					}
+				}
+			function creatDataTable(table){
+				var rowLength = table.getElementsByTagName("Row").length;
+				var tableText='';
+				var setTable =document.createElement('table');
+				for(var i=0;i<rowLength;i++){
+					var colsNum = table.getElementsByTagName("Row")[i].getElementsByTagName("Col").length;
+					tableText +='<tr>';
+					for(var j=0;j<colsNum;j++){
+						var cel = table.getElementsByTagName("Row")[i].getElementsByTagName("Col")[j];
+						var wid = cel.getAttribute("width");
+						var content;
+						var align="";
+						if(cel.hasAttribute("align")){
+							align=cel.getAttribute("align");
+						}
+						var ObjLength=cel.getElementsByTagName("Object").length;
+						var IconLength=cel.getElementsByTagName("Iconfault").length;
+						if(ObjLength==1){							
+								content=cel.getElementsByTagName("Object")[0].getAttribute("name");
+								var pageTo = cel.getElementsByTagName("Object")[0].getAttribute("pageTo");
+								tableText +='<td style=\"cursor:pointer;\" align="'+align+'" pageto='+pageTo+' onclick = \"changePage(this)\"  style="width:'+wid+';">'+content+'</td>';
+						}else if(IconLength==1){
+							var hasFault = cel.getElementsByTagName("Iconfault")[0].hasAttribute("fault");
+							if(hasFault){
+								var fault=cel.getElementsByTagName("Iconfault")[0].getAttribute("fault");
+								if(fault==1){
+									content="<img src=\"../img/circleRed.png\" class=\"imgGreen\"/>";
+								}else{
+									content="<img src=\"../img/circleGreen.png\" class=\"imgGreen\"/>";
+								}
+							}else{
+								content="<img src=\"../img/green.png\" class=\"imgGreen\"/>";
+							}
+							tableText +='<td  align="'+align+'" style="width:'+wid+';">'+content+'</td>';
+						}
+//						tableText +='<td  align="'+align+'" style="width:'+wid+';">'+content+'</td>';
+					}
+					tableText +='</tr>';
+				}
+				setTable.innerHTML=tableText;
+				setTable.className="sysMenu";
+				document.getElementById("menu").appendChild(setTable);
+				
+				var windowHeight=getWindowHeight();
+				var height = document.getElementById("menu").offsetHeight;
+				var margin_top = (windowHeight-height)/2;
+//				alert(margin_top)
+				document.getElementById("menu").style.marginTop=margin_top+"px";
+
+			}
+	}
+			
+			
+			function getWindowHeight(){
+				var windowHeight = 0;
+				if(document.compatMode == "CSS1Compat"){
+					windowHeight = document.documentElement.clientHeight;
+				}else{
+					windowHeight = document.body.clientHeight;
+				}
+				return windowHeight;
+			}
+
+			function changePage(m){
+				var x = parent.document.getElementById("window");
+				x.src="html_system/SafetyChain_M.html";
+				var pageTo= m.getAttribute("pageto");
+//				alert(pageTo)
+				parent.document.getElementById('window').setAttribute('pageurl',pageTo);
+
+			}
+
+
+</script>
+	</head>
+	<body>
+
+		
+	</body>
+</html>

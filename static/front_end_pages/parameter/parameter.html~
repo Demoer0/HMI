@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>参数</title>		
+		<link rel="stylesheet" href="../css/parameter.css" />
+		<link rel="stylesheet" href="../css/scrollBtn.css" />
+		
+		<script src="../js/jquery-3.2.0.js"></script>
+		<script src="../js/SelfAdaption.js"></script>
+		<script type="text/javascript" src="../js/load.js" ></script>
+		<script type="text/javascript" src="../js/parameter.js" ></script>
+		<script type="text/javascript" src="../js/utils/scrollBtn.js" ></script>
+	</head>
+	<body style="overflow:hidden;background: #005D98;">
+		<div id="para-nav">
+			<div id="head-name">
+				<p>参数</p>
+			</div>
+			<div id="btn-group">
+				<p id="btn-content">
+					<span id="drop-btn">
+						<img src="../img/unfold.png"/>
+					</span>
+				</p>				
+			</div>
+		</div>
+		<div id="parameter-head">
+			<table id="table-head">
+				<tr>
+					<td style="width: 10%;" >序号</td>
+					<td style="width: 40%;" >参数名称</td>
+					<td style="width: 40%;" >参数值</td>
+					<td style="width: 10%;" >单位</td>
+				</tr>
+			</table>
+		</div>
+		<div id="parameter-content">			
+			<table id="para-table">
+			</table>
+		</div>
+		<div id="para-mask"></div>
+		<div></div>
+		<div id="para-modify">
+			<p id="modify-head">参数修改</p>
+                        <p class="modify-area"><h  class="modify"><label>参数可修改范围：</label><label id="min-max"></label></h><h class="modify"><label>参考值：</label><label id="refer-value"></label></h></p>	
+			<p><input type="text" placeholder="请输入修改值" id="message" class="input-val" /></p>
+			<p><label id="input-warning" class="warning">输入值范围超限！</label></p>
+			<p><button id="modify-comfirm" class="modify-btn">确认</button><button id="modify-cancel" class="modify-btn">取消</button></p>
+		</div>
+		<div id="scroll-btns">
+			<p><img src="../img/scrollTop1.png" id="pull-up"/></p>
+			<p><img src="../img/scrollBottom1.png" id="drop-down"/></p>
+		</div>
+		<p >
+			<button id="para-init-Data" >一键恢复初始值</button>
+		</p>
+	</body>
+	
+</html>

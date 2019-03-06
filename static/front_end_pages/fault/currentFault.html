@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>currentFault</title>
+	    <link rel="stylesheet" href="../css/CSS.css" />
+            <link rel="stylesheet" href="../css/scrollBtn.css" />
+	    <style>
+	    	body{
+	    		background: #005D98;
+	    	}
+	    	.center{
+	    		text-align: center;
+	    	}
+	    	#currentFaultTable{
+            width: 100%;
+	border-collapse: collapse;
+}
+        #currentFaultTable td{
+            background: #BBB7B7;
+            border:1px solid black;
+	    text-align: center;
+	    height: 0.047rem;
+        }
+        #currentFault-content{
+	width: 100%;
+	overflow: hidden;
+	position: absolute;
+	top: 0.049rem;
+	bottom:0 ;
+}
+        #currentFault-content table{
+        overflow: hidden;
+        background: transparent;
+	border-collapse: collapse;
+	width: 100%;
+}
+        #currentFault-content-table td{
+        text-align: center;
+        border:1px solid black;
+        height: 0.047rem;
+	background: #005D98;
+			}
+                #currentFault-content-table{
+                        border-top:none；
+}
+                #currentFault-content-table tr:first-of-type td{
+				border-top: none;
+			}
+			#currentFault-content-table td{
+				background: #005D98;
+			}
+			#currentFault-content-table>tr td:first-of-type{
+				width:0.1rem;
+			}
+
+			#currentFault-content-table>tr td:last-of-type{
+				width: 0.45rem;
+			}
+
+			#currentFault-content-table>tr td{
+				width: 0.45rem;
+			}
+	    	.seq{
+	    		text-align: center;
+	    		width: 10%;
+	    	}
+	    </style>
+	</head>
+	<body style="overflow-x: hidden;overflow-y: hidden;">
+		<div>
+			<table id="currentFaultTable">
+				<tr>
+					<td class="seq">序号</td>
+					<td>故障名称</td>
+					<td>故障时间</td>
+				</tr>
+			</table>
+		</div>
+                <div id="currentFault-content">
+			<table id="currentFault-content-table">
+			</table>
+		</div>
+                <div id="scroll-btns">
+     <p><img src="../img/scrollTop1.png" id="pull-up"/></p>
+     <p><img src="../img/scrollBottom1.png" id="drop-down"/></p>
+                </div>
+		<script src="../js/jquery-3.2.0.js"></script>
+		<script type="text/javascript" src="../js/SelfAdaption.js"></script>
+		<script type="text/javascript" src="../js/config.js" ></script>
+        <script type="text/javascript" src="../js/load.js" ></script>
+		<script type="text/javascript" src="../js/fault/currentFault.js" ></script>
+	    <script type="text/javascript" src="../js/fault/fault.js" ></script>
+	</body>
+
+</html>

@@ -1,0 +1,95 @@
+*{
+				padding: 0;
+				margin: 0;
+			}
+			
+			body{
+				background-image: url(../img/image/login_background1.JPG);
+				background-repeat: no-repeat;
+				background-size: 100%;
+			}
+			
+			span,p,label,div{
+				font-size: 0.02rem;
+				color: #ffffff;
+				font-family: "微软雅黑";
+			}
+			
+			input{
+				vertical-align: middle;
+				width: 0.27rem;
+				line-height: 0.035rem;
+				font-size: 0.025rem;
+				height: 0.035rem;
+				border: none;
+				outline: none;
+				/*border: 1px solid #090;*/
+			}
+			
+			#login_frame{
+				width: 0.554rem;
+				height: 0.34rem;
+				background: rgba(255,255,255,0.15);
+				margin: 0.165rem auto;
+			}
+			
+			#login_frame .login_header{
+				width: 100%;
+				height: 0.1rem;
+				text-align: center;
+				
+				/* Safari、Opera 以及 Chrome */
+				display:-webkit-box;
+				-webkit-box-pack:center;
+				-webkit-box-align:center;
+			}
+			
+			#login_frame .login_header .logo{
+				width: 0.1rem;
+				vertical-align: middle;
+				
+			}
+			
+			#login_frame .login_header .name{
+				font-size: 0.03rem;
+				font-weight: bolder;
+				vertical-align: middle;
+			}
+			
+			.separator-line{
+				width: 100%;
+				height:1px;
+				background-color: white;
+			}
+			
+			form{
+				text-align: center;
+			}
+			
+			.text-line{
+				margin-top: 0.02rem;
+			}
+			
+			.text-line label{
+				font-size: 0.028rem;
+				font-weight: bolder;
+				vertical-align: middle;
+				margin-right: 0.02rem;
+			}
+			
+			.alert-message{
+				margin-top: 0.005rem;
+				color: #D9544F;
+				visibility: hidden;
+			}
+			
+			.btn-frame input{
+				color: #ffffff;
+				background-color: #28728E;
+				font-size: 0.023rem;
+				font-family: "微软雅黑";
+				height: 0.04rem;
+				width: 0.11rem;
+				border-radius: 0.006rem;
+				margin:0.01rem 0.01rem;
+			}

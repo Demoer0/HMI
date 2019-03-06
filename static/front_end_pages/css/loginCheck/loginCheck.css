@@ -1,0 +1,70 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+body{
+	overflow: hidden;
+}
+th,td,label,p,span{
+	font-size: 0.0205rem;
+	color: white;
+}
+/*main*/
+#logincheck-iframe-area{
+	width: 100%;
+    position: absolute;
+    top: 0.038rem;
+    bottom: 0;
+}
+
+iframe{
+	float: left;
+	border: none;
+	width: 100%;
+	height: 100%;
+}
+
+
+/*loginCheck*/
+td{
+	border: 1px solid black;
+	border-collapse: collapse;
+	text-align: center;
+	height: 0.034rem;	
+	width: auto;
+}
+#loginCheck-header{
+	width: 100%;
+	margin-top: 0.001rem;
+	background: #BBB7B7;
+}
+
+#loginCheck-header table{
+	border-collapse: collapse;
+	width: 100%;
+}
+
+#loginCheck-header table tr td{
+	width: 18.4%;
+}
+#loginCheck-header table tr td:first-of-type{
+	width: 8%;
+}
+#loginCheck-content{
+	width: 100%;
+}
+
+#loginCheck-content table{
+	border-collapse: collapse;
+	width: 100%;
+}
+#loginCheck-content table tr:first-of-type td{
+	border-top: none;
+}
+
+#loginCheck-content table tr td{
+	width: 18.4%;
+}
+#loginCheck-content table tr td:first-of-type{
+	width: 8%;
+}

@@ -1,0 +1,139 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+body{
+	overflow:hidden;
+	background: linear-gradient(to bottom,#87CEFA,#F8F8FF) no-repeat;
+}
+
+th,td,span,p,label{
+	font-size: 0.0205rem;
+}
+
+#cancel,#point-choose,#setTime{
+        font-size: 0.018rem;
+}
+#cancel,#point-choose,#setTime,#adjust,#point-confirm{
+        cursor:pointer;
+}
+#realtime-charts-content{
+	float: left;
+	height: 0.62rem;
+	width: 73%;
+	/*border: 1px solid black;*/
+}
+.chart svg{
+	float: left;
+}
+
+#realtime-option-btn{
+	height: 0.6rem;
+	width: 11%;
+	border: 1px solid black;
+	float: right;
+}
+
+#charts-group .chart{
+	height: 0.146rem;
+	width: 100%;
+	/*border: 1px solid black;*/
+	background: #FFFFFF;
+}
+
+#realtime-option-btn p{
+	text-align: center;
+}
+
+#realtime-option-btn p label{
+	width: 0.09rem;
+	line-height: 0.03rem;
+	margin-bottom: 0.015rem;
+	border: 1px solid #41719C;  
+	border-radius: 0.009rem;
+	background: #005D98;
+	display: inline-block;
+}
+#trend-point{
+	width: 100%;
+	height: 0.61rem;
+	display: none;
+	position: absolute;
+}
+
+#trend-point #point-confirm{
+	text-align: center;
+	width: 0.09rem;
+	line-height: 0.03rem;
+	border: 1px solid #41719C;  
+	border-radius: 0.009rem;
+	background: #005D98;
+	display: inline-block;
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	margin-right: 0.02rem;
+}
+
+#top-area table{
+	margin-top: 0.02rem;
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.text-right{
+	text-align: right;
+	width: 10%;
+	/*border: 1px solid black;*/
+}
+
+.text-left{
+	text-align: left;
+	width: 15%;
+	/*border: 1px solid black;*/
+}
+
+#point-table{
+	margin-top: 0.01rem;
+	width: 100%;
+}
+
+#point-table td{
+	text-align: center;
+	width: 16%;
+	line-height: 0.04rem;
+	background: #F2F2F2;
+        cursor:pointer;
+}
+/*新增曲线名样式及显示Y值样式*/
+#curve_name_value{
+	height: 0.6rem;
+	width: 15%;
+	float: left;
+	margin-left: 0.003rem;
+}
+.curveName{
+	margin-top: 0.005rem;
+	width: 0.15rem;
+	height:0.07rem;
+	text-align: left;
+	font-size: 0.02rem;
+	line-height: 0.035rem;
+	background:transparent;
+	color: #000000;
+	display: inline-block;
+}
+.curveValue{
+	margin-top: 0.01rem;
+	margin-bottom: 0.018rem;
+	padding: 0.003rem;
+	width: 0.13rem;
+	height:0.031rem;
+	border: 2px solid #41719C;  
+	border-radius: 0.009rem;
+	text-align: left;
+	line-height: 0.03rem;
+	background:transparent;
+	color: #000000;
+	display: inline-block;
+}

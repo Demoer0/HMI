@@ -1,0 +1,16 @@
+root,$2b$10$DtRID7.LPix9fYN9pG7krOLCj5qdHcNN4ORQJ4uAGp.9AbElWpZyC,5
+admin,$2b$10$qxKhlwP/Vtkw5.Sus2fUZODpQDry1dQ1rY2WhsEzqksVj6l4iB7Yu,5
+user1,$2b$10$H3pzcgD3edL94TzM13uMtuRWR416FK/F1B.wEBCZobhTuYicPpXdC,4
+admin2,$2b$10$GazBGsMEcNKeXjur9zeyQuKOyjVjlRSmVatUdm0GhXfbkTxZKfLYW,1
+admin3,$2b$10$aSAlkgzISaZXFMYmoDdxVOfcr7is.0WnrE3Bg1VEEZ/eQquphsHUe,1
+admin4,$2b$10$eAph9wHGzWJkfefRmP4bMe7yisfDvJJWPVwlANCvDhQ/7RhOGGBCa,1
+
+admin2,$2b$10$GazBGsMEcNKeXjur9zeyQuKOyjVjlRSmVatUdm0GhXfbkTxZKfLYW,1
+admin3,$2b$10$aSAlkgzISaZXFMYmoDdxVOfcr7is.0WnrE3Bg1VEEZ/eQquphsHUe,1
+admin4,$2b$10$eAph9wHGzWJkfefRmP4bMe7yisfDvJJWPVwlANCvDhQ/7RhOGGBCa,1
+user1,$2b$10$H3pzcgD3edL94TzM13uMtuRWR416FK/F1B.wEBCZobhTuYicPpXdC,4
+user2,$2b$10$14OWukbbgfIprWKsJrSDJO9BUEZ53UOSgXmEBAzGpMzbchPFWkWNS,3
+root,$2b$10$5w100Vavjs3FRXA2wKjlhe9gw18w4GfBuHil0QRrdJfCjeGo7HcFq,5
+admin,$2b$10$5w100Vavjs3FRXA2wKjlhe9gw18w4GfBuHil0QRrdJfCjeGo7HcFq,5
+
+

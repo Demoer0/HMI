@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>shieldedFault</title>
+    <link rel="stylesheet" href="../css/CSS.css" />
+    <link rel="stylesheet" href="../css/scrollBtn.css" />
+
+    <script src="../js/jquery-3.2.0.js"></script>
+    <script type="text/javascript" src="../js/SelfAdaption.js"></script>
+    <script type="text/javascript" src="../js/config.js" ></script>
+    <script type="text/javascript" src="../js/load.js" ></script>
+    <script type="text/javascript" src="../js/fault/fault.js" ></script>
+    <script type="text/javascript" src="../js/fault/shieldedFault.js" ></script>
+    <style>
+        body{
+            background: #005D98;
+        }
+        #shieldedFaultTable{
+            width: 100%;
+	border-collapse: collapse;
+}
+        #shieldedFaultTable td{
+            background: #BBB7B7;
+            border:1px solid black;
+	    text-align: center;
+	    height: 0.047rem;
+        }
+        #shieldedFault-content{
+	width: 100%;
+	overflow: hidden;
+	position: absolute;
+	top: 0.049rem;
+	bottom:0 ;
+}
+        #shieldedFault-content table{
+        overflow: hidden;
+        background: transparent;
+	border-collapse: collapse;
+	width: 100%;
+}
+        #shieldedFault-content-table td{
+        text-align: center;
+        border:1px solid black;
+        height: 0.047rem;
+	background: #005D98;
+			}
+        #shieldedFault-content-table{
+            border-top:none;
+        }
+        #shieldedFault-content-table tr:first-of-type td{
+            border-top: none;
+        }
+        .seq{
+            text-align: center;
+            width: 40%;
+        }
+        #shieldedFault-content-table>tr td:first-of-type{
+            width:40%;
+        }
+    </style>
+</head>
+<body style="overflow-y:hidden;">
+<div>
+    <table id="shieldedFaultTable">
+        <tr>
+            <td class="seq">序号</td>
+            <td>屏蔽故障名称</td>
+        </tr>
+    </table>
+</div>
+<div id="shieldedFault-content">
+    <table id="shieldedFault-content-table">
+    </table>
+</div>
+<div id="scroll-btns">
+    <p><img src="../img/scrollTop1.png" id="pull-up"/></p>
+    <p><img src="../img/scrollBottom1.png" id="drop-down"/></p>
+</div>
+</body>
+</html>

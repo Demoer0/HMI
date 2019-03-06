@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script type="text/javascript" src="../js/jquery-3.2.0.js" ></script>
+		<style>
+			.data_table{
+				width: 100%;
+				background-color:transparent;
+				font-size: 0.02rem;
+				border-collapse:collapse;
+				border: 1px solid #fff;		
+				background: #F2F2F2;
+			}
+
+			.container{
+				height: 0.05rem;
+			}
+			.text{
+				position: relative;
+				font-size:  0.003rem;
+				font-family: "微软雅黑";
+				float: left;
+			}			
+			.pro {
+			  height: 0.02rem;
+			  background: #bcdbcd;
+			  border-left: 1px solid transparent;
+			  border-right: 1px solid transparent;
+			}			
+			.pro > span {
+			  position: relative;
+			  float: left;
+			  margin: 0 -1px;
+			  height: 0.02rem;
+			  line-height: 16px;
+			  text-align: right;
+			  background: #cccccc;
+			  /*border: 1px solid;*/
+			  border-color: #bfbfbf #b3b3b3 #9e9e9e;
+			}
+			.pro .green {
+			  background: #85c440;
+			  border-color: #78b337 #6ba031 #568128;
+			}		
+			.pro .red {
+			  background: #db3a27;		 
+			}
+			.pro .orange {
+			  background: #f2b63c;
+			}
+			#btnDown{
+				margin-top: 2px;
+				height: 0.03rem;
+			}
+			#drop{
+				border-radius: 0.009rem;
+				border: 1px solid #41719C;
+				background: #F2F2F2;
+				padding:0 10px;
+				float: right;
+			}
+
+		</style>
+		<script>
+			/*页面初始化时清空div内容，重新读取xml*/
+			function init() {
+				document.getElementById("nav").innerHTML="";
+				document.getElementById("page").innerHTML="";				
+				var location = document.getElementById("page").getAttribute("location");
+				loadXML(location);				
+			} 
+			
+			/*根据读取xml的内容创建页面nav的innerhtml*/
+			function  createNav(label,location){
+				var pageStr = "Page."+location;
+				var page=label.getElementsByTagName(pageStr)[0];
+				var htmlStr1 = "";
+				var ModuleName = "";
+				var pageurl="";
+				temp = page;
+				while(temp.parentNode.tagName!="MainPage"){
+					htmlStr1="->"+temp.getAttribute("name")+htmlStr1;
+					var name=temp.getAttribute("name");
+					var SecondPage = temp.tagName;
+					temp=temp.parentNode;
+				}
+				ModuleName=temp.getAttribute("name")+"->"+name;
+				var ButtonNum = label.getElementsByTagName(SecondPage)[0].children.length;
+				var btnName;
+				var htmlStr2 = "";
+				var IOhtmStr2 = "";
+				var checkedStr="";
+				var uncheckedStr="";
+				for(var i=0;i<ButtonNum;i++){
+					btnName=label.getElementsByTagName(SecondPage)[0].children[i].getAttribute("name");
+					url=label.getElementsByTagName(SecondPage)[0].children[i].getAttribute("pageurl");
+					pageurl=url.slice(5);
+//					alert(pageurl)
+					var ischecked = "";
+
+					if(label.getElementsByTagName(SecondPage)[0].children[i].tagName==pageStr){
+						ischecked="checked";
+						checkedStr = "<span  onclick = \"changeLocation(this)\" id=\""+pageurl+"\"  class=\"mod "+ischecked+"\">"+btnName+"</span>"+" ";
+					}else{
+						ischecked="unchecked";
+						uncheckedStr+="<span  onclick = \"changeLocation(this)\" id=\""+pageurl+"\"  class=\"mod "+ischecked+"\">"+btnName+"</span>"+" ";
+					}
+					htmlStr2+="<span  onclick = \"changeLocation(this)\" id=\""+pageurl+"\"  class=\"mod "+ischecked+"\">"+btnName+"</span>"+" ";
+				}
+
+				IOhtmlStr2 = checkedStr+uncheckedStr;
+				var setP1 =document.createElement('p');
+				setP1.innerHTML=ModuleName;
+				setP1.className="header";
+				setP1.id="header";
+				var setP2 =document.createElement('p');	
+				var btnDiv = document.createElement('div');
+				btnDiv.id = "btnDiv";
+				btnDiv.appendChild(setP2);
+				if(label.getElementsByTagName(SecondPage)[0].getAttribute('name')=="I/O模块"){
+					setP2.innerHTML=IOhtmlStr2;
+				}else{
+					setP2.innerHTML=htmlStr2;
+				}
+
+				setP2.className="options";
+				setP2.id="btns";
+				document.getElementById("nav").appendChild(setP1);
+				document.getElementById("nav").appendChild(btnDiv);
+			}
+			/*更改div的location属性值*/
+			function changeLocation(page){
+				document.getElementById("page").setAttribute("location",page.id);
+				init();
+			}
+			/*读取XML文件*/
+			function loadXML(location){
+				var xmlDoc;
+				try{ //IE
+				xmlDoc = new ActiveXObject("Microsoft.XMLDOM");
+				}catch(e){ //firefox,opera
+				xmlDoc = document.implementation.createDocument("","",null);
+				}
+				try{
+				xmlDoc.asyc = false; //是否异步调用
+				xmlDoc.load("../HmiApp_170803.xml"); //文件路径
+				}catch(e){ //chrome
+				var xmlhttp = new window.XMLHttpRequest();
+				xmlhttp.open("GET","../HmiApp_170814.xml",false); //创建一个新的http请求，并指定此请求的方法、URL以及验证信息
+				xmlhttp.send(null);
+				xmlDoc = xmlhttp.responseXML;
+				}
+				//return xmlDoc;
+				/*创建id为nav的div的内容*/
+				var xmlRoot =xmlDoc.documentElement;
+				var label =xmlRoot.getElementsByTagName("MainPage");
+				createNav(label[0],location);
+				
+				
+				
+				
+				/*创建id为page的div的内容*/
+				var root =xmlDoc.documentElement;
+				var dataArr =root.getElementsByTagName("Page");
+				for (var j=0;j<dataArr.length;j++){
+					if(dataArr[j].getAttribute('name') == location){
+						var tableNum = dataArr[j].getElementsByTagName("Table").length;
+						for(var k = 0;k<tableNum;k++){
+							creatDataTable(dataArr[j].getElementsByTagName("Table")[k],k+1);
+						}
+					}
+				}
+				
+				/*设置下拉框*/
+				var he = $(".checked").height();
+				$("#btnDiv").css({
+					"height":he+2+"px",
+					"overflow":"hidden"
+				})
+				var heightToTop=document.getElementById("header").offsetHeight+document.getElementById("btnDiv").offsetHeight;
+				$("#page").css({				
+					 	"margin-top":heightToTop,			 
+				})				
+				dropDown();
+				
+				/*页面可见高度*/
+				var windowHeight=getWindowHeight();
+				var bodyHeight=document.body.offsetHeight;
+//				alert(bodyHeight)
+//				alert(windowHeight-document.getElementById("nav").offsetHeight)
+				if(bodyHeight>windowHeight-document.getElementById("nav").offsetHeight){
+//					alert("该有进度条了")
+	
+					var setScrollTop = "<img src=\"../img/scrollTop1.png\" id=\"scrollTop\"/>";
+					var setScrollBottom = "<img src=\"../img/scrollBottom1.png\" id=\"scrollBottom\"/>";
+					document.getElementById("page").innerHTML+=setScrollTop;
+					document.getElementById("page").innerHTML+=setScrollBottom;
+					buttonCss();
+					 $("#scrollTop").click(function(){
+//					 	alert("上移");
+						var t = $(window).scrollTop();
+						
+    					$('body,html').animate({'scrollTop':t-200},100);
+
+					 });
+					 $("#scrollBottom").click(function(){
+					 	var t = $(window).scrollTop();
+					 	$('body,html').animate({'scrollTop':t+200},100);
+
+					 })
+				}
+			}
+			function buttonCss(){
+					 $("#scrollTop").css({
+					 	"height": "0.05rem",
+						"position": "fixed",
+						"bottom":"0.07rem",
+						"right": "0.03rem"
+					 });
+					 $("#scrollBottom").css({
+					 	"height": "0.05rem",
+						"position": "fixed",
+						"bottom":"0.01rem",
+						"right": "0.03rem"
+					 });
+			}
+			
+			/*根据xml创建table*/
+			function creatDataTable(table,index1){
+				var rowLength = table.getElementsByTagName("Row").length;
+				var tableText='';
+				var setTable =document.createElement('table');
+				var module=[];
+				for(var i=0;i<rowLength;i++){
+					var colsNum = table.getElementsByTagName("Row")[i].getElementsByTagName("Col").length;
+					tableText +='<tr>';
+					for(var j=0;j<colsNum;j++){
+						var cel = table.getElementsByTagName("Row")[i].getElementsByTagName("Col")[j];
+						var wid = cel.getAttribute("width");
+						var content;
+						var align="";
+						if(cel.hasAttribute("align")){
+							align=cel.getAttribute("align");
+						}
+						var ObjLength=cel.getElementsByTagName("Object").length;
+						var IconLength=cel.getElementsByTagName("Iconfault").length;
+						var ModuleLength=cel.getElementsByTagName("Module").length;
+						var ButtonLength=cel.getElementsByTagName("Button").length;
+						if(ObjLength==1){
+							var hasName = cel.getElementsByTagName("Object")[0].hasAttribute("name");
+							if(hasName){
+								content=cel.getElementsByTagName("Object")[0].getAttribute("name");
+							}
+							else{
+								content="10";
+								if(cel.getElementsByTagName("Object")[0].hasAttribute("unit")){
+									var str = cel.getElementsByTagName("Object")[0].getAttribute("unit");
+									content+=str;
+								}
+							}
+						}else if(IconLength==1){
+							var hasFault = cel.getElementsByTagName("Iconfault")[0].hasAttribute("fault");
+							if(hasFault){
+								var fault=cel.getElementsByTagName("Iconfault")[0].getAttribute("fault");
+								if(fault==1){
+									content="<img src=\"../img/circleRed.png\" class=\"imgGreen\"/>";
+								}else{
+									content="<img src=\"../img/circleGreen.png\" class=\"imgGreen\"/>";
+								}
+							}else{
+								content="<img src=\"../img/circleGreen.png\" class=\"imgGreen\"/>";
+							}
+						}else if(ModuleLength==1){
+							module.push(cel.getElementsByTagName("Module")[0]);
+							var index2=module.length;
+							 content = "<div class=\"container\">"+
+											"<div class=\"pro progress"+index1+index2+"\">"+
+										      "<span  class=\"green progressbar"+index1+index2+"\"></span>"+
+										      "<div class=\"lowStop"+index1+index2+"\"></div>"+
+										      "<div class=\"lowWarning"+index1+index2+"\"></div>"+
+										      "<div class=\"highWarning"+index1+index2+"\"></div>"+
+										      "<div class=\"highStop"+index1+index2+"\"></div>"+
+										    "</div>"+
+										    "<div class=\"MinScale"+index1+index2+" text\" ></div>"+
+										    "<div class=\"LsTem"+index1+index2+" text\" ></div>"+
+										    "<div class=\"LwTem"+index1+index2+" text\" ></div>"+
+										    "<div class=\"HwTem"+index1+index2+" text\" ></div>"+
+										    "<div class=\"HsTem"+index1+index2+" text\" ></div>"+
+										    "<div class=\"MaxScale"+index1+index2+" text\" ></div>"+
+										"</div>"
+						}else if(ButtonLength==1){
+							var buttonName;
+							if(cel.getElementsByTagName("Button")[0].hasAttribute("name")){
+								buttonName = cel.getElementsByTagName("Button")[0].getAttribute("name");
+							}else{
+								buttonName ="按钮";
+							}						 
+//							content=cel.getElementsByTagName("Button")[0].getAttribute("datamapping");
+							content="<span class=\"deepblue\">"+buttonName+"</span>";
+						}else{
+							content="";
+						}
+						tableText +='<td  align="'+align+'" style="width:'+wid+';">'+content+'</td>';
+					}
+					tableText +='</tr>';
+				}
+				setTable.innerHTML=tableText;
+				setTable.className="data_table";
+				document.getElementById("page").appendChild(setTable);
+				if(module.length!=0){
+					for(var i=0;i<module.length;i++){
+						DrawScale (module[i],index1,i+1);
+					}
+				}
+
+			}
+
+		//浏览器视口的高度
+			function getWindowHeight(){
+				var windowHeight = 0;
+				if(document.compatMode == "CSS1Compat"){
+					windowHeight = document.documentElement.clientHeight;
+				}else{
+					windowHeight = document.body.clientHeight;
+				}
+				return windowHeight;
+			}
+			
+			/*绘制温度计、油压模块*/
+			function DrawScale (module,index1,index2) {
+				var MinScale = module.getAttribute("min");
+				var MaxScale = module.getAttribute("max");
+				MinScale=parseFloat(MinScale);
+				MaxScale=parseFloat(MaxScale);				
+				var length=MaxScale-MinScale;
+				var wid=document.getElementsByClassName("progress"+index1+index2)[0].offsetWidth;
+				if(module.hasAttribute("faultmin")){
+					var faultmin,FaultMinPx=0;
+					faultmin=module.getAttribute("faultmin");
+					faultmin=parseFloat(faultmin);
+					var FaultMinPx = ((faultmin-MinScale)/length)*wid-2;
+					$(".lowStop"+index1+index2).css({"position":"relative","left":FaultMinPx+"px","top":"0rem","height":"0.02rem","width":"2px","background":"black"});
+				}else{
+					$(".lowStop"+index1+index2).css({"position":"relative","left":FaultMinPx+"px","top":"0rem","height":"0.02rem","width":"2px","background":"transparent"});
+				}
+				if(module.hasAttribute("alarmmin")){
+					var alarmmin,AlarmMinPx=0;
+					alarmmin=module.getAttribute("alarmmin");
+					alarmmin=parseFloat(alarmmin);
+					AlarmMinPx = ((alarmmin-MinScale)/length)*wid-2;
+					$(".lowWarning"+index1+index2).css({"position":"relative","left":AlarmMinPx+"px","top":"-0.02rem","height":"0.02rem","width":"2px","background":"black"});
+				}else{
+					$(".lowWarning"+index1+index2).css({"position":"relative","left":AlarmMinPx+"px","top":"-0.02rem","height":"0.02rem","width":"2px","background":"transparent"});
+				}
+				if(module.hasAttribute("alarmmax")){
+					var alarmmax,AlarmMaxPx=0;
+					alarmmax=module.getAttribute("alarmmax");
+					alarmmax=parseFloat(alarmmax);
+					AlarmMaxPx = ((alarmmax-MinScale)/length)*wid-2;
+					$(".highWarning"+index1+index2).css({"position":"relative","left":AlarmMaxPx+"px","top":"-0.04rem","height":"0.02rem","width":"2px","background":"black"});
+				}else{
+					$(".highWarning"+index1+index2).css({"position":"relative","left":AlarmMaxPx+"px","top":"-0.04rem","height":"0.02rem","width":"2px","background":"transparent"});
+				}
+				if(module.hasAttribute("faultmax")){
+					var faultmax,FaultMaxPx=0;
+					faultmax=module.getAttribute("faultmax");
+					faultmax=parseFloat(faultmax);
+					var FaultMaxPx= ((faultmax-MinScale)/length)*wid-2;
+					$(".highStop"+index1+index2).css({"position":"relative","left":FaultMaxPx+"px","top":"-0.06rem","height":"0.02rem","width":"2px","background":"black"});		
+				}else{
+					$(".highStop"+index1+index2).css({"position":"relative","left":FaultMaxPx+"px","top":"-0.06rem","height":"0.02rem","width":"2px","background":"transparent"});
+				}
+				
+				/*需要动态读取*/
+				var CurTem = (parseFloat(MaxScale)+parseFloat(MinScale))/2;
+//				alert(CurTem);
+				var ProPx = ((CurTem-MinScale)/length)*wid;
+				$(".progressbar"+index1+index2).css("width",ProPx+"px");
+				if(CurTem<faultmin||CurTem>faultmax){
+					$(".progressbar"+index1+index2).removeClass("green");
+					$(".progressbar"+index1+index2).removeClass("orange");
+					$(".progressbar"+index1+index2).addClass("red");
+				}else if((CurTem>=faultmin&&CurTem<alarmmin)||(CurTem<=faultmax&&CurTem>alarmmax)){
+					$(".progressbar"+index1+index2).removeClass("green");
+					$(".progressbar"+index1+index2).removeClass("red");
+					$(".progressbar"+index1+index2).addClass("orange");
+				}
+				$(".MinScale"+index1+index2).html(MinScale);
+				$(".LsTem"+index1+index2).html(faultmin);
+				$(".LwTem"+index1+index2).html(alarmmin);
+				$(".HwTem"+index1+index2).html(alarmmax);
+				$(".HsTem"+index1+index2).html(faultmax);
+				$(".MaxScale"+index1+index2).html(MaxScale);
+				MinWid=$(".MinScale"+index1+index2).width();
+				LsWid=$(".LsTem"+index1+index2).width();
+				LwWid=$(".LwTem"+index1+index2).width();
+				HwWid=$(".HwTem"+index1+index2).width();
+				HsWid=$(".HsTem"+index1+index2).width();
+				MaxWid=$(".MaxScale"+index1+index2).width();
+				var len= ((MaxScale+MinScale)/length)*wid-2;
+				$(".MinScale"+index1+index2).css("left",-MinWid);
+				$(".LsTem"+index1+index2).css("left",FaultMinPx-MinWid-LsWid/1.2);
+				$(".LwTem"+index1+index2).css("left",AlarmMinPx-LsWid-MinWid/0.9);
+				$(".HwTem"+index1+index2).css("left",AlarmMaxPx-LwWid-LsWid-MinWid-HwWid/1.2);
+				$(".HsTem"+index1+index2).css("left",FaultMaxPx-HwWid-LwWid-LsWid-MinWid/0.9);
+				$(".MaxScale"+index1+index2).css("left",wid-HsWid-HwWid-LwWid-LsWid-MinWid-MaxWid);	
+			}
+			
+			
+			function dropDown(){
+				var divHeight = document.getElementById("btnDiv").offsetHeight;
+				var btnHeight = document.getElementById("btns").offsetHeight;
+			//	alert(divHeight)
+			//	alert(btnHeight)
+				if(divHeight<btnHeight){
+					var str = "<span  id='drop' onclick='dropAction()'>"+
+								"<img src=\"../img/scrollBottom1.png\" id=\"btnDown\"/>"+
+							"</span>";
+					document.getElementById("btns").innerHTML=str+document.getElementById("btns").innerHTML;
+				}
+			}
+			
+			function dropAction(){
+				/*
+				 *判断是上拉还是下拉 
+				 * */
+				var btnHeight = document.getElementById("btns").offsetHeight;
+				var divHeight = document.getElementById("btnDiv").offsetHeight;
+				if(divHeight<btnHeight){
+					document.getElementById("btnDiv").style.height=btnHeight+"px";
+					document.getElementById("btnDown").src="../img/scrollTop1.png";
+				}else{
+					document.getElementById("btnDiv").style.height=$(".checked").height()+2+"px";
+					document.getElementById("btnDown").src="../img/scrollBottom1.png";
+				}
+			var heightToTop=document.getElementById("header").offsetHeight+document.getElementById("btnDiv").offsetHeight;
+				$("#page").css({				
+					 	"margin-top":heightToTop,			 
+				})	
+			}
+</script>
+	</head>
+	<body>
+
+		
+	</body>
+</html>

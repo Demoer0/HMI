@@ -1,0 +1,1789 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+*******************************************************************************
+
+ XML HMI Entry description
+
+*******************************************************************************
+
+ File:        HmiEntry.xhd
+
+*******************************************************************************
+-->
+
+   <EntryLayers>
+
+        <!-- 数据类型 -->
+        <DataTypeList>
+          <defType dataType="0001"><Boolean/></defType>
+          <defType dataType="0002"><Integer8/></defType>
+          <defType dataType="0003"><Integer16/></defType>
+          <defType dataType="0004"><Integer32/></defType>
+          <defType dataType="0005"><Integer64/></defType>
+          <defType dataType="0006"><Unsigned8/></defType>
+          <defType dataType="0007"><Unsigned16/></defType>
+          <defType dataType="0008"><Unsigned32/></defType>
+          <defType dataType="0009"><Unsigned64/></defType>
+          <defType dataType="000A"><Real32/></defType>
+          <defType dataType="000B"><Real64/></defType>
+        </DataTypeList>
+
+
+        <!-- The <EntryList> elements describes the object dictionary of a device -->
+
+          <!-- Attributes of <EntryBlock> and <Entry> and <Subentry>
+
+              EntryBlock: 功能数据块，方便数据寻址
+
+              Entry:    单个数据定义，如需按位取数据，则再定义Subentry
+
+              Subentry: 按位数据定义
+
+              Address: 数据地址 分 In 和 Out 2个分区，4个字节-3个字节绝对地址 1个字节位 具体参考协议
+
+              name:  用于具体HMI页面的数据关联  name as string without white spaces
+
+              dataType: HMI data type, 参考上面的 <DataTypeList>
+
+              accessType:
+                     "const" 只读 read only access; the value is not changing
+                     "ro"    只读 read only access
+                     "wo"    只写 write only access
+                     "rw"    读写 both read and write access
+
+          -->
+
+        <!-- In 控制器应用程序->HMI readOnly -->
+        <EntryList Address="0x10000000" accessType="ro" name="In">
+          <!-- 数字量DI模块数据定义 -->
+          <EntryBlock Address="0x10000000" name="DI">
+          	<Entry Address="0x18000000" dataType="0008" name="DI1_state"/>
+            <Entry Address="0x18000004" dataType="0008" name="DI1_data">
+              <Subentry Address="0x11010004" dataType="0001" name="Brake1_FB"/>
+              <Subentry Address="0x11020004" dataType="0001" name="Brake2_FB"/>
+              <Subentry Address="0x11030004" dataType="0001" name="Close_Brake"/>
+              <Subentry Address="0x11040004" dataType="0001" name="Filter_Chok"/>
+              <Subentry Address="0x11050004" dataType="0001" name="Brush_Worn"/>
+              <Subentry Address="0x11060004" dataType="0001" name="UPS_Warning"/>
+              <Subentry Address="0x11070004" dataType="0001" name="Yaw_sensor1"/>
+              <Subentry Address="0x11080004" dataType="0001" name="Yaw_sensor2"/>
+              <Subentry Address="0x11090004" dataType="0001" name="Ctwisted_CW"/>
+              <Subentry Address="0x110A0004" dataType="0001" name="Ctwisted_CCW"/>
+              <Subentry Address="0x110B0004" dataType="0001" name="Rpm1_Left"/>
+              <Subentry Address="0x110C0004" dataType="0001" name="Rpm2_Right"/>
+              <Subentry Address="0x110D0004" dataType="0001" name="Service_Bladea"/>
+              <Subentry Address="0x110E0004" dataType="0001" name="Trafo_BrkTempHigh"/>
+              <Subentry Address="0x110F0004" dataType="0001" name="Emer_StopNac"/>
+              <Subentry Address="0x11100004" dataType="0001" name="Emer_StopConv"/>
+              <Subentry Address="0x11110004" dataType="0001" name="Conv_Overspeed"/>
+              <Subentry Address="0x11120004" dataType="0001" name="Conv_OK"/>
+              <Subentry Address="0x11130004" dataType="0001" name="Conv_OperRange"/>
+              <Subentry Address="0x11140004" dataType="0001" name="Conv_Readyfor"/>
+              <Subentry Address="0x11150004" dataType="0001" name="Conv_Error"/>
+              <Subentry Address="0x11160004" dataType="0001" name="Conv_Gridconnec"/>
+              <Subentry Address="0x11170004" dataType="0001" name="Conv_Griderror"/>
+              <Subentry Address="0x11180004" dataType="0001" name="Conv_CBtrip"/>
+              <Subentry Address="0x11190004" dataType="0001" name="Small_Error"/>
+              <Subentry Address="0x111A0004" dataType="0001" name="Battery_OK"/>
+              <Subentry Address="0x111B0004" dataType="0001" name="FB_Stormpos"/>
+              <Subentry Address="0x111C0004" dataType="0001" name="Reduce_Conv"/>
+              <Subentry Address="0x111D0004" dataType="0001" name="Vibration"/>
+              <Subentry Address="0x111E0004" dataType="0001" name="Conv_Cold"/>
+              <Subentry Address="0x111F0004" dataType="0001" name="Hydr_OilLevel"/>
+              <Subentry Address="0x11200004" dataType="0001" name="LVRT_Input"/>
+            </Entry>
+            <Entry Address="0x16000008" dataType="0008" name="DI2_state"/>
+            <Entry Address="0x1800000C" dataType="0008" name="DI2_data">
+              <Subentry Address="0x1101000C" dataType="0001" name="Gear_PresDif"/>
+              <Subentry Address="0x1102000C" dataType="0001" name="Trafo_AlmTempHigh"/>
+              <Subentry Address="0x1103000C" dataType="0001" name="Gear_OilLevel"/>
+              <Subentry Address="0x1104000C" dataType="0001" name="WP2035_ROspeed"/>
+              <Subentry Address="0x1105000C" dataType="0001" name="WP2035_GOspeed"/>
+              <Subentry Address="0x1106000C" dataType="0001" name="Emer_StopTopbox"/>
+              <Subentry Address="0x1107000C" dataType="0001" name="Safetychain_FB"/>
+              <Subentry Address="0x1108000C" dataType="0001" name="Lightn_Prot"/>
+              <Subentry Address="0x1109000C" dataType="0001" name="Brake_Wornout1"/>
+              <Subentry Address="0x110A000C" dataType="0001" name="Brake_Wornout2"/>
+              <Subentry Address="0x110B000C" dataType="0001" name="Power_Upreset"/>
+              <Subentry Address="0x110C000C" dataType="0001" name="Thermistor"/>
+              <Subentry Address="0x110D000C" dataType="0001" name="Trafo_TempHigh"/>
+              <Subentry Address="0x110E000C" dataType="0001" name="Trafo_TempStop"/>
+              <Subentry Address="0x110F000C" dataType="0001" name="Trafo_LW_Prt"/>
+              <Subentry Address="0x1110000C" dataType="0001" name="Trafo_HW_Prt"/>
+              <Subentry Address="0x1111000C" dataType="0001" name="CB_YawM13"/>
+              <Subentry Address="0x1112000C" dataType="0001" name="CB_YawM24"/>
+              <Subentry Address="0x1113000C" dataType="0001" name="CB_GFan1"/>
+              <Subentry Address="0x1114000C" dataType="0001" name="CB_GFan2"/>
+              <Subentry Address="0x1115000C" dataType="0001" name="CB_GearOilfan"/>
+              <Subentry Address="0x1116000C" dataType="0001" name="CB_GearPump2"/>
+              <Subentry Address="0x1117000C" dataType="0001" name="CB_GearPump1"/>
+              <Subentry Address="0x1118000C" dataType="0001" name="CB_GearHeating"/>
+              <Subentry Address="0x1119000C" dataType="0001" name="CB_HydrPump"/>
+              <Subentry Address="0x111A000C" dataType="0001" name="CB_YawBrake"/>
+              <Subentry Address="0x111B000C" dataType="0001" name="Trafo_LV_Brk_Place"/>
+              <Subentry Address="0x111C000C" dataType="0001" name="Trafo_HV_Brk_Place"/>
+              <Subentry Address="0x111D000C" dataType="0001" name="CB_Lubricat"/>
+            </Entry>
+          </EntryBlock>
+          
+          <!-- 数字量DO数据定义 -->
+          <EntryBlock Address="0x18000080" name="DO">
+            <Entry Address="0x18000080" dataType="0008" name="DO1_state"/>
+            <Entry Address="0x18000084" dataType="0008" name="DO1_data">
+              <Subentry Address="0x11010084" dataType="0001" name="Yaw_CW13"/>
+              <Subentry Address="0x11020084" dataType="0001" name="Yaw_CCW13"/>
+              <Subentry Address="0x11030084" dataType="0001" name="Yaw_CW24"/>
+              <Subentry Address="0x11040084" dataType="0001" name="Yaw_CCW24"/>
+              <Subentry Address="0x11050084" dataType="0001" name="Yaw_Brake1"/>
+              <Subentry Address="0x11060084" dataType="0001" name="Yaw_Brakesoft"/>
+              <Subentry Address="0x11070084" dataType="0001" name="GFan1"/>
+              <Subentry Address="0x11080084" dataType="0001" name="GFan2"/>
+              <Subentry Address="0x11090084" dataType="0001" name="Gearoil_Pump2"/>
+              <Subentry Address="0x110A0084" dataType="0001" name="Gearoil_Fan"/>
+              <Subentry Address="0x110B0084" dataType="0001" name="Gearoil_Pump1"/>
+              <Subentry Address="0x110C0084" dataType="0001" name="Gear_Heating"/>
+              <Subentry Address="0x110D0084" dataType="0001" name="Conv_Reseterror"/>
+              <Subentry Address="0x110E0084" dataType="0001" name="Conv_Startexcit"/>
+              <Subentry Address="0x110F0084" dataType="0001" name="Conv_MainconOK"/>
+              <Subentry Address="0x11100084" dataType="0001" name="Conv_Startprod"/>
+              <Subentry Address="0x11110084" dataType="0001" name="Pitchstop_Fast"/>
+              <Subentry Address="0x11120084" dataType="0001" name="Bypass_Limitsw"/>
+              <Subentry Address="0x11130084" dataType="0001" name="Disk_Brake2"/>
+              <Subentry Address="0x11140084" dataType="0001" name="Disk_Brake1"/>
+              <Subentry Address="0x11150084" dataType="0001" name="Hydraulic"/>
+              <Subentry Address="0x11160084" dataType="0001" name="Safetychain"/>
+              <Subentry Address="0x11170084" dataType="0001" name="Heat_Windmea"/>
+              <Subentry Address="0x11180084" dataType="0001" name="GSwitch_Off"/>
+              <Subentry Address="0x11190084" dataType="0001" name="NoErrors"/>
+              <Subentry Address="0x111A0084" dataType="0001" name="GHeating"/>
+              <Subentry Address="0x111B0084" dataType="0001" name="Rotor_Bearlub"/>
+              <Subentry Address="0x111C0084" dataType="0001" name="reserve28"/>
+              <Subentry Address="0x111D0084" dataType="0001" name="LVRT_Output"/>
+              <Subentry Address="0x111E0084" dataType="0001" name="reserve30"/>
+              <Subentry Address="0x111F0084" dataType="0001" name="reserve31"/>
+              <Subentry Address="0x11200084" dataType="0001" name="reserve32"/>
+            </Entry>
+          </EntryBlock>
+
+          <!-- RTD温度通道定义-->
+          <EntryBlock Address="0x18000100" name="RTD">
+            <Entry Address="0x18000100" dataType="0008" name="RTD_state">
+              <Subentry Address="0x11010100" dataType="0001" name="Gearoil_com"/>
+              <Subentry Address="0x11020100" dataType="0001" name="GearBear1_com"/>
+              <Subentry Address="0x11030100" dataType="0001" name="GearIn_com"/>
+              <Subentry Address="0x11040100" dataType="0001" name="GBear1_com"/>
+              <Subentry Address="0x11050100" dataType="0001" name="GBear2_com"/>
+              <Subentry Address="0x11060100" dataType="0001" name="GSCoil_com"/>
+              <Subentry Address="0x11070100" dataType="0001" name="ConvIn_com"/>
+              <Subentry Address="0x11080100" dataType="0001" name="GearBear2_com"/>
+              <Subentry Address="0x11090100" dataType="0001" name="OutDoor_com"/>
+              <Subentry Address="0x110A0100" dataType="0001" name="Nacelle_com"/>
+              <Subentry Address="0x110B0100" dataType="0001" name="RotBear_com"/>
+            </Entry>
+            <Entry Address="0x1A000104" dataType="000A" name="Gearoil_Temp"/>
+            <Entry Address="0x1A000108" dataType="000A" name="GearBear1_Temp"/>
+            <Entry Address="0x1A00010C" dataType="000A" name="GearIn_Temp"/>
+            <Entry Address="0x1A000110" dataType="000A" name="GBear1_Temp"/>
+            <Entry Address="0x1A000114" dataType="000A" name="GBear2_Temp"/>
+            <Entry Address="0x1A000118" dataType="000A" name="GSCoil_Temp"/>
+            <Entry Address="0x1A00011C" dataType="000A" name="ConvIn_Temp"/>
+            <Entry Address="0x1A000120" dataType="000A" name="GearBear2_Temp"/>
+            <Entry Address="0x1A000124" dataType="000A" name="OutDoor_Temp"/>
+            <Entry Address="0x1A000128" dataType="000A" name="Nacelle_Temp"/>
+            <Entry Address="0x1A00012C" dataType="000A" name="RotBear_Temp"/>
+          </EntryBlock>
+          
+          <!-- 偏航数据定义 -->
+          <EntryBlock Address="0x18000180" name="YAW">
+          	<Entry Address="0x18000180" dataType="0008" name="YAW_sys"       >
+            	<Subentry Address="0x11010180" dataType="0001" name="YAW_yaw"/>
+              <Subentry Address="0x11020180" dataType="0001" name="YAW_anemometer"/>
+              <Subentry Address="0x11030180" dataType="0001" name="YAW_vane"/>
+              <Subentry Address="0x11040180" dataType="0001" name="Yawing_vane"/>
+              <Subentry Address="0x11050180" dataType="0001" name="Auto_untwisting"/>
+            </Entry>
+            <Entry Address="0x1A000184" dataType="000A" name="Nac_Pos"/>
+            <Entry Address="0x1A000188" dataType="000A" name="Cable_twist_value"/>
+            <Entry Address="0x1A00018C" dataType="000A" name="Wind_Spd1"/>
+            <Entry Address="0x1A000190" dataType="000A" name="Wind_Spd2"/>
+            <Entry Address="0x1A000194" dataType="000A" name="ave_Onesec_Wsp"/>
+            <Entry Address="0x1A000198" dataType="000A" name="ave_Halfmin_Wsp"/>
+            <Entry Address="0x1A00019C" dataType="000A" name="ave_Tenmin_Wsp"/>
+            <Entry Address="0x1A0001A0" dataType="000A" name="ave_Onesec_Wdir"/>
+            <Entry Address="0x1A0001A4" dataType="000A" name="ave_Tensec_Wdir"/>
+            <Entry Address="0x1A0001A8" dataType="000A" name="ave_Onemin_Wdir"/>
+            <Entry Address="0x1A0001AC" dataType="000A" name="air_density"/>
+            <Entry Address="0x180001B0" dataType="0008" name="yawLevel"/>
+            <Entry Address="0x180001B4" dataType="000A" name="Yaw_dir"/>
+          </EntryBlock>
+          
+          <!-- 变桨数据定义 -->
+          <EntryBlock Address="0x18000200" name="Pitch">
+          	<Entry Address="0x18000200" dataType="0008" name="Pitch_sys">
+            	<Subentry Address="0x11010200" dataType="0001" name="Pitch_state"/>
+              <Subentry Address="0x11020200" dataType="0001" name="Pitch_com_state"/>
+              <Subentry Address="0x11030200" dataType="0001" name="Pitch_com_quality"/>
+              <Subentry Address="0x11040200" dataType="0001" name="Pitch_encode"/>
+            </Entry>
+            <Entry Address="0x18000204" dataType="0008" name="Pitch_state"/>
+            <Entry Address="0x18000208" dataType="0008" name="Pitch_DI">
+            	<Subentry Address="0x11010208" dataType="0001" name="driver1_ok"/>
+              <Subentry Address="0x11020208" dataType="0001" name="drivers_fan"/>
+              <Subentry Address="0x11030208" dataType="0001" name="drivers_ptc"/>
+            	<Subentry Address="0x11040208" dataType="0001" name="driver1_overcurrent"/>
+              <Subentry Address="0x11050208" dataType="0001" name="driver1_batt_voltage"/>
+              <Subentry Address="0x11060208" dataType="0001" name="driver1_limit91"/>
+              <Subentry Address="0x11070208" dataType="0001" name="driver1_limit95"/>
+              <Subentry Address="0x11080208" dataType="0001" name="driver1_chargerOK"/>
+              <Subentry Address="0x11090208" dataType="0001" name="driver2_ok"/>
+              <Subentry Address="0x110A0208" dataType="0001" name="Pitch_DI_reserve11"/>
+              <Subentry Address="0x110B0208" dataType="0001" name="driver2_overcurrent"/>
+              <Subentry Address="0x110C0208" dataType="0001" name="driver2_batt_voltage"/>
+              <Subentry Address="0x110D0208" dataType="0001" name="driver2_limit91"/>
+              <Subentry Address="0x110E0208" dataType="0001" name="driver2_limit95"/>
+              <Subentry Address="0x110F0208" dataType="0001" name="driver2_chargerOK"/>
+              <Subentry Address="0x11100208" dataType="0001" name="driver1_chargerOK"/>
+              <Subentry Address="0x11110208" dataType="0001" name="driver3_chargerOK"/>
+              <Subentry Address="0x11120208" dataType="0001" name="Pitch_DI_reserve18"/>
+              <Subentry Address="0x11130208" dataType="0001" name="Pitch_DI_reserve19"/>
+              <Subentry Address="0x11140208" dataType="0001" name="driver3_overcurrent"/>
+              <Subentry Address="0x11150208" dataType="0001" name="driver3_batt_voltage"/>
+              <Subentry Address="0x11160208" dataType="0001" name="driver3_limit91"/>
+              <Subentry Address="0x11170208" dataType="0001" name="driver3_limit95"/>
+              <Subentry Address="0x11180208" dataType="0001" name="drivers_chargecyc"/>
+              <Subentry Address="0x11190208" dataType="0001" name="driver3_ok"/>
+			
+            </Entry>
+            <Entry Address="0x1A00020C" dataType="000A" name="angle_ave"/>
+            <Entry Address="0x1A000210" dataType="000A" name="pit_set1"/>
+            <Entry Address="0x1A000214" dataType="000A" name="pit_set2"/>
+            <Entry Address="0x1A000218" dataType="000A" name="pit_set3"/>
+            <Entry Address="0x1A00021C" dataType="000A" name="angle1"/>
+            <Entry Address="0x1A000220" dataType="000A" name="angle2"/>
+            <Entry Address="0x1A000224" dataType="000A" name="angle3"/>
+            <Entry Address="0x1A000228" dataType="000A" name="angle1_B"/>
+            <Entry Address="0x1A00022C" dataType="000A" name="angle2_B"/>
+            <Entry Address="0x1A000230" dataType="000A" name="angle3_B"/>
+            <Entry Address="0x1A000234" dataType="000A" name="pit_speed1"/>
+            <Entry Address="0x1A000238" dataType="000A" name="pit_speed2"/>
+            <Entry Address="0x1A00023C" dataType="000A" name="pit_speed3"/>
+            <Entry Address="0x1A000240" dataType="000A" name="pit_tem4"/>
+            <Entry Address="0x1A000244" dataType="000A" name="pit_tem1"/>
+            <Entry Address="0x1A000248" dataType="000A" name="pit_tem2"/>
+            <Entry Address="0x1A00024C" dataType="000A" name="pit_tem3"/>
+            <Entry Address="0x1A000250" dataType="000A" name="pit_Cur1"/>
+            <Entry Address="0x1A000254" dataType="000A" name="pit_Cur2"/>
+            <Entry Address="0x1A000258" dataType="000A" name="pit_Cur3"/>
+          </EntryBlock>
+          
+          <!-- 变频器数据定义 -->
+          <EntryBlock Address="0x18000280" name="conv">
+          	<Entry Address="0x18000280" dataType="0008" name="conv_state">
+            	<Subentry Address="0x11010280" dataType="0001" name="conv_state"/>
+              <Subentry Address="0x11020280" dataType="0001" name="conv_com_state"/>
+            </Entry>
+            <Entry Address="0x14000284" dataType="0004" name="Conv_Torque"/>
+            <Entry Address="0x14000288" dataType="0004" name="Conv_GSpd"/>
+            <Entry Address="0x1400028C" dataType="0004" name="Torque_Set"/>
+          </EntryBlock>
+          
+          <!-- 传动链数据定义 -->
+          <EntryBlock Address="0x18000300" name="drive_chain">
+          	<Entry Address="0x18000300" dataType="0008" name="DC_state">
+              <Subentry Address="0x11010300" dataType="0001" name="gear_state"/>
+              <Subentry Address="0x11020300" dataType="0001" name="braker_state"/>
+              <Subentry Address="0x11030300" dataType="0001" name="generator_state"/>
+              <Subentry Address="0x11040300" dataType="0001" name="hydraulic_state"/>
+            </Entry>
+            <Entry Address="0x1A000304" dataType="000A" name="GearPump_Pre"/>
+            <Entry Address="0x1A000308" dataType="000A" name="GearIn_Pre"/>
+            <Entry Address="0x1A00030C" dataType="000A" name="Hyd_Pre"/>
+            <Entry Address="0x1A000310" dataType="000A" name="Rotor_RSpd"/>
+            <Entry Address="0x1A000314" dataType="000A" name="Rotor_RSpd1"/>
+            <Entry Address="0x1A000318" dataType="000A" name="Rotor_RSpd2"/>
+            <Entry Address="0x1400031C" dataType="0004" name="Gear_RSpd"/>
+            <Entry Address="0x14000320" dataType="0004" name="G_RSpd1"/>
+          </EntryBlock>
+          
+          <!-- 电网系统器数据定义 -->
+          <EntryBlock Address="0x18000380" name="grid">
+            <Entry Address="0x18000380" dataType="0008" name="grid_state"/>
+            <Entry Address="0x1A000384" dataType="000A" name="ave_Onesec_power"/>
+            <Entry Address="0x1A000388" dataType="000A" name="Vol_L1"/>
+            <Entry Address="0x1A00038C" dataType="000A" name="Vol_L2"/>
+            <Entry Address="0x1A000390" dataType="000A" name="Vol_L3"/>
+            <Entry Address="0x1A000394" dataType="000A" name="Cur_L1"/>
+            <Entry Address="0x1A000398" dataType="000A" name="Cur_L2"/>
+            <Entry Address="0x1A00039C" dataType="000A" name="Cur_L3"/>
+            <Entry Address="0x1A0003A0" dataType="000A" name="Ang_L1"/>
+            <Entry Address="0x1A0003A4" dataType="000A" name="Ang_L2"/>
+            <Entry Address="0x1A0003A8" dataType="000A" name="Ang_L3"/>
+            <Entry Address="0x1A0003AC" dataType="000A" name="G_Power_FB"/>
+            <Entry Address="0x1A0003B0" dataType="000A" name="reactive_Power_FB"/>
+            <Entry Address="0x1A0003B4" dataType="000A" name="Power_factor"/>
+            <Entry Address="0x1A0003B8" dataType="000A" name="Frequence"/>
+            <Entry Address="0x1A0003BC" dataType="000A" name="Trafo_temp"/>
+          </EntryBlock>
+
+          <!-- 振动数据定义 -->
+          <EntryBlock Address="0x18000400" name="Vibration_Module">
+          	<Entry Address="0x18000400" dataType="0008" name="VM_state">
+              <Subentry Address="0x11010400" dataType="0001" name="VM_state1_com"/>
+              <Subentry Address="0x11020400" dataType="0001" name="VM_state2_com"/>
+              <Subentry Address="0x11030400" dataType="0001" name="VM_quality1_com"/>
+              <Subentry Address="0x11040400" dataType="0001" name="VM_quality2_com"/>
+            </Entry>
+            <Entry Address="0x1A000404" dataType="000A" name="df4084_1_amp1"/>
+            <Entry Address="0x1A000408" dataType="000A" name="df4084_1_amp2"/>
+            <Entry Address="0x1A00040C" dataType="000A" name="df4084_2_amp1"/>
+            <Entry Address="0x1A000410" dataType="000A" name="df4084_2_amp2"/>
+          </EntryBlock>
+          
+          <!-- 系统状态 -->
+          <EntryBlock Address="0x18000480" name="system_state">
+            <Entry Address="0x18000480" dataType="0008" name="run_state"/>
+          </EntryBlock>
+          
+          <!-- 当前故障 -->
+		  <!--
+          <EntryBlock Address="0x18000500" name="Current_Fault">
+            <Entry Address="0x18000500" dataType="0008" name="Fault_sum"/>
+            <Entry Address="0x18000504" dataType="0008" name="Fault_NO1"/>
+            <Entry Address="0x18000508" dataType="0008" name="Fault_NO2"/>
+            <Entry Address="0x1800050C" dataType="0008" name="Fault_NO3"/>
+            <Entry Address="0x18000510" dataType="0008" name="Fault_NO4"/>
+            <Entry Address="0x18000514" dataType="0008" name="Fault_NO5"/>
+            <Entry Address="0x18000518" dataType="0008" name="Fault_NO6"/>
+            <Entry Address="0x1800051C" dataType="0008" name="Fault_NO7"/>
+            <Entry Address="0x18000520" dataType="0008" name="Fault_NO8"/>
+            <Entry Address="0x18000524" dataType="0008" name="Fault_NO9"/>
+            <Entry Address="0x18000528" dataType="0008" name="Fault_NO10"/>
+            <Entry Address="0x1800052C" dataType="0008" name="Fault_NO11"/>
+            <Entry Address="0x18000530" dataType="0008" name="Fault_NO12"/>
+            <Entry Address="0x18000534" dataType="0008" name="Fault_NO13"/>
+            <Entry Address="0x18000538" dataType="0008" name="Fault_NO14"/>
+            <Entry Address="0x1800053C" dataType="0008" name="Fault_NO15"/>
+            <Entry Address="0x18000540" dataType="0008" name="Fault_NO16"/>
+            <Entry Address="0x18000544" dataType="0008" name="Fault_NO17"/>
+            <Entry Address="0x18000548" dataType="0008" name="Fault_NO18"/>
+            <Entry Address="0x1800054C" dataType="0008" name="Fault_NO19"/>
+            <Entry Address="0x18000550" dataType="0008" name="Fault_NO20"/>
+            <Entry Address="0x18000554" dataType="0008" name="Fault_NO21"/>
+            <Entry Address="0x18000558" dataType="0008" name="Fault_NO22"/>
+            <Entry Address="0x1800055C" dataType="0008" name="Fault_NO23"/>
+            <Entry Address="0x18000560" dataType="0008" name="Fault_NO24"/>
+            <Entry Address="0x18000564" dataType="0008" name="Fault_NO25"/>
+            <Entry Address="0x18000568" dataType="0008" name="Fault_NO26"/>
+            <Entry Address="0x1800056C" dataType="0008" name="Fault_NO27"/>
+            <Entry Address="0x18000570" dataType="0008" name="Fault_NO28"/>
+            <Entry Address="0x18000574" dataType="0008" name="Fault_NO29"/>
+            <Entry Address="0x18000578" dataType="0008" name="Fault_NO30"/>
+            <Entry Address="0x1800057C" dataType="0008" name="Fault_NO31"/>
+            <Entry Address="0x18000580" dataType="0008" name="Fault_NO32"/>
+            <Entry Address="0x18000584" dataType="0008" name="Fault_NO33"/>
+            <Entry Address="0x18000588" dataType="0008" name="Fault_NO34"/>
+            <Entry Address="0x1800058C" dataType="0008" name="Fault_NO35"/>
+            <Entry Address="0x18000590" dataType="0008" name="Fault_NO36"/>
+            <Entry Address="0x18000594" dataType="0008" name="Fault_NO37"/>
+            <Entry Address="0x18000598" dataType="0008" name="Fault_NO38"/>
+            <Entry Address="0x1800059C" dataType="0008" name="Fault_NO39"/>
+            <Entry Address="0x180005A0" dataType="0008" name="Fault_NO40"/>
+            <Entry Address="0x180005A4" dataType="0008" name="Fault_NO41"/>
+            <Entry Address="0x180005A8" dataType="0008" name="Fault_NO42"/>
+            <Entry Address="0x180005AC" dataType="0008" name="Fault_NO43"/>
+            <Entry Address="0x180005B0" dataType="0008" name="Fault_NO44"/>
+            <Entry Address="0x180005B4" dataType="0008" name="Fault_NO45"/>
+            <Entry Address="0x180005B8" dataType="0008" name="Fault_NO46"/>
+            <Entry Address="0x180005BC" dataType="0008" name="Fault_NO47"/>
+            <Entry Address="0x180005C0" dataType="0008" name="Fault_NO48"/>
+            <Entry Address="0x180005C4" dataType="0008" name="Fault_NO49"/>
+            <Entry Address="0x180005C8" dataType="0008" name="Fault_NO50"/>
+            <Entry Address="0x180005CC" dataType="0008" name="Fault_NO51"/>
+            <Entry Address="0x180005D0" dataType="0008" name="Fault_NO52"/>
+            <Entry Address="0x180005D4" dataType="0008" name="Fault_NO53"/>
+            <Entry Address="0x180005D8" dataType="0008" name="Fault_NO54"/>
+            <Entry Address="0x180005DC" dataType="0008" name="Fault_NO55"/>
+            <Entry Address="0x180005E0" dataType="0008" name="Fault_NO56"/>
+            <Entry Address="0x180005E4" dataType="0008" name="Fault_NO57"/>
+            <Entry Address="0x180005E8" dataType="0008" name="Fault_NO58"/>
+            <Entry Address="0x180005EC" dataType="0008" name="Fault_NO59"/>
+            <Entry Address="0x180005F0" dataType="0008" name="Fault_NO60"/>
+            <Entry Address="0x180005F4" dataType="0008" name="Fault_NO61"/>
+            <Entry Address="0x180005F8" dataType="0008" name="Fault_NO62"/>
+            <Entry Address="0x180005FC" dataType="0008" name="Fault_NO63"/>
+            <Entry Address="0x18000600" dataType="0008" name="Fault_NO64"/>
+            <Entry Address="0x18000604" dataType="0008" name="Fault_NO65"/>
+            <Entry Address="0x18000608" dataType="0008" name="Fault_NO66"/>
+            <Entry Address="0x1800060C" dataType="0008" name="Fault_NO67"/>
+            <Entry Address="0x18000610" dataType="0008" name="Fault_NO68"/>
+            <Entry Address="0x18000614" dataType="0008" name="Fault_NO69"/>
+            <Entry Address="0x18000618" dataType="0008" name="Fault_NO70"/>
+            <Entry Address="0x1800061C" dataType="0008" name="Fault_NO71"/>
+            <Entry Address="0x18000620" dataType="0008" name="Fault_NO72"/>
+            <Entry Address="0x18000624" dataType="0008" name="Fault_NO73"/>
+            <Entry Address="0x18000628" dataType="0008" name="Fault_NO74"/>
+            <Entry Address="0x1800062C" dataType="0008" name="Fault_NO75"/>
+            <Entry Address="0x18000630" dataType="0008" name="Fault_NO76"/>
+            <Entry Address="0x18000634" dataType="0008" name="Fault_NO77"/>
+            <Entry Address="0x18000638" dataType="0008" name="Fault_NO78"/>
+            <Entry Address="0x1800063C" dataType="0008" name="Fault_NO79"/>
+            <Entry Address="0x18000640" dataType="0008" name="Fault_NO80"/>
+            <Entry Address="0x18000644" dataType="0008" name="Fault_NO81"/>
+            <Entry Address="0x18000648" dataType="0008" name="Fault_NO82"/>
+            <Entry Address="0x1800064C" dataType="0008" name="Fault_NO83"/>
+            <Entry Address="0x18000650" dataType="0008" name="Fault_NO84"/>
+            <Entry Address="0x18000654" dataType="0008" name="Fault_NO85"/>
+            <Entry Address="0x18000658" dataType="0008" name="Fault_NO86"/>
+            <Entry Address="0x1800065C" dataType="0008" name="Fault_NO87"/>
+            <Entry Address="0x18000660" dataType="0008" name="Fault_NO88"/>
+            <Entry Address="0x18000664" dataType="0008" name="Fault_NO89"/>
+            <Entry Address="0x18000668" dataType="0008" name="Fault_NO90"/>
+            <Entry Address="0x1800066C" dataType="0008" name="Fault_NO91"/>
+            <Entry Address="0x18000670" dataType="0008" name="Fault_NO92"/>
+            <Entry Address="0x18000674" dataType="0008" name="Fault_NO93"/>
+            <Entry Address="0x18000678" dataType="0008" name="Fault_NO94"/>
+            <Entry Address="0x1800067C" dataType="0008" name="Fault_NO95"/>
+            <Entry Address="0x18000680" dataType="0008" name="Fault_NO96"/>
+            <Entry Address="0x18000684" dataType="0008" name="Fault_NO97"/>
+            <Entry Address="0x18000688" dataType="0008" name="Fault_NO98"/>
+            <Entry Address="0x1800068C" dataType="0008" name="Fault_NO99"/>
+            <Entry Address="0x18000690" dataType="0008" name="Fault_NO100"/>
+            <Entry Address="0x18000694" dataType="0008" name="Fault_act_time1"/>
+            <Entry Address="0x18000698" dataType="0008" name="Fault_act_time2"/>
+            <Entry Address="0x1800069C" dataType="0008" name="Fault_act_time3"/>
+            <Entry Address="0x180006A0" dataType="0008" name="Fault_act_time4"/>
+            <Entry Address="0x180006A4" dataType="0008" name="Fault_act_time5"/>
+            <Entry Address="0x180006A8" dataType="0008" name="Fault_act_time6"/>
+            <Entry Address="0x180006AC" dataType="0008" name="Fault_act_time7"/>
+            <Entry Address="0x180006B0" dataType="0008" name="Fault_act_time8"/>
+            <Entry Address="0x180006B4" dataType="0008" name="Fault_act_time9"/>
+            <Entry Address="0x180006B8" dataType="0008" name="Fault_act_time10"/>
+            <Entry Address="0x180006BC" dataType="0008" name="Fault_act_time11"/>
+            <Entry Address="0x180006C0" dataType="0008" name="Fault_act_time12"/>
+            <Entry Address="0x180006C4" dataType="0008" name="Fault_act_time13"/>
+            <Entry Address="0x180006C8" dataType="0008" name="Fault_act_time14"/>
+            <Entry Address="0x180006CC" dataType="0008" name="Fault_act_time15"/>
+            <Entry Address="0x180006D0" dataType="0008" name="Fault_act_time16"/>
+            <Entry Address="0x180006D4" dataType="0008" name="Fault_act_time17"/>
+            <Entry Address="0x180006D8" dataType="0008" name="Fault_act_time18"/>
+            <Entry Address="0x180006DC" dataType="0008" name="Fault_act_time19"/>
+            <Entry Address="0x180006E0" dataType="0008" name="Fault_act_time20"/>
+            <Entry Address="0x180006E4" dataType="0008" name="Fault_act_time21"/>
+            <Entry Address="0x180006E8" dataType="0008" name="Fault_act_time22"/>
+            <Entry Address="0x180006EC" dataType="0008" name="Fault_act_time23"/>
+            <Entry Address="0x180006F0" dataType="0008" name="Fault_act_time24"/>
+            <Entry Address="0x180006F4" dataType="0008" name="Fault_act_time25"/>
+            <Entry Address="0x180006F8" dataType="0008" name="Fault_act_time26"/>
+            <Entry Address="0x180006FC" dataType="0008" name="Fault_act_time27"/>
+            <Entry Address="0x18000700" dataType="0008" name="Fault_act_time28"/>
+            <Entry Address="0x18000704" dataType="0008" name="Fault_act_time29"/>
+            <Entry Address="0x18000708" dataType="0008" name="Fault_act_time30"/>
+            <Entry Address="0x1800070C" dataType="0008" name="Fault_act_time31"/>
+            <Entry Address="0x18000710" dataType="0008" name="Fault_act_time32"/>
+            <Entry Address="0x18000714" dataType="0008" name="Fault_act_time33"/>
+            <Entry Address="0x18000718" dataType="0008" name="Fault_act_time34"/>
+            <Entry Address="0x1800071C" dataType="0008" name="Fault_act_time35"/>
+            <Entry Address="0x18000720" dataType="0008" name="Fault_act_time36"/>
+            <Entry Address="0x18000724" dataType="0008" name="Fault_act_time37"/>
+            <Entry Address="0x18000728" dataType="0008" name="Fault_act_time38"/>
+            <Entry Address="0x1800072C" dataType="0008" name="Fault_act_time39"/>
+            <Entry Address="0x18000730" dataType="0008" name="Fault_act_time40"/>
+            <Entry Address="0x18000734" dataType="0008" name="Fault_act_time41"/>
+            <Entry Address="0x18000738" dataType="0008" name="Fault_act_time42"/>
+            <Entry Address="0x1800073C" dataType="0008" name="Fault_act_time43"/>
+            <Entry Address="0x18000740" dataType="0008" name="Fault_act_time44"/>
+            <Entry Address="0x18000744" dataType="0008" name="Fault_act_time45"/>
+            <Entry Address="0x18000748" dataType="0008" name="Fault_act_time46"/>
+            <Entry Address="0x1800074C" dataType="0008" name="Fault_act_time47"/>
+            <Entry Address="0x18000750" dataType="0008" name="Fault_act_time48"/>
+            <Entry Address="0x18000754" dataType="0008" name="Fault_act_time49"/>
+            <Entry Address="0x18000758" dataType="0008" name="Fault_act_time50"/>
+            <Entry Address="0x1800075C" dataType="0008" name="Fault_act_time51"/>
+            <Entry Address="0x18000760" dataType="0008" name="Fault_act_time52"/>
+            <Entry Address="0x18000764" dataType="0008" name="Fault_act_time53"/>
+            <Entry Address="0x18000768" dataType="0008" name="Fault_act_time54"/>
+            <Entry Address="0x1800076C" dataType="0008" name="Fault_act_time55"/>
+            <Entry Address="0x18000770" dataType="0008" name="Fault_act_time56"/>
+            <Entry Address="0x18000774" dataType="0008" name="Fault_act_time57"/>
+            <Entry Address="0x18000778" dataType="0008" name="Fault_act_time58"/>
+            <Entry Address="0x1800077C" dataType="0008" name="Fault_act_time59"/>
+            <Entry Address="0x18000780" dataType="0008" name="Fault_act_time60"/>
+            <Entry Address="0x18000784" dataType="0008" name="Fault_act_time61"/>
+            <Entry Address="0x18000788" dataType="0008" name="Fault_act_time62"/>
+            <Entry Address="0x1800078C" dataType="0008" name="Fault_act_time63"/>
+            <Entry Address="0x18000790" dataType="0008" name="Fault_act_time64"/>
+            <Entry Address="0x18000794" dataType="0008" name="Fault_act_time65"/>
+            <Entry Address="0x18000798" dataType="0008" name="Fault_act_time66"/>
+            <Entry Address="0x1800079C" dataType="0008" name="Fault_act_time67"/>
+            <Entry Address="0x180007A0" dataType="0008" name="Fault_act_time68"/>
+            <Entry Address="0x180007A4" dataType="0008" name="Fault_act_time69"/>
+            <Entry Address="0x180007A8" dataType="0008" name="Fault_act_time70"/>
+            <Entry Address="0x180007AC" dataType="0008" name="Fault_act_time71"/>
+            <Entry Address="0x180007B0" dataType="0008" name="Fault_act_time72"/>
+            <Entry Address="0x180007B4" dataType="0008" name="Fault_act_time73"/>
+            <Entry Address="0x180007B8" dataType="0008" name="Fault_act_time74"/>
+            <Entry Address="0x180007BC" dataType="0008" name="Fault_act_time75"/>
+            <Entry Address="0x180007C0" dataType="0008" name="Fault_act_time76"/>
+            <Entry Address="0x180007C4" dataType="0008" name="Fault_act_time77"/>
+            <Entry Address="0x180007C8" dataType="0008" name="Fault_act_time78"/>
+            <Entry Address="0x180007CC" dataType="0008" name="Fault_act_time79"/>
+            <Entry Address="0x180007D0" dataType="0008" name="Fault_act_time80"/>
+            <Entry Address="0x180007D4" dataType="0008" name="Fault_act_time81"/>
+            <Entry Address="0x180007D8" dataType="0008" name="Fault_act_time82"/>
+            <Entry Address="0x180007DC" dataType="0008" name="Fault_act_time83"/>
+            <Entry Address="0x180007E0" dataType="0008" name="Fault_act_time84"/>
+            <Entry Address="0x180007E4" dataType="0008" name="Fault_act_time85"/>
+            <Entry Address="0x180007E8" dataType="0008" name="Fault_act_time86"/>
+            <Entry Address="0x180007EC" dataType="0008" name="Fault_act_time87"/>
+            <Entry Address="0x180007F0" dataType="0008" name="Fault_act_time88"/>
+            <Entry Address="0x180007F4" dataType="0008" name="Fault_act_time89"/>
+            <Entry Address="0x180007F8" dataType="0008" name="Fault_act_time90"/>
+            <Entry Address="0x180007FC" dataType="0008" name="Fault_act_time91"/>
+            <Entry Address="0x18000800" dataType="0008" name="Fault_act_time92"/>
+            <Entry Address="0x18000804" dataType="0008" name="Fault_act_time93"/>
+            <Entry Address="0x18000808" dataType="0008" name="Fault_act_time94"/>
+            <Entry Address="0x1800080C" dataType="0008" name="Fault_act_time95"/>
+            <Entry Address="0x18000810" dataType="0008" name="Fault_act_time96"/>
+            <Entry Address="0x18000814" dataType="0008" name="Fault_act_time97"/>
+            <Entry Address="0x18000818" dataType="0008" name="Fault_act_time98"/>
+            <Entry Address="0x1800081C" dataType="0008" name="Fault_act_time99"/>
+            <Entry Address="0x18000820" dataType="0008" name="Fault_act_time100"/>
+          </EntryBlock>
+        -->
+          <!-- 统计和其它器数据定义 -->
+          <EntryBlock Address="0x18000500" name="STATS">
+            <Entry Address="0x18000500" dataType="0008" name="production_active_total"/>
+            <Entry Address="0x18000504" dataType="0008" name="production_reactive_total"/>
+            <Entry Address="0x18000508" dataType="0008" name="consumption_active_total"/>
+            <Entry Address="0x1800050C" dataType="0008" name="consumption_reactive_total"/>
+            <Entry Address="0x18000510" dataType="0008" name="run_time_total"/>
+            <Entry Address="0x14000514" dataType="0008" name="maintain_time_total"/>
+            <Entry Address="0x14000518" dataType="0004" name="repair_time_total"/>
+            <Entry Address="0x1400051C" dataType="0008" name="griderr_time_total"/>
+            <Entry Address="0x14000520" dataType="0004" name="weathererr_time_total"/>
+            <Entry Address="0x14000524" dataType="0008" name="stop_time_total"/>
+            <Entry Address="0x14000528" dataType="0004" name="generate_record_total"/>
+            <Entry Address="0x1400052C" dataType="0008" name="stop_record_total"/>
+            <Entry Address="0x14000530" dataType="0004" name="Availability_buf_total"/>
+			
+			<Entry Address="0x14000534" dataType="0008" name="time_thisdate"/>
+			<Entry Address="0x18000538" dataType="0008" name="production_active_thisdate"/>
+            <Entry Address="0x1800053C" dataType="0004" name="production_reactive_thisdate"/>
+            <Entry Address="0x18000540" dataType="0008" name="consumption_active_thisdate"/>
+            <Entry Address="0x18000544" dataType="0004" name="consumption_reactive_thisdate"/>
+			<Entry Address="0x14000548" dataType="0008" name="Availability_buf_thisdate"/>
+			<Entry Address="0x1400054C" dataType="0008" name="time_thismonth"/>
+            <Entry Address="0x18000550" dataType="0008" name="production_active_thismonth"/>
+            <Entry Address="0x18000554" dataType="0004" name="production_reactive_thismonth"/>
+            <Entry Address="0x18000558" dataType="0008" name="consumption_active_thismonth"/>
+            <Entry Address="0x1800055C" dataType="0004" name="consumption_reactive_thismonth"/>
+			<Entry Address="0x14000560" dataType="0008" name="Availability_buf_thismonth"/>
+			<Entry Address="0x14000564" dataType="0008" name="time_thisyear"/>
+            <Entry Address="0x18000568" dataType="0008" name="production_active_thisyear"/>
+            <Entry Address="0x1800056C" dataType="0004" name="production_reactive_thisyear"/>
+            <Entry Address="0x18000570" dataType="0008" name="consumption_active_thisyear"/>
+            <Entry Address="0x18000574" dataType="0004" name="consumption_reactive_thisyear"/>
+			<Entry Address="0x14000578" dataType="0008" name="Availability_buf_thisyear"/>
+          </EntryBlock>
+          
+          <!-- 历史事件 -->
+		  <!--
+          <EntryBlock Address="0x18001800" name="History_Event">
+            <Entry Address="0x18001800" dataType="0008" name="Event_NO1"/>
+            <Entry Address="0x18001804" dataType="0008" name="Event_NO2"/>
+            <Entry Address="0x18001808" dataType="0008" name="Event_NO3"/>
+            <Entry Address="0x1800180C" dataType="0008" name="Event_NO4"/>
+            <Entry Address="0x18001810" dataType="0008" name="Event_NO5"/>
+            <Entry Address="0x18001814" dataType="0008" name="Event_NO6"/>
+            <Entry Address="0x18001818" dataType="0008" name="Event_NO7"/>
+            <Entry Address="0x1800181C" dataType="0008" name="Event_NO8"/>
+            <Entry Address="0x18001820" dataType="0008" name="Event_NO9"/>
+            <Entry Address="0x18001824" dataType="0008" name="Event_NO10"/>
+            <Entry Address="0x18001828" dataType="0008" name="Event_NO11"/>
+            <Entry Address="0x1800182C" dataType="0008" name="Event_NO12"/>
+            <Entry Address="0x18001830" dataType="0008" name="Event_NO13"/>
+            <Entry Address="0x18001834" dataType="0008" name="Event_NO14"/>
+            <Entry Address="0x18001838" dataType="0008" name="Event_NO15"/>
+            <Entry Address="0x1800183C" dataType="0008" name="Event_NO16"/>
+            <Entry Address="0x18001840" dataType="0008" name="Event_NO17"/>
+            <Entry Address="0x18001844" dataType="0008" name="Event_NO18"/>
+            <Entry Address="0x18001848" dataType="0008" name="Event_NO19"/>
+            <Entry Address="0x1800184C" dataType="0008" name="Event_NO20"/>
+            <Entry Address="0x18001850" dataType="0008" name="Event_NO21"/>
+            <Entry Address="0x18001854" dataType="0008" name="Event_NO22"/>
+            <Entry Address="0x18001858" dataType="0008" name="Event_NO23"/>
+            <Entry Address="0x1800185C" dataType="0008" name="Event_NO24"/>
+            <Entry Address="0x18001860" dataType="0008" name="Event_NO25"/>
+            <Entry Address="0x18001864" dataType="0008" name="Event_NO26"/>
+            <Entry Address="0x18001868" dataType="0008" name="Event_NO27"/>
+            <Entry Address="0x1800186C" dataType="0008" name="Event_NO28"/>
+            <Entry Address="0x18001870" dataType="0008" name="Event_NO29"/>
+            <Entry Address="0x18001874" dataType="0008" name="Event_NO30"/>
+            <Entry Address="0x18001878" dataType="0008" name="Event_NO31"/>
+            <Entry Address="0x1800187C" dataType="0008" name="Event_NO32"/>
+            <Entry Address="0x18001880" dataType="0008" name="Event_NO33"/>
+            <Entry Address="0x18001884" dataType="0008" name="Event_NO34"/>
+            <Entry Address="0x18001888" dataType="0008" name="Event_NO35"/>
+            <Entry Address="0x1800188C" dataType="0008" name="Event_NO36"/>
+            <Entry Address="0x18001890" dataType="0008" name="Event_NO37"/>
+            <Entry Address="0x18001894" dataType="0008" name="Event_NO38"/>
+            <Entry Address="0x18001898" dataType="0008" name="Event_NO39"/>
+            <Entry Address="0x1800189C" dataType="0008" name="Event_NO40"/>
+            <Entry Address="0x180018A0" dataType="0008" name="Event_NO41"/>
+            <Entry Address="0x180018A4" dataType="0008" name="Event_NO42"/>
+            <Entry Address="0x180018A8" dataType="0008" name="Event_NO43"/>
+            <Entry Address="0x180018AC" dataType="0008" name="Event_NO44"/>
+            <Entry Address="0x180018B0" dataType="0008" name="Event_NO45"/>
+            <Entry Address="0x180018B4" dataType="0008" name="Event_NO46"/>
+            <Entry Address="0x180018B8" dataType="0008" name="Event_NO47"/>
+            <Entry Address="0x180018BC" dataType="0008" name="Event_NO48"/>
+            <Entry Address="0x180018C0" dataType="0008" name="Event_NO49"/>
+            <Entry Address="0x180018C4" dataType="0008" name="Event_NO50"/>
+            <Entry Address="0x180018C8" dataType="0008" name="Event_NO51"/>
+            <Entry Address="0x180018CC" dataType="0008" name="Event_NO52"/>
+            <Entry Address="0x180018D0" dataType="0008" name="Event_NO53"/>
+            <Entry Address="0x180018D4" dataType="0008" name="Event_NO54"/>
+            <Entry Address="0x180018D8" dataType="0008" name="Event_NO55"/>
+            <Entry Address="0x180018DC" dataType="0008" name="Event_NO56"/>
+            <Entry Address="0x180018E0" dataType="0008" name="Event_NO57"/>
+            <Entry Address="0x180018E4" dataType="0008" name="Event_NO58"/>
+            <Entry Address="0x180018E8" dataType="0008" name="Event_NO59"/>
+            <Entry Address="0x180018EC" dataType="0008" name="Event_NO60"/>
+            <Entry Address="0x180018F0" dataType="0008" name="Event_NO61"/>
+            <Entry Address="0x180018F4" dataType="0008" name="Event_NO62"/>
+            <Entry Address="0x180018F8" dataType="0008" name="Event_NO63"/>
+            <Entry Address="0x180018FC" dataType="0008" name="Event_NO64"/>
+            <Entry Address="0x18001900" dataType="0008" name="Event_NO65"/>
+            <Entry Address="0x18001904" dataType="0008" name="Event_NO66"/>
+            <Entry Address="0x18001908" dataType="0008" name="Event_NO67"/>
+            <Entry Address="0x1800190C" dataType="0008" name="Event_NO68"/>
+            <Entry Address="0x18001910" dataType="0008" name="Event_NO69"/>
+            <Entry Address="0x18001914" dataType="0008" name="Event_NO70"/>
+            <Entry Address="0x18001918" dataType="0008" name="Event_NO71"/>
+            <Entry Address="0x1800191C" dataType="0008" name="Event_NO72"/>
+            <Entry Address="0x18001920" dataType="0008" name="Event_NO73"/>
+            <Entry Address="0x18001924" dataType="0008" name="Event_NO74"/>
+            <Entry Address="0x18001928" dataType="0008" name="Event_NO75"/>
+            <Entry Address="0x1800192C" dataType="0008" name="Event_NO76"/>
+            <Entry Address="0x18001930" dataType="0008" name="Event_NO77"/>
+            <Entry Address="0x18001934" dataType="0008" name="Event_NO78"/>
+            <Entry Address="0x18001938" dataType="0008" name="Event_NO79"/>
+            <Entry Address="0x1800193C" dataType="0008" name="Event_NO80"/>
+            <Entry Address="0x18001940" dataType="0008" name="Event_NO81"/>
+            <Entry Address="0x18001944" dataType="0008" name="Event_NO82"/>
+            <Entry Address="0x18001948" dataType="0008" name="Event_NO83"/>
+            <Entry Address="0x1800194C" dataType="0008" name="Event_NO84"/>
+            <Entry Address="0x18001950" dataType="0008" name="Event_NO85"/>
+            <Entry Address="0x18001954" dataType="0008" name="Event_NO86"/>
+            <Entry Address="0x18001958" dataType="0008" name="Event_NO87"/>
+            <Entry Address="0x1800195C" dataType="0008" name="Event_NO88"/>
+            <Entry Address="0x18001960" dataType="0008" name="Event_NO89"/>
+            <Entry Address="0x18001964" dataType="0008" name="Event_NO90"/>
+            <Entry Address="0x18001968" dataType="0008" name="Event_NO91"/>
+            <Entry Address="0x1800196C" dataType="0008" name="Event_NO92"/>
+            <Entry Address="0x18001970" dataType="0008" name="Event_NO93"/>
+            <Entry Address="0x18001974" dataType="0008" name="Event_NO94"/>
+            <Entry Address="0x18001978" dataType="0008" name="Event_NO95"/>
+            <Entry Address="0x1800197C" dataType="0008" name="Event_NO96"/>
+            <Entry Address="0x18001980" dataType="0008" name="Event_NO97"/>
+            <Entry Address="0x18001984" dataType="0008" name="Event_NO98"/>
+            <Entry Address="0x18001988" dataType="0008" name="Event_NO99"/>
+            <Entry Address="0x1800198C" dataType="0008" name="Event_NO100"/>
+            <Entry Address="0x18001990" dataType="0008" name="Event_active_time1"/>
+            <Entry Address="0x18001994" dataType="0008" name="Event_active_time2"/>
+            <Entry Address="0x18001998" dataType="0008" name="Event_active_time3"/>
+            <Entry Address="0x1800199C" dataType="0008" name="Event_active_time4"/>
+            <Entry Address="0x180019A0" dataType="0008" name="Event_active_time5"/>
+            <Entry Address="0x180019A4" dataType="0008" name="Event_active_time6"/>
+            <Entry Address="0x180019A8" dataType="0008" name="Event_active_time7"/>
+            <Entry Address="0x180019AC" dataType="0008" name="Event_active_time8"/>
+            <Entry Address="0x180019B0" dataType="0008" name="Event_active_time9"/>
+            <Entry Address="0x180019B4" dataType="0008" name="Event_active_time10"/>
+            <Entry Address="0x180019B8" dataType="0008" name="Event_active_time11"/>
+            <Entry Address="0x180019BC" dataType="0008" name="Event_active_time12"/>
+            <Entry Address="0x180019C0" dataType="0008" name="Event_active_time13"/>
+            <Entry Address="0x180019C4" dataType="0008" name="Event_active_time14"/>
+            <Entry Address="0x180019C8" dataType="0008" name="Event_active_time15"/>
+            <Entry Address="0x180019CC" dataType="0008" name="Event_active_time16"/>
+            <Entry Address="0x180019D0" dataType="0008" name="Event_active_time17"/>
+            <Entry Address="0x180019D4" dataType="0008" name="Event_active_time18"/>
+            <Entry Address="0x180019D8" dataType="0008" name="Event_active_time19"/>
+            <Entry Address="0x180019DC" dataType="0008" name="Event_active_time20"/>
+            <Entry Address="0x180019E0" dataType="0008" name="Event_active_time21"/>
+            <Entry Address="0x180019E4" dataType="0008" name="Event_active_time22"/>
+            <Entry Address="0x180019E8" dataType="0008" name="Event_active_time23"/>
+            <Entry Address="0x180019EC" dataType="0008" name="Event_active_time24"/>
+            <Entry Address="0x180019F0" dataType="0008" name="Event_active_time25"/>
+            <Entry Address="0x180019F4" dataType="0008" name="Event_active_time26"/>
+            <Entry Address="0x180019F8" dataType="0008" name="Event_active_time27"/>
+            <Entry Address="0x180019FC" dataType="0008" name="Event_active_time28"/>
+            <Entry Address="0x18001A00" dataType="0008" name="Event_active_time29"/>
+            <Entry Address="0x18001A04" dataType="0008" name="Event_active_time30"/>
+            <Entry Address="0x18001A08" dataType="0008" name="Event_active_time31"/>
+            <Entry Address="0x18001A0C" dataType="0008" name="Event_active_time32"/>
+            <Entry Address="0x18001A10" dataType="0008" name="Event_active_time33"/>
+            <Entry Address="0x18001A14" dataType="0008" name="Event_active_time34"/>
+            <Entry Address="0x18001A18" dataType="0008" name="Event_active_time35"/>
+            <Entry Address="0x18001A1C" dataType="0008" name="Event_active_time36"/>
+            <Entry Address="0x18001A20" dataType="0008" name="Event_active_time37"/>
+            <Entry Address="0x18001A24" dataType="0008" name="Event_active_time38"/>
+            <Entry Address="0x18001A28" dataType="0008" name="Event_active_time39"/>
+            <Entry Address="0x18001A2C" dataType="0008" name="Event_active_time40"/>
+            <Entry Address="0x18001A30" dataType="0008" name="Event_active_time41"/>
+            <Entry Address="0x18001A34" dataType="0008" name="Event_active_time42"/>
+            <Entry Address="0x18001A38" dataType="0008" name="Event_active_time43"/>
+            <Entry Address="0x18001A3C" dataType="0008" name="Event_active_time44"/>
+            <Entry Address="0x18001A40" dataType="0008" name="Event_active_time45"/>
+            <Entry Address="0x18001A44" dataType="0008" name="Event_active_time46"/>
+            <Entry Address="0x18001A48" dataType="0008" name="Event_active_time47"/>
+            <Entry Address="0x18001A4C" dataType="0008" name="Event_active_time48"/>
+            <Entry Address="0x18001A50" dataType="0008" name="Event_active_time49"/>
+            <Entry Address="0x18001A54" dataType="0008" name="Event_active_time50"/>
+            <Entry Address="0x18001A58" dataType="0008" name="Event_active_time51"/>
+            <Entry Address="0x18001A5C" dataType="0008" name="Event_active_time52"/>
+            <Entry Address="0x18001A60" dataType="0008" name="Event_active_time53"/>
+            <Entry Address="0x18001A64" dataType="0008" name="Event_active_time54"/>
+            <Entry Address="0x18001A68" dataType="0008" name="Event_active_time55"/>
+            <Entry Address="0x18001A6C" dataType="0008" name="Event_active_time56"/>
+            <Entry Address="0x18001A70" dataType="0008" name="Event_active_time57"/>
+            <Entry Address="0x18001A74" dataType="0008" name="Event_active_time58"/>
+            <Entry Address="0x18001A78" dataType="0008" name="Event_active_time59"/>
+            <Entry Address="0x18001A7C" dataType="0008" name="Event_active_time60"/>
+            <Entry Address="0x18001A80" dataType="0008" name="Event_active_time61"/>
+            <Entry Address="0x18001A84" dataType="0008" name="Event_active_time62"/>
+            <Entry Address="0x18001A88" dataType="0008" name="Event_active_time63"/>
+            <Entry Address="0x18001A8C" dataType="0008" name="Event_active_time64"/>
+            <Entry Address="0x18001A90" dataType="0008" name="Event_active_time65"/>
+            <Entry Address="0x18001A94" dataType="0008" name="Event_active_time66"/>
+            <Entry Address="0x18001A98" dataType="0008" name="Event_active_time67"/>
+            <Entry Address="0x18001A9C" dataType="0008" name="Event_active_time68"/>
+            <Entry Address="0x18001AA0" dataType="0008" name="Event_active_time69"/>
+            <Entry Address="0x18001AA4" dataType="0008" name="Event_active_time70"/>
+            <Entry Address="0x18001AA8" dataType="0008" name="Event_active_time71"/>
+            <Entry Address="0x18001AAC" dataType="0008" name="Event_active_time72"/>
+            <Entry Address="0x18001AB0" dataType="0008" name="Event_active_time73"/>
+            <Entry Address="0x18001AB4" dataType="0008" name="Event_active_time74"/>
+            <Entry Address="0x18001AB8" dataType="0008" name="Event_active_time75"/>
+            <Entry Address="0x18001ABC" dataType="0008" name="Event_active_time76"/>
+            <Entry Address="0x18001AC0" dataType="0008" name="Event_active_time77"/>
+            <Entry Address="0x18001AC4" dataType="0008" name="Event_active_time78"/>
+            <Entry Address="0x18001AC8" dataType="0008" name="Event_active_time79"/>
+            <Entry Address="0x18001ACC" dataType="0008" name="Event_active_time80"/>
+            <Entry Address="0x18001AD0" dataType="0008" name="Event_active_time81"/>
+            <Entry Address="0x18001AD4" dataType="0008" name="Event_active_time82"/>
+            <Entry Address="0x18001AD8" dataType="0008" name="Event_active_time83"/>
+            <Entry Address="0x18001ADC" dataType="0008" name="Event_active_time84"/>
+            <Entry Address="0x18001AE0" dataType="0008" name="Event_active_time85"/>
+            <Entry Address="0x18001AE4" dataType="0008" name="Event_active_time86"/>
+            <Entry Address="0x18001AE8" dataType="0008" name="Event_active_time87"/>
+            <Entry Address="0x18001AEC" dataType="0008" name="Event_active_time88"/>
+            <Entry Address="0x18001AF0" dataType="0008" name="Event_active_time89"/>
+            <Entry Address="0x18001AF4" dataType="0008" name="Event_active_time90"/>
+            <Entry Address="0x18001AF8" dataType="0008" name="Event_active_time91"/>
+            <Entry Address="0x18001AFC" dataType="0008" name="Event_active_time92"/>
+            <Entry Address="0x18001B00" dataType="0008" name="Event_active_time93"/>
+            <Entry Address="0x18001B04" dataType="0008" name="Event_active_time94"/>
+            <Entry Address="0x18001B08" dataType="0008" name="Event_active_time95"/>
+            <Entry Address="0x18001B0C" dataType="0008" name="Event_active_time96"/>
+            <Entry Address="0x18001B10" dataType="0008" name="Event_active_time97"/>
+            <Entry Address="0x18001B14" dataType="0008" name="Event_active_time98"/>
+            <Entry Address="0x18001B18" dataType="0008" name="Event_active_time99"/>
+            <Entry Address="0x18001B1C" dataType="0008" name="Event_active_time100"/>
+            <Entry Address="0x18001B20" dataType="0008" name="Event_reset_time1"/>
+            <Entry Address="0x18001B24" dataType="0008" name="Event_reset_time2"/>
+            <Entry Address="0x18001B28" dataType="0008" name="Event_reset_time3"/>
+            <Entry Address="0x18001B2C" dataType="0008" name="Event_reset_time4"/>
+            <Entry Address="0x18001B30" dataType="0008" name="Event_reset_time5"/>
+            <Entry Address="0x18001B34" dataType="0008" name="Event_reset_time6"/>
+            <Entry Address="0x18001B38" dataType="0008" name="Event_reset_time7"/>
+            <Entry Address="0x18001B3C" dataType="0008" name="Event_reset_time8"/>
+            <Entry Address="0x18001B40" dataType="0008" name="Event_reset_time9"/>
+            <Entry Address="0x18001B44" dataType="0008" name="Event_reset_time10"/>
+            <Entry Address="0x18001B48" dataType="0008" name="Event_reset_time11"/>
+            <Entry Address="0x18001B4C" dataType="0008" name="Event_reset_time12"/>
+            <Entry Address="0x18001B50" dataType="0008" name="Event_reset_time13"/>
+            <Entry Address="0x18001B54" dataType="0008" name="Event_reset_time14"/>
+            <Entry Address="0x18001B58" dataType="0008" name="Event_reset_time15"/>
+            <Entry Address="0x18001B5C" dataType="0008" name="Event_reset_time16"/>
+            <Entry Address="0x18001B60" dataType="0008" name="Event_reset_time17"/>
+            <Entry Address="0x18001B64" dataType="0008" name="Event_reset_time18"/>
+            <Entry Address="0x18001B68" dataType="0008" name="Event_reset_time19"/>
+            <Entry Address="0x18001B6C" dataType="0008" name="Event_reset_time20"/>
+            <Entry Address="0x18001B70" dataType="0008" name="Event_reset_time21"/>
+            <Entry Address="0x18001B74" dataType="0008" name="Event_reset_time22"/>
+            <Entry Address="0x18001B78" dataType="0008" name="Event_reset_time23"/>
+            <Entry Address="0x18001B7C" dataType="0008" name="Event_reset_time24"/>
+            <Entry Address="0x18001B80" dataType="0008" name="Event_reset_time25"/>
+            <Entry Address="0x18001B84" dataType="0008" name="Event_reset_time26"/>
+            <Entry Address="0x18001B88" dataType="0008" name="Event_reset_time27"/>
+            <Entry Address="0x18001B8C" dataType="0008" name="Event_reset_time28"/>
+            <Entry Address="0x18001B90" dataType="0008" name="Event_reset_time29"/>
+            <Entry Address="0x18001B94" dataType="0008" name="Event_reset_time30"/>
+            <Entry Address="0x18001B98" dataType="0008" name="Event_reset_time31"/>
+            <Entry Address="0x18001B9C" dataType="0008" name="Event_reset_time32"/>
+            <Entry Address="0x18001BA0" dataType="0008" name="Event_reset_time33"/>
+            <Entry Address="0x18001BA4" dataType="0008" name="Event_reset_time34"/>
+            <Entry Address="0x18001BA8" dataType="0008" name="Event_reset_time35"/>
+            <Entry Address="0x18001BAC" dataType="0008" name="Event_reset_time36"/>
+            <Entry Address="0x18001BB0" dataType="0008" name="Event_reset_time37"/>
+            <Entry Address="0x18001BB4" dataType="0008" name="Event_reset_time38"/>
+            <Entry Address="0x18001BB8" dataType="0008" name="Event_reset_time39"/>
+            <Entry Address="0x18001BBC" dataType="0008" name="Event_reset_time40"/>
+            <Entry Address="0x18001BC0" dataType="0008" name="Event_reset_time41"/>
+            <Entry Address="0x18001BC4" dataType="0008" name="Event_reset_time42"/>
+            <Entry Address="0x18001BC8" dataType="0008" name="Event_reset_time43"/>
+            <Entry Address="0x18001BCC" dataType="0008" name="Event_reset_time44"/>
+            <Entry Address="0x18001BD0" dataType="0008" name="Event_reset_time45"/>
+            <Entry Address="0x18001BD4" dataType="0008" name="Event_reset_time46"/>
+            <Entry Address="0x18001BD8" dataType="0008" name="Event_reset_time47"/>
+            <Entry Address="0x18001BDC" dataType="0008" name="Event_reset_time48"/>
+            <Entry Address="0x18001BE0" dataType="0008" name="Event_reset_time49"/>
+            <Entry Address="0x18001BE4" dataType="0008" name="Event_reset_time50"/>
+            <Entry Address="0x18001BE8" dataType="0008" name="Event_reset_time51"/>
+            <Entry Address="0x18001BEC" dataType="0008" name="Event_reset_time52"/>
+            <Entry Address="0x18001BF0" dataType="0008" name="Event_reset_time53"/>
+            <Entry Address="0x18001BF4" dataType="0008" name="Event_reset_time54"/>
+            <Entry Address="0x18001BF8" dataType="0008" name="Event_reset_time55"/>
+            <Entry Address="0x18001BFC" dataType="0008" name="Event_reset_time56"/>
+            <Entry Address="0x18001C00" dataType="0008" name="Event_reset_time57"/>
+            <Entry Address="0x18001C04" dataType="0008" name="Event_reset_time58"/>
+            <Entry Address="0x18001C08" dataType="0008" name="Event_reset_time59"/>
+            <Entry Address="0x18001C0C" dataType="0008" name="Event_reset_time60"/>
+            <Entry Address="0x18001C10" dataType="0008" name="Event_reset_time61"/>
+            <Entry Address="0x18001C14" dataType="0008" name="Event_reset_time62"/>
+            <Entry Address="0x18001C18" dataType="0008" name="Event_reset_time63"/>
+            <Entry Address="0x18001C1C" dataType="0008" name="Event_reset_time64"/>
+            <Entry Address="0x18001C20" dataType="0008" name="Event_reset_time65"/>
+            <Entry Address="0x18001C24" dataType="0008" name="Event_reset_time66"/>
+            <Entry Address="0x18001C28" dataType="0008" name="Event_reset_time67"/>
+            <Entry Address="0x18001C2C" dataType="0008" name="Event_reset_time68"/>
+            <Entry Address="0x18001C30" dataType="0008" name="Event_reset_time69"/>
+            <Entry Address="0x18001C34" dataType="0008" name="Event_reset_time70"/>
+            <Entry Address="0x18001C38" dataType="0008" name="Event_reset_time71"/>
+            <Entry Address="0x18001C3C" dataType="0008" name="Event_reset_time72"/>
+            <Entry Address="0x18001C40" dataType="0008" name="Event_reset_time73"/>
+            <Entry Address="0x18001C44" dataType="0008" name="Event_reset_time74"/>
+            <Entry Address="0x18001C48" dataType="0008" name="Event_reset_time75"/>
+            <Entry Address="0x18001C4C" dataType="0008" name="Event_reset_time76"/>
+            <Entry Address="0x18001C50" dataType="0008" name="Event_reset_time77"/>
+            <Entry Address="0x18001C54" dataType="0008" name="Event_reset_time78"/>
+            <Entry Address="0x18001C58" dataType="0008" name="Event_reset_time79"/>
+            <Entry Address="0x18001C5C" dataType="0008" name="Event_reset_time80"/>
+            <Entry Address="0x18001C60" dataType="0008" name="Event_reset_time81"/>
+            <Entry Address="0x18001C64" dataType="0008" name="Event_reset_time82"/>
+            <Entry Address="0x18001C68" dataType="0008" name="Event_reset_time83"/>
+            <Entry Address="0x18001C6C" dataType="0008" name="Event_reset_time84"/>
+            <Entry Address="0x18001C70" dataType="0008" name="Event_reset_time85"/>
+            <Entry Address="0x18001C74" dataType="0008" name="Event_reset_time86"/>
+            <Entry Address="0x18001C78" dataType="0008" name="Event_reset_time87"/>
+            <Entry Address="0x18001C7C" dataType="0008" name="Event_reset_time88"/>
+            <Entry Address="0x18001C80" dataType="0008" name="Event_reset_time89"/>
+            <Entry Address="0x18001C84" dataType="0008" name="Event_reset_time90"/>
+            <Entry Address="0x18001C88" dataType="0008" name="Event_reset_time91"/>
+            <Entry Address="0x18001C8C" dataType="0008" name="Event_reset_time92"/>
+            <Entry Address="0x18001C90" dataType="0008" name="Event_reset_time93"/>
+            <Entry Address="0x18001C94" dataType="0008" name="Event_reset_time94"/>
+            <Entry Address="0x18001C98" dataType="0008" name="Event_reset_time95"/>
+            <Entry Address="0x18001C9C" dataType="0008" name="Event_reset_time96"/>
+            <Entry Address="0x18001CA0" dataType="0008" name="Event_reset_time97"/>
+            <Entry Address="0x18001CA4" dataType="0008" name="Event_reset_time98"/>
+            <Entry Address="0x18001CA8" dataType="0008" name="Event_reset_time99"/>
+            <Entry Address="0x18001CAC" dataType="0008" name="Event_reset_time100"/>
+          </EntryBlock>
+         --> 
+        </EntryList>
+
+        <!-- Out 控制器应用程序<-HMI read&write -->
+        <EntryList Address="0x20000000" accessType="rw" name="Out">
+          <!-- 数字量DI模块取反定义 -->
+          <EntryBlock Address="0x20000000" name="DI_negate">
+            <Entry Address="0x28000000" dataType="0008" name="DIN1_negate">
+              <Subentry Address="0x21010000" dataType="0001" name="DIN_Brake1_FB"/>
+              <Subentry Address="0x21020000" dataType="0001" name="DIN_Brake2_FB"/>
+              <Subentry Address="0x21030000" dataType="0001" name="DIN_Close_Brake"/>
+              <Subentry Address="0x21040000" dataType="0001" name="DIN_Filter_Chok"/>
+              <Subentry Address="0x21050000" dataType="0001" name="DIN_Brush_Worn"/>
+              <Subentry Address="0x21060000" dataType="0001" name="DIN_UPS_Warning"/>
+              <Subentry Address="0x21070000" dataType="0001" name="DIN_Yaw_sensor1"/>
+              <Subentry Address="0x21080000" dataType="0001" name="DIN_Yaw_sensor2"/>
+              <Subentry Address="0x21090000" dataType="0001" name="DIN_Ctwisted_CW"/>
+              <Subentry Address="0x210A0000" dataType="0001" name="DIN_Ctwisted_CCW"/>
+              <Subentry Address="0x210B0000" dataType="0001" name="DIN_Rpm1_Left"/>
+              <Subentry Address="0x210C0000" dataType="0001" name="DIN_Rpm2_Right"/>
+              <Subentry Address="0x210D0000" dataType="0001" name="DIN_Service_Bladea"/>
+              <Subentry Address="0x210E0000" dataType="0001" name="DIN_Trafo_BrkTempHigh"/>
+              <Subentry Address="0x210F0000" dataType="0001" name="DIN_Emer_StopNac"/>
+              <Subentry Address="0x21100000" dataType="0001" name="DIN_Emer_StopConv"/>
+              <Subentry Address="0x21110000" dataType="0001" name="DIN_Conv_Overspeed"/>
+              <Subentry Address="0x21120000" dataType="0001" name="DIN_Conv_OK"/>
+              <Subentry Address="0x21130000" dataType="0001" name="DIN_Conv_OperRange"/>
+              <Subentry Address="0x21140000" dataType="0001" name="DIN_Conv_Readyfor"/>
+              <Subentry Address="0x21150000" dataType="0001" name="DIN_Conv_Error"/>
+              <Subentry Address="0x21160000" dataType="0001" name="DIN_Conv_Gridconnec"/>
+              <Subentry Address="0x21170000" dataType="0001" name="DIN_Conv_Griderror"/>
+              <Subentry Address="0x21180000" dataType="0001" name="DIN_Conv_CBtrip"/>
+              <Subentry Address="0x21190000" dataType="0001" name="DIN_Small_Error"/>
+              <Subentry Address="0x211A0000" dataType="0001" name="DIN_Battery_OK"/>
+              <Subentry Address="0x211B0000" dataType="0001" name="DIN_FB_Stormpos"/>
+              <Subentry Address="0x211C0000" dataType="0001" name="DIN_Reduce_Conv"/>
+              <Subentry Address="0x211D0000" dataType="0001" name="DIN_Vibration"/>
+              <Subentry Address="0x211E0000" dataType="0001" name="DIN_Conv_Cold"/>
+              <Subentry Address="0x211F0000" dataType="0001" name="DIN_Hydr_OilLevel"/>
+              <Subentry Address="0x21200000" dataType="0001" name="DIN_LVRT_Input"/>
+            </Entry>
+            <Entry Address="0x28000004" dataType="0008" name="DIN2_negate">
+            	<Subentry Address="0x21010004" dataType="0001" name="DIN_Gear_PresDif"/>
+							<Subentry Address="0x21020004" dataType="0001" name="DIN_Trafo_AlmTempHigh"/>
+							<Subentry Address="0x21030004" dataType="0001" name="DIN_Gear_OilLevel"/>
+							<Subentry Address="0x21040004" dataType="0001" name="DIN_WP2035_ROspeed"/>
+							<Subentry Address="0x21050004" dataType="0001" name="DIN_WP2035_GOspeed"/>
+							<Subentry Address="0x21060004" dataType="0001" name="DIN_Emer_StopTopbox"/>
+							<Subentry Address="0x21070004" dataType="0001" name="DIN_Safetychain_FB"/>
+							<Subentry Address="0x21080004" dataType="0001" name="DIN_Lightn_Prot"/>
+							<Subentry Address="0x21090004" dataType="0001" name="DIN_Brake_Wornout1"/>
+							<Subentry Address="0x210A0004" dataType="0001" name="DIN_Brake_Wornout2"/>
+							<Subentry Address="0x210B0004" dataType="0001" name="DIN_Power_Upreset"/>
+							<Subentry Address="0x210C0004" dataType="0001" name="DIN_Thermistor"/>
+							<Subentry Address="0x210D0004" dataType="0001" name="DIN_Trafo_TempHigh"/>
+							<Subentry Address="0x210E0004" dataType="0001" name="DIN_Trafo_TempStop"/>
+							<Subentry Address="0x210F0004" dataType="0001" name="DIN_Trafo_LW_Prt"/>
+							<Subentry Address="0x21100004" dataType="0001" name="DIN_Trafo_HW_Prt"/>
+							<Subentry Address="0x21110004" dataType="0001" name="DIN_CB_YawM13"/>
+							<Subentry Address="0x21120004" dataType="0001" name="DIN_CB_YawM24"/>
+							<Subentry Address="0x21130004" dataType="0001" name="DIN_CB_GFan1"/>
+							<Subentry Address="0x21140004" dataType="0001" name="DIN_CB_GFan2"/>
+							<Subentry Address="0x21150004" dataType="0001" name="DIN_CB_GearOilfan"/>
+							<Subentry Address="0x21160004" dataType="0001" name="DIN_CB_GearPump2"/>
+							<Subentry Address="0x21170004" dataType="0001" name="DIN_CB_GearPump1"/>
+							<Subentry Address="0x21180004" dataType="0001" name="DIN_CB_GearHeating"/>
+							<Subentry Address="0x21190004" dataType="0001" name="DIN_CB_HydrPump"/>
+							<Subentry Address="0x211A0004" dataType="0001" name="DIN_CB_YawBrake"/>
+							<Subentry Address="0x211B0004" dataType="0001" name="DIN_Trafo_LV_Brk_Place"/>
+							<Subentry Address="0x211C0004" dataType="0001" name="DIN_Trafo_HV_Brk_Place"/>
+							<Subentry Address="0x211D0004" dataType="0001" name="DIN_CB_Lubricat"/>
+            </Entry>
+          </EntryBlock>
+
+          <!-- 数字量DI模块屏蔽定义 -->
+          <EntryBlock Address="0x28000008" name="DI_shield">
+            <Entry Address="0x28000008" dataType="0008" name="DIS1_shleid">
+              <Subentry Address="0x21010008" dataType="0001" name="DIS_Brake1_FB"/>
+              <Subentry Address="0x21020008" dataType="0001" name="DIS_Brake2_FB"/>
+              <Subentry Address="0x21030008" dataType="0001" name="DIS_Close_Brake"/>
+              <Subentry Address="0x21040008" dataType="0001" name="DIS_Filter_Chok"/>
+              <Subentry Address="0x21050008" dataType="0001" name="DIS_Brush_Worn"/>
+              <Subentry Address="0x21060008" dataType="0001" name="DIS_UPS_Warning"/>
+              <Subentry Address="0x21070008" dataType="0001" name="DIS_Yaw_sensor1"/>
+              <Subentry Address="0x21080008" dataType="0001" name="DIS_Yaw_sensor2"/>
+              <Subentry Address="0x21090008" dataType="0001" name="DIS_Ctwisted_CW"/>
+              <Subentry Address="0x210A0008" dataType="0001" name="DIS_Ctwisted_CCW"/>
+              <Subentry Address="0x210B0008" dataType="0001" name="DIS_Rpm1_Left"/>
+              <Subentry Address="0x210C0008" dataType="0001" name="DIS_Rpm2_Right"/>
+              <Subentry Address="0x210D0008" dataType="0001" name="DIS_Service_Bladea"/>
+              <Subentry Address="0x210E0008" dataType="0001" name="DIS_Trafo_BrkTempHigh"/>
+              <Subentry Address="0x210F0008" dataType="0001" name="DIS_Emer_StopNac"/>
+              <Subentry Address="0x21100008" dataType="0001" name="DIS_Emer_StopConv"/>
+              <Subentry Address="0x21110008" dataType="0001" name="DIS_Conv_Overspeed"/>
+              <Subentry Address="0x21120008" dataType="0001" name="DIS_Conv_OK"/>
+              <Subentry Address="0x21130008" dataType="0001" name="DIS_Conv_OperRange"/>
+              <Subentry Address="0x21140008" dataType="0001" name="DIS_Conv_Readyfor"/>
+              <Subentry Address="0x21150008" dataType="0001" name="DIS_Conv_Error"/>
+              <Subentry Address="0x21160008" dataType="0001" name="DIS_Conv_Gridconnec"/>
+              <Subentry Address="0x21170008" dataType="0001" name="DIS_Conv_Griderror"/>
+              <Subentry Address="0x21180008" dataType="0001" name="DIS_Conv_CBtrip"/>
+              <Subentry Address="0x21190008" dataType="0001" name="DIS_Small_Error"/>
+              <Subentry Address="0x211A0008" dataType="0001" name="DIS_Battery_OK"/>
+              <Subentry Address="0x211B0008" dataType="0001" name="DIS_FB_Stormpos"/>
+              <Subentry Address="0x211C0008" dataType="0001" name="DIS_Reduce_Conv"/>
+              <Subentry Address="0x211D0008" dataType="0001" name="DIS_Vibration"/>
+              <Subentry Address="0x211E0008" dataType="0001" name="DIS_Conv_Cold"/>
+              <Subentry Address="0x211F0008" dataType="0001" name="DIS_Hydr_OilLevel"/>
+              <Subentry Address="0x21200008" dataType="0001" name="DIS_LVRT_Input"/>
+            </Entry>
+            <Entry Address="0x2800000C" dataType="0008" name="DIS_shleid">
+            	<Subentry Address="0x2101000C" dataType="0001" name="DIS_Gear_PresDif"/>
+							<Subentry Address="0x2102000C" dataType="0001" name="DIS_Trafo_AlmTempHigh"/>
+							<Subentry Address="0x2103000C" dataType="0001" name="DIS_Gear_OilLevel"/>
+							<Subentry Address="0x2104000C" dataType="0001" name="DIS_WP2035_ROspeed"/>
+							<Subentry Address="0x2105000C" dataType="0001" name="DIS_WP2035_GOspeed"/>
+							<Subentry Address="0x2106000C" dataType="0001" name="DIS_Emer_StopTopbox"/>
+							<Subentry Address="0x2107000C" dataType="0001" name="DIS_Safetychain_FB"/>
+							<Subentry Address="0x2108000C" dataType="0001" name="DIS_Lightn_Prot"/>
+							<Subentry Address="0x2109000C" dataType="0001" name="DIS_Brake_Wornout1"/>
+							<Subentry Address="0x210A000C" dataType="0001" name="DIS_Brake_Wornout2"/>
+							<Subentry Address="0x210B000C" dataType="0001" name="DIS_Power_Upreset"/>
+							<Subentry Address="0x210C000C" dataType="0001" name="DIS_Thermistor"/>
+							<Subentry Address="0x210D000C" dataType="0001" name="DIS_Trafo_TempHigh"/>
+							<Subentry Address="0x210E000C" dataType="0001" name="DIS_Trafo_TempStop"/>
+							<Subentry Address="0x210F000C" dataType="0001" name="DIS_Trafo_LW_Prt"/>
+							<Subentry Address="0x2110000C" dataType="0001" name="DIS_Trafo_HW_Prt"/>
+							<Subentry Address="0x2111000C" dataType="0001" name="DIS_CB_YawM13"/>
+							<Subentry Address="0x2112000C" dataType="0001" name="DIS_CB_YawM24"/>
+							<Subentry Address="0x2113000C" dataType="0001" name="DIS_CB_GFan1"/>
+							<Subentry Address="0x2114000C" dataType="0001" name="DIS_CB_GFan2"/>
+							<Subentry Address="0x2115000C" dataType="0001" name="DIS_CB_GearOilfan"/>
+							<Subentry Address="0x2116000C" dataType="0001" name="DIS_CB_GearPump2"/>
+							<Subentry Address="0x2117000C" dataType="0001" name="DIS_CB_GearPump1"/>
+							<Subentry Address="0x2118000C" dataType="0001" name="DIS_CB_GearHeating"/>
+							<Subentry Address="0x2119000C" dataType="0001" name="DIS_CB_HydrPump"/>
+							<Subentry Address="0x211A000C" dataType="0001" name="DIS_CB_YawBrake"/>
+							<Subentry Address="0x211B000C" dataType="0001" name="DIS_Trafo_LV_Brk_Place"/>
+							<Subentry Address="0x211C000C" dataType="0001" name="DIS_Trafo_HV_Brk_Place"/>
+							<Subentry Address="0x211D000C" dataType="0001" name="DIS_CB_Lubricat"/>
+            </Entry>
+          </EntryBlock>
+
+          <!-- 数字量DO取反定义 -->
+          <EntryBlock Address="0x28000080" name="DO_negate">
+            <Entry Address="0x28000080" dataType="0008" name="DO1_negate">
+              <Subentry Address="0x21010080" dataType="0001" name="DON_Yaw_CW13"/>
+              <Subentry Address="0x21020080" dataType="0001" name="DON_Yaw_CCW13"/>
+              <Subentry Address="0x21030080" dataType="0001" name="DON_Yaw_CW24"/>
+              <Subentry Address="0x21040080" dataType="0001" name="DON_Yaw_CCW24"/>
+              <Subentry Address="0x21050080" dataType="0001" name="DON_Yaw_Brake1"/>
+              <Subentry Address="0x21060080" dataType="0001" name="DON_Yaw_Brakesoft"/>
+              <Subentry Address="0x21070080" dataType="0001" name="DON_GFan1"/>
+              <Subentry Address="0x21080080" dataType="0001" name="DON_GFan2"/>
+              <Subentry Address="0x21090080" dataType="0001" name="DON_Gearoil_Pump2"/>
+              <Subentry Address="0x210A0080" dataType="0001" name="DON_Gearoil_Fan"/>
+              <Subentry Address="0x210B0080" dataType="0001" name="DON_Gearoil_Pump1"/>
+              <Subentry Address="0x210C0080" dataType="0001" name="DON_Gear_Heating"/>
+              <Subentry Address="0x210D0080" dataType="0001" name="DON_Conv_Reseterror"/>
+              <Subentry Address="0x210E0080" dataType="0001" name="DON_Conv_Startexcit"/>
+              <Subentry Address="0x210F0080" dataType="0001" name="DON_Conv_MainconOK"/>
+              <Subentry Address="0x21100080" dataType="0001" name="DON_Conv_Startprod"/>
+              <Subentry Address="0x21110080" dataType="0001" name="DON_Pitchstop_Fast"/>
+              <Subentry Address="0x21120080" dataType="0001" name="DON_Bypass_Limitsw"/>
+              <Subentry Address="0x21130080" dataType="0001" name="DON_Disk_Brake2"/>
+              <Subentry Address="0x21140080" dataType="0001" name="DON_Disk_Brake1"/>
+              <Subentry Address="0x21150080" dataType="0001" name="DON_Hydraulic"/>
+              <Subentry Address="0x21160080" dataType="0001" name="DON_Safetychain"/>
+              <Subentry Address="0x21170080" dataType="0001" name="DON_Heat_Windmea"/>
+              <Subentry Address="0x21180080" dataType="0001" name="DON_GSwitch_Off"/>
+              <Subentry Address="0x21190080" dataType="0001" name="DON_NoErrors"/>
+              <Subentry Address="0x211A0080" dataType="0001" name="DON_GHeating"/>
+              <Subentry Address="0x211B0080" dataType="0001" name="DON_Rotor_Bearlub"/>
+              <Subentry Address="0x211C0080" dataType="0001" name="DON_reserve28"/>
+              <Subentry Address="0x211D0080" dataType="0001" name="DON_LVRT_Output"/>
+              <Subentry Address="0x211E0080" dataType="0001" name="DON_reserve30"/>
+              <Subentry Address="0x211F0080" dataType="0001" name="DON_reserve31"/>
+              <Subentry Address="0x21200080" dataType="0001" name="DON_reserve32"/>
+            </Entry>
+          </EntryBlock>
+          <!-- 数字量DO屏蔽 -->
+          <EntryBlock Address="0x28000084" name="DOS_shield">
+            <Entry Address="0x28000084" dataType="0008" name="DOS1_shield">
+              <Subentry Address="0x21010084" dataType="0001" name="DOS_Yaw_CW13"/>
+              <Subentry Address="0x21020084" dataType="0001" name="DOS_Yaw_CCW13"/>
+              <Subentry Address="0x21030084" dataType="0001" name="DOS_Yaw_CW24"/>
+              <Subentry Address="0x21040084" dataType="0001" name="DOS_Yaw_CCW24"/>
+              <Subentry Address="0x21050084" dataType="0001" name="DOS_Yaw_Brake1"/>
+              <Subentry Address="0x21060084" dataType="0001" name="DOS_Yaw_Brakesoft"/>
+              <Subentry Address="0x21070084" dataType="0001" name="DOS_GFan1"/>
+              <Subentry Address="0x21080084" dataType="0001" name="DOS_GFan2"/>
+              <Subentry Address="0x21090084" dataType="0001" name="DOS_Gearoil_Pump2"/>
+              <Subentry Address="0x210A0084" dataType="0001" name="DOS_Gearoil_Fan"/>
+              <Subentry Address="0x210B0084" dataType="0001" name="DOS_Gearoil_Pump1"/>
+              <Subentry Address="0x210C0084" dataType="0001" name="DOS_Gear_Heating"/>
+              <Subentry Address="0x210D0084" dataType="0001" name="DOS_Conv_Reseterror"/>
+              <Subentry Address="0x210E0084" dataType="0001" name="DOS_Conv_Startexcit"/>
+              <Subentry Address="0x210F0084" dataType="0001" name="DOS_Conv_MainconOK"/>
+              <Subentry Address="0x21100084" dataType="0001" name="DOS_Conv_Startprod"/>
+              <Subentry Address="0x21110084" dataType="0001" name="DOS_Pitchstop_Fast"/>
+              <Subentry Address="0x21120084" dataType="0001" name="DOS_Bypass_Limitsw"/>
+              <Subentry Address="0x21130084" dataType="0001" name="DOS_Disk_Brake2"/>
+              <Subentry Address="0x21140084" dataType="0001" name="DOS_Disk_Brake1"/>
+              <Subentry Address="0x21150084" dataType="0001" name="DOS_Hydraulic"/>
+              <Subentry Address="0x21160084" dataType="0001" name="DOS_Safetychain"/>
+              <Subentry Address="0x21170084" dataType="0001" name="DOS_Heat_Windmea"/>
+              <Subentry Address="0x21180084" dataType="0001" name="DOS_GSwitch_Off"/>
+              <Subentry Address="0x21190084" dataType="0001" name="DOS_NoErrors"/>
+              <Subentry Address="0x211A0084" dataType="0001" name="DOS_GHeating"/>
+              <Subentry Address="0x211B0084" dataType="0001" name="DOS_Rotor_Bearlub"/>
+              <Subentry Address="0x211C0084" dataType="0001" name="DOS_reserve28"/>
+              <Subentry Address="0x211D0084" dataType="0001" name="DOS_LVRT_Output"/>
+              <Subentry Address="0x211E0084" dataType="0001" name="DOS_reserve30"/>
+              <Subentry Address="0x211F0084" dataType="0001" name="DOS_reserve31"/>
+              <Subentry Address="0x21200084" dataType="0001" name="DOS_reserve32"/>
+            </Entry>
+          </EntryBlock>
+
+          <!-- 主控命令定义 -->
+          <EntryBlock Address="0x28000100" name="command">
+            <Entry Address="0x28000100" dataType="0007" name="command_operate">
+              <Subentry Address="0x21010100" dataType="0001" name="Manual_stop"/>
+              <Subentry Address="0x21020100" dataType="0001" name="stop_clear"/>
+              <Subentry Address="0x21030100" dataType="0001" name="quick_start_up"/>
+              <Subentry Address="0x21040100" dataType="0001" name="Conv_Reseterror"/>
+              <Subentry Address="0x21050100" dataType="0001" name="manual_Hydraulic"/>
+              <Subentry Address="0x21060100" dataType="0001" name="manual_Gearoil_Pump"/>
+              <Subentry Address="0x21070100" dataType="0001" name="Start_ManualPit"/>
+              <Subentry Address="0x21080100" dataType="0001" name="Mech_brake"/>
+              <Subentry Address="0x21090100" dataType="0001" name="manualYawCW"/>
+              <Subentry Address="0x210A0100" dataType="0001" name="manualYawCCW"/>
+              <Subentry Address="0x210B0100" dataType="0001" name="debug"/>
+              <Subentry Address="0x210C0100" dataType="0001" name="maintenance"/>
+              <Subentry Address="0x210D0100" dataType="0001" name="repair"/>
+              <Subentry Address="0x210E0100" dataType="0001" name="AorB"/>
+              <Subentry Address="0x210F0100" dataType="0001" name="reset_static"/>
+              <Subentry Address="0x21100100" dataType="0001" name="AP_manage"/>
+              <Subentry Address="0x21110100" dataType="0001" name="RP_manage"/>
+              <Subentry Address="0x21120100" dataType="0001" name="stop_via_comm"/>
+              <Subentry Address="0x21130100" dataType="0001" name="stop_clear_comm"/>
+            </Entry>
+            <Entry Address="0x28000104" dataType="000A" name="AGCSet"/>
+            <Entry Address="0x24000108" dataType="0003" name="AVCSet"/>
+            <Entry Address="0x2800010C" dataType="0003" name="Pitch_Mod"/>
+            <Entry Address="0x2A000110" dataType="0003" name="PitchSpeed_Manual"/>
+            <Entry Address="0x2A000114" dataType="0003" name="PitchAngle_Manual"/>
+            <Entry Address="0x28000118" dataType="0003" name="Torque_Set_manual"/>
+            <Entry Address="0x2400011C" dataType="0003" name="Cable_twist_value_manual"/>
+            <Entry Address="0x28000120" dataType="0003" name="shildPT100"/>
+          </EntryBlock>
+        </EntryList>
+
+        <EntryList Address="0x3A000000" accessType="rw" name="Parameter">
+          <!-- 参数 -->
+          <EntryBlock Address="0x3A000000" name="Para">
+            <Entry Address="0x3A000000" dataType="000A" name="local_add"/>
+            <Entry Address="0x3A000004" dataType="000A" name="PAR_SystemConfig"/>
+            <Entry Address="0x3A000008" dataType="000A" name="para0_3"/>
+            <Entry Address="0x3A00000C" dataType="000A" name="para0_4"/>
+            <Entry Address="0x3A000010" dataType="000A" name="para0_5"/>
+            <Entry Address="0x3A000014" dataType="000A" name="para0_6"/>
+            <Entry Address="0x3A000018" dataType="000A" name="para0_7"/>
+            <Entry Address="0x3A00001C" dataType="000A" name="para0_8"/>
+            <Entry Address="0x3A000020" dataType="000A" name="start_Wind_spd"/>
+            <Entry Address="0x3A000024" dataType="000A" name="Yaw_start_wind_spd"/>
+            <Entry Address="0x3A000028" dataType="000A" name="start_wait_time"/>
+            <Entry Address="0x3A00002C" dataType="000A" name="conect_G_RSpd"/>
+            <Entry Address="0x3A000030" dataType="000A" name="conect_G_RSpd_range"/>
+            <Entry Address="0x3A000034" dataType="000A" name="Conv_Gridconnec_time"/>
+            <Entry Address="0x3A000038" dataType="000A" name="Gridconnec_cut_power1"/>
+            <Entry Address="0x3A00003C" dataType="000A" name="Gridconnec_cut_time1"/>
+            <Entry Address="0x3A000040" dataType="000A" name="Gridconnec_cut_power2"/>
+            <Entry Address="0x3A000044" dataType="000A" name="Gridconnec_cut_time2"/>
+            <Entry Address="0x3A000048" dataType="000A" name="max_Power_ten"/>
+            <Entry Address="0x3A00004C" dataType="000A" name="Peak_rpm"/>
+            <Entry Address="0x3A000050" dataType="000A" name="max_Power"/>
+            <Entry Address="0x3A000054" dataType="000A" name="max_Wind_spd_ten_min"/>
+            <Entry Address="0x3A000058" dataType="000A" name="max_Wind_spd_thir_s"/>
+            <Entry Address="0x3A00005C" dataType="000A" name="max_Wind_spd"/>
+            <Entry Address="0x3A000060" dataType="000A" name="Winddown_spd"/>
+            <Entry Address="0x3A000064" dataType="000A" name="Battery_test_time"/>
+            <Entry Address="0x3A000068" dataType="000A" name="Icewarn_reset_time"/>
+            <Entry Address="0x3A00006C" dataType="000A" name="Frq_conv_powerup_time"/>
+            <Entry Address="0x3A000070" dataType="000A" name="Frq_cnv_time"/>
+            <Entry Address="0x3A000074" dataType="000A" name="Medium_off_time"/>
+            <Entry Address="0x3A000078" dataType="000A" name="Rewind_low_wind"/>
+            <Entry Address="0x3A00007C" dataType="000A" name="Rewind"/>
+            <Entry Address="0x3A000080" dataType="000A" name="Max_cable_twist"/>
+            <Entry Address="0x3A000084" dataType="000A" name="Nord_offset"/>
+            <Entry Address="0x3A000088" dataType="000A" name="Start_yaw_pos_1"/>
+            <Entry Address="0x3A00008C" dataType="000A" name="Start_yaw_pos_2"/>
+            <Entry Address="0x3A000090" dataType="000A" name="Wait_time_yaw_1"/>
+            <Entry Address="0x3A000094" dataType="000A" name="Wait_time_yaw_2"/>
+            <Entry Address="0x3A000098" dataType="000A" name="Stop_yaw_pos"/>
+            <Entry Address="0x3A00009C" dataType="000A" name="Start_yaw_now"/>
+            <Entry Address="0x3A0000A0" dataType="000A" name="Yaw_prog_1_spd"/>
+            <Entry Address="0x3A0000A4" dataType="000A" name="Yaw_prog_2_spd"/>
+            <Entry Address="0x3A0000A8" dataType="000A" name="B1_B2_delay"/>
+            <Entry Address="0x3A0000AC" dataType="000A" name="G_RSpd_rated"/>
+            <Entry Address="0x3A0000B0" dataType="000A" name="Power_rpm"/>
+            <Entry Address="0x3A0000B4" dataType="000A" name="Power_rated"/>
+            <Entry Address="0x3A0000B8" dataType="000A" name="Start_torque"/>
+            <Entry Address="0x3A0000BC" dataType="000A" name="Rated_torque"/>
+            <Entry Address="0x3A0000C0" dataType="000A" name="RPM_measuring"/>
+            <Entry Address="0x3A0000C4" dataType="000A" name="G_safe_rmp"/>
+            <Entry Address="0x3A0000C8" dataType="000A" name="G_safe_time"/>
+            <Entry Address="0x3A0000CC" dataType="000A" name="G_ramp_rmp"/>
+            <Entry Address="0x3A0000D0" dataType="000A" name="max_Tower_resonance"/>
+            <Entry Address="0x3A0000D4" dataType="000A" name="min_Tower_resonance"/>
+            <Entry Address="0x3A0000D8" dataType="000A" name="max_Tower_resonance_time"/>
+            <Entry Address="0x3A0000DC" dataType="000A" name="T_safe_time"/>
+            <Entry Address="0x3A0000E0" dataType="000A" name="max_Freewheel_time"/>
+            <Entry Address="0x3A0000E4" dataType="000A" name="Rampend1"/>
+            <Entry Address="0x3A0000E8" dataType="000A" name="Rampspeed1"/>
+            <Entry Address="0x3A0000EC" dataType="000A" name="Rampend2"/>
+            <Entry Address="0x3A0000F0" dataType="000A" name="Rampspeed2"/>
+            <Entry Address="0x3A0000F4" dataType="000A" name="start_ramp"/>
+            <Entry Address="0x3A0000F8" dataType="000A" name="Rampend"/>
+            <Entry Address="0x3A0000FC" dataType="000A" name="Torque_out_4mA"/>
+            <Entry Address="0x3A000100" dataType="000A" name="Torque_out_20mA"/>
+            <Entry Address="0x3A000104" dataType="000A" name="Torque_in_4mA"/>
+            <Entry Address="0x3A000108" dataType="000A" name="Torque_in_20mA"/>
+            <Entry Address="0x3A00010C" dataType="000A" name="Frq_con_4mA"/>
+            <Entry Address="0x3A000110" dataType="000A" name="Frq_con_20mA"/>
+            <Entry Address="0x3A000114" dataType="000A" name="Pitch_max"/>
+            <Entry Address="0x3A000118" dataType="000A" name="Pitch_min"/>
+            <Entry Address="0x3A00011C" dataType="000A" name="Pos_reached_win"/>
+            <Entry Address="0x3A000120" dataType="000A" name="max_Dif_sys"/>
+            <Entry Address="0x3A000124" dataType="000A" name="Max_reactionerr"/>
+            <Entry Address="0x3A000128" dataType="000A" name="max_Running_ang"/>
+            <Entry Address="0x3A00012C" dataType="000A" name="Pitch_end_time"/>
+            <Entry Address="0x3A000130" dataType="000A" name="max_Pitch_current"/>
+            <Entry Address="0x3A000134" dataType="000A" name="B50_pitch_angle"/>
+            <Entry Address="0x3A000138" dataType="000A" name="Torque_cut_G_RSpd"/>
+            <Entry Address="0x3A00013C" dataType="000A" name="Torque_ramp_time"/>
+            <Entry Address="0x3A000140" dataType="000A" name="BP_pitch_slow_angel"/>
+            <Entry Address="0x3A000144" dataType="000A" name="BP_pitchslow"/>
+            <Entry Address="0x3A000148" dataType="000A" name="B50_slow_angel_range"/>
+            <Entry Address="0x3A00014C" dataType="000A" name="min_B50_pitch_slow_spd"/>
+            <Entry Address="0x3A000150" dataType="000A" name="B60_slow_angel_range"/>
+            <Entry Address="0x3A000154" dataType="000A" name="min_B60_pitch_slow_spd"/>
+            <Entry Address="0x3A000158" dataType="000A" name="B75_pitch_spd"/>
+            <Entry Address="0x3A00015C" dataType="000A" name="B75_B180_slow_angel_range"/>
+            <Entry Address="0x3A000160" dataType="000A" name="min_B180P_spd"/>
+            <Entry Address="0x3A000164" dataType="000A" name="Offset_1"/>
+            <Entry Address="0x3A000168" dataType="000A" name="Offset_2"/>
+            <Entry Address="0x3A00016C" dataType="000A" name="Offset_3"/>
+            <Entry Address="0x3A000170" dataType="000A" name="Pitch_stop_time"/>
+            <Entry Address="0x3A000174" dataType="000A" name="Pitch_interval"/>
+            <Entry Address="0x3A000178" dataType="000A" name="Pitch_PID_KP"/>
+            <Entry Address="0x3A00017C" dataType="000A" name="Pitch_PID_KI"/>
+            <Entry Address="0x3A000180" dataType="000A" name="Pitch_PID_KD"/>
+            <Entry Address="0x3A000184" dataType="000A" name="pitch_min_rate"/>
+            <Entry Address="0x3A000188" dataType="000A" name="pitch_max_rate"/>
+            <Entry Address="0x3A00018C" dataType="000A" name="low_wsp_rpm_1"/>
+            <Entry Address="0x3A000190" dataType="000A" name="low_wsp_Troque_1"/>
+            <Entry Address="0x3A000194" dataType="000A" name="low_wsp_rpm_2"/>
+            <Entry Address="0x3A000198" dataType="000A" name="low_wsp_Troque_2"/>
+            <Entry Address="0x3A00019C" dataType="000A" name="low_wsp_rpm_3"/>
+            <Entry Address="0x3A0001A0" dataType="000A" name="low_wsp_Troque_3"/>
+            <Entry Address="0x3A0001A4" dataType="000A" name="low_wsp_rpm_4"/>
+            <Entry Address="0x3A0001A8" dataType="000A" name="low_wsp_Troque_4"/>
+            <Entry Address="0x3A0001AC" dataType="000A" name="low_wsp_rpm_5"/>
+            <Entry Address="0x3A0001B0" dataType="000A" name="low_wsp_Troque_5"/>
+            <Entry Address="0x3A0001B4" dataType="000A" name="low_wsp_rpm_6"/>
+            <Entry Address="0x3A0001B8" dataType="000A" name="low_wsp_Troque_6"/>
+            <Entry Address="0x3A0001BC" dataType="000A" name="low_wsp_rpm_7"/>
+            <Entry Address="0x3A0001C0" dataType="000A" name="low_wsp_Troque_7"/>
+            <Entry Address="0x3A0001C4" dataType="000A" name="low_wsp_rpm_8"/>
+            <Entry Address="0x3A0001C8" dataType="000A" name="low_wsp_Troque_8"/>
+            <Entry Address="0x3A0001CC" dataType="000A" name="low_wsp_rpm_9"/>
+            <Entry Address="0x3A0001D0" dataType="000A" name="low_wsp_Troque_9"/>
+            <Entry Address="0x3A0001D4" dataType="000A" name="low_wsp_rpm_10"/>
+            <Entry Address="0x3A0001D8" dataType="000A" name="low_wsp_Troque_10"/>
+            <Entry Address="0x3A0001DC" dataType="000A" name="low_wsp_rpm_11"/>
+            <Entry Address="0x3A0001E0" dataType="000A" name="low_wsp_Troque_11"/>
+            <Entry Address="0x3A0001E4" dataType="000A" name="pitsangle1"/>
+            <Entry Address="0x3A0001E8" dataType="000A" name="gskgain1"/>
+            <Entry Address="0x3A0001EC" dataType="000A" name="pitsangle2"/>
+            <Entry Address="0x3A0001F0" dataType="000A" name="gskgain2"/>
+            <Entry Address="0x3A0001F4" dataType="000A" name="pitsangle3"/>
+            <Entry Address="0x3A0001F8" dataType="000A" name="gskgain3"/>
+            <Entry Address="0x3A0001FC" dataType="000A" name="pitsangle4"/>
+            <Entry Address="0x3A000200" dataType="000A" name="gskgain4"/>
+            <Entry Address="0x3A000204" dataType="000A" name="Torq_erro_1686"/>
+            <Entry Address="0x3A000208" dataType="000A" name="Torq_acc_1686"/>
+            <Entry Address="0x3A00020C" dataType="000A" name="Set_delay_1687"/>
+            <Entry Address="0x3A000210" dataType="000A" name="Torq_acc_1687"/>
+            <Entry Address="0x3A000214" dataType="000A" name="Set_delay_1688"/>
+            <Entry Address="0x3A000218" dataType="000A" name="min_Hyd_pres"/>
+            <Entry Address="0x3A00021C" dataType="000A" name="max_Hyd_pres"/>
+            <Entry Address="0x3A000220" dataType="000A" name="max_min_Hyd_test_time"/>
+            <Entry Address="0x3A000224" dataType="000A" name="P_Start_Hyd_Pump"/>
+            <Entry Address="0x3A000228" dataType="000A" name="P_Stop_Hyd_Pump"/>
+            <Entry Address="0x3A00022C" dataType="000A" name="max_start_Hyd_time"/>
+            <Entry Address="0x3A000230" dataType="000A" name="min_start_Hyd_time"/>
+            <Entry Address="0x3A000234" dataType="000A" name="P_Oil_pump_on_rpm"/>
+            <Entry Address="0x3A000238" dataType="000A" name="P_Oil_pump_interv"/>
+            <Entry Address="0x3A00023C" dataType="000A" name="P_Oil_pump_pause"/>
+            <Entry Address="0x3A000240" dataType="000A" name="Rotor_lub_OFF_set"/>
+            <Entry Address="0x3A000244" dataType="000A" name="Rotor_lub_ON_set"/>
+            <Entry Address="0x3A000248" dataType="000A" name="Gear_in_tst"/>
+            <Entry Address="0x3A00024C" dataType="000A" name="Gear_test"/>
+            <Entry Address="0x3A000250" dataType="000A" name="Gear_in_test"/>
+            <Entry Address="0x3A000254" dataType="000A" name="Gear_in_20mA"/>
+            <Entry Address="0x3A000258" dataType="000A" name="Low_gear_oil_set"/>
+            <Entry Address="0x3A00025C" dataType="000A" name="P_Mech_pump"/>
+            <Entry Address="0x3A000260" dataType="000A" name="P_Epump_on_pre"/>
+            <Entry Address="0x3A000264" dataType="000A" name="P_Epump_off_pre"/>
+            <Entry Address="0x3A000268" dataType="000A" name="P_Epump_on_tmp"/>
+            <Entry Address="0x3A00026C" dataType="000A" name="P_Epump_off_tmp"/>
+            <Entry Address="0x3A000270" dataType="000A" name="Voltage_phase_diff"/>
+            <Entry Address="0x3A000274" dataType="000A" name="L1_L2_L3_diff"/>
+            <Entry Address="0x3A000278" dataType="000A" name="I1_I2_I3_diff"/>
+            <Entry Address="0x3A00027C" dataType="000A" name="nom_Grid_volt"/>
+            <Entry Address="0x3A000280" dataType="000A" name="min_Grid_volt"/>
+            <Entry Address="0x3A000284" dataType="000A" name="min_Grid_volt_test_time"/>
+            <Entry Address="0x3A000288" dataType="000A" name="max_Grid_volt"/>
+            <Entry Address="0x3A00028C" dataType="000A" name="max_Grid_volt_test_time"/>
+            <Entry Address="0x3A000290" dataType="000A" name="nom_Grid_freq"/>
+            <Entry Address="0x3A000294" dataType="000A" name="min_Grid_freq"/>
+            <Entry Address="0x3A000298" dataType="000A" name="min_Grid_freq_test_time"/>
+            <Entry Address="0x3A00029C" dataType="000A" name="max_Grid_freq"/>
+            <Entry Address="0x3A0002A0" dataType="000A" name="max_Grid_freq_test_time"/>
+            <Entry Address="0x3A0002A4" dataType="000A" name="P_MinGridFreq"/>
+            <Entry Address="0x3A0002A8" dataType="000A" name="P_MinGridFreqTime"/>
+            <Entry Address="0x3A0002AC" dataType="000A" name="P_MaxGridFreq"/>
+            <Entry Address="0x3A0002B0" dataType="000A" name="P_MaxGridFreqTime"/>
+            <Entry Address="0x3A0002B4" dataType="000A" name="PW_test_Wind_spd"/>
+            <Entry Address="0x3A0002B8" dataType="000A" name="power_PW_test"/>
+            <Entry Address="0x3A0002BC" dataType="000A" name="power_PW_test_ratio"/>
+            <Entry Address="0x3A0002C0" dataType="000A" name="Fast_Cut_Out"/>
+            <Entry Address="0x3A0002C4" dataType="000A" name="Griddrop_reset"/>
+            <Entry Address="0x3A0002C8" dataType="000A" name="G_transient"/>
+            <Entry Address="0x3A0002CC" dataType="000A" name="Transient_m"/>
+            <Entry Address="0x3A0002D0" dataType="000A" name="no_Grid_Un"/>
+            <Entry Address="0x3A0002D4" dataType="000A" name="critical_Grid_freq"/>
+            <Entry Address="0x3A0002D8" dataType="000A" name="Rated_cosphi"/>
+            <Entry Address="0x3A0002DC" dataType="000A" name="Powerman_enable"/>
+            <Entry Address="0x3A0002E0" dataType="000A" name="vP_factor"/>
+            <Entry Address="0x3A0002E4" dataType="000A" name="Phi_mode_x"/>
+            <Entry Address="0x3A0002E8" dataType="000A" name="Convertertype_x"/>
+            <Entry Address="0x3A0002EC" dataType="000A" name="Angle_Phi_set"/>
+            <Entry Address="0x3A0002F0" dataType="000A" name="R_Pulses"/>
+            <Entry Address="0x3A0002F4" dataType="000A" name="max_Rotor_rpm"/>
+            <Entry Address="0x3A0002F8" dataType="000A" name="max_Gen_rpm"/>
+            <Entry Address="0x3A0002FC" dataType="000A" name="max_Gear_rpm"/>
+            <Entry Address="0x3A000300" dataType="000A" name="Gener_Rotor_contrast"/>
+            <Entry Address="0x3A000304" dataType="000A" name="Gen_Pulses"/>
+            <Entry Address="0x3A000308" dataType="000A" name="Gear_Pulses"/>
+            <Entry Address="0x3A00030C" dataType="000A" name="Rotor_m_B200"/>
+            <Entry Address="0x3A000310" dataType="000A" name="Gear_m_B200"/>
+            <Entry Address="0x3A000314" dataType="000A" name="Windvane_offs_1"/>
+            <Entry Address="0x3A000318" dataType="000A" name="Ane1_offset"/>
+            <Entry Address="0x3A00031C" dataType="000A" name="Ane1_Gain"/>
+            <Entry Address="0x3A000320" dataType="000A" name="Windvane_offs_2"/>
+            <Entry Address="0x3A000324" dataType="000A" name="Ane2_offset"/>
+            <Entry Address="0x3A000328" dataType="000A" name="Ane2_Gain"/>
+            <Entry Address="0x3A00032C" dataType="000A" name="Reset_delay_210"/>
+            <Entry Address="0x3A000330" dataType="000A" name="Reset_delay_214"/>
+            <Entry Address="0x3A000334" dataType="000A" name="Set_stat_1327_tem"/>
+            <Entry Address="0x3A000338" dataType="000A" name="Clr_stat_1327_tem"/>
+            <Entry Address="0x3A00033C" dataType="000A" name="Set_stat_1328_tem"/>
+            <Entry Address="0x3A000340" dataType="000A" name="Clr_stat_1328_tem"/>
+            <Entry Address="0x3A000344" dataType="000A" name="P_Heat_pump_on_tmp"/>
+            <Entry Address="0x3A000348" dataType="000A" name="P_Heat_pump_off_tmp"/>
+            <Entry Address="0x3A00034C" dataType="000A" name="P_GearB1Vent_on_temp"/>
+            <Entry Address="0x3A000350" dataType="000A" name="P_GearB1Vent_off_temp"/>
+            <Entry Address="0x3A000354" dataType="000A" name="P_Sec_pump_on_tmp"/>
+            <Entry Address="0x3A000358" dataType="000A" name="P_Sec_pump_off_tmp"/>
+            <Entry Address="0x3A00035C" dataType="000A" name="Power_reduce_tem"/>
+            <Entry Address="0x3A000360" dataType="000A" name="Power_reduce_rmp"/>
+            <Entry Address="0x3A000364" dataType="000A" name="Setstat_1323_tem"/>
+            <Entry Address="0x3A000368" dataType="000A" name="Clrstat_1323_tem"/>
+            <Entry Address="0x3A00036C" dataType="000A" name="Setstat_1324_tem"/>
+            <Entry Address="0x3A000370" dataType="000A" name="P_GearOVent_on_temp"/>
+            <Entry Address="0x3A000374" dataType="000A" name="P_GearOVent_off_temp"/>
+            <Entry Address="0x3A000378" dataType="000A" name="Setstat_526_tem"/>
+            <Entry Address="0x3A00037C" dataType="000A" name="Clrstat_526_tem"/>
+            <Entry Address="0x3A000380" dataType="000A" name="Setstat_527_tem"/>
+            <Entry Address="0x3A000384" dataType="000A" name="Setstat_528_tem"/>
+            <Entry Address="0x3A000388" dataType="000A" name="Clrstat_528_tem"/>
+            <Entry Address="0x3A00038C" dataType="000A" name="Setstat_529_tem"/>
+            <Entry Address="0x3A000390" dataType="000A" name="Setstat_513_tem"/>
+            <Entry Address="0x3A000394" dataType="000A" name="Clrstat_513_tem"/>
+            <Entry Address="0x3A000398" dataType="000A" name="Setstat_514_tem"/>
+            <Entry Address="0x3A00039C" dataType="000A" name="Clrstat_514_tem"/>
+            <Entry Address="0x3A0003A0" dataType="000A" name="P_GVent_on_temp"/>
+            <Entry Address="0x3A0003A4" dataType="000A" name="P_GVent_off_temp"/>
+            <Entry Address="0x3A0003A8" dataType="000A" name="P_GVent2_on_temp"/>
+            <Entry Address="0x3A0003AC" dataType="000A" name="P_GVent2_off_temp"/>
+            <Entry Address="0x3A0003B0" dataType="000A" name="Powerreduce_tem"/>
+            <Entry Address="0x3A0003B4" dataType="000A" name="Powerreduce_rmp"/>
+            <Entry Address="0x3A0003B8" dataType="000A" name="Setstat_1499_tem"/>
+            <Entry Address="0x3A0003BC" dataType="000A" name="Clrstat_1499_tem"/>
+            <Entry Address="0x3A0003C0" dataType="000A" name="Setstat_1325_tem"/>
+            <Entry Address="0x3A0003C4" dataType="000A" name="Clrstat_1325_tem"/>
+            <Entry Address="0x3A0003C8" dataType="000A" name="Setstat_1326_tem"/>
+            <Entry Address="0x3A0003CC" dataType="000A" name="P_GearOVent2_on_temp"/>
+            <Entry Address="0x3A0003D0" dataType="000A" name="P_GearOVent2_off_temp"/>
+            <Entry Address="0x3A0003D4" dataType="000A" name="Setstat_200_tem"/>
+            <Entry Address="0x3A0003D8" dataType="000A" name="Clrstat_200_tem"/>
+            <Entry Address="0x3A0003DC" dataType="000A" name="Setstat_201_tem"/>
+            <Entry Address="0x3A0003E0" dataType="000A" name="Clrstat_201_tem"/>
+            <Entry Address="0x3A0003E4" dataType="000A" name="windvane_Heating_on"/>
+            <Entry Address="0x3A0003E8" dataType="000A" name="windvane_Heating_off"/>
+            <Entry Address="0x3A0003EC" dataType="000A" name="Setstat_30_tem"/>
+            <Entry Address="0x3A0003F0" dataType="000A" name="Clrstat_30_tem"/>
+            <Entry Address="0x3A0003F4" dataType="000A" name="Setstat_31_tem"/>
+            <Entry Address="0x3A0003F8" dataType="000A" name="P_Cool_Nac_temp"/>
+            <Entry Address="0x3A0003FC" dataType="000A" name="P_no_Cool_Nac_temp"/>
+            <Entry Address="0x3A000400" dataType="000A" name="Setstat_1713_tem"/>
+            <Entry Address="0x3A000404" dataType="000A" name="Clrstat_1713_tem"/>
+            <Entry Address="0x3A000408" dataType="000A" name="Setstat_1714_tem"/>
+            <Entry Address="0x3A00040C" dataType="000A" name="Setstat_1147_tem"/>
+            <Entry Address="0x3A000410" dataType="000A" name="Clrstat_1147_tem"/>
+            <Entry Address="0x3A000414" dataType="000A" name="Setstat_1148_tem"/>
+            <Entry Address="0x3A000418" dataType="000A" name="Clrstat_1148_tem"/>
+            <Entry Address="0x3A00041C" dataType="000A" name="Setstat_1149_tem"/>
+            <Entry Address="0x3A000420" dataType="000A" name="Clrstat_1149_tem"/>
+            <Entry Address="0x3A000424" dataType="000A" name="Setstat_1198_tem"/>
+            <Entry Address="0x3A000428" dataType="000A" name="Clrstat_1198_tem"/>
+            <Entry Address="0x3A00042C" dataType="000A" name="Centerfreq_A_1"/>
+            <Entry Address="0x3A000430" dataType="000A" name="Centerfreq_B_1"/>
+            <Entry Address="0x3A000434" dataType="000A" name="Bandwidth_A_1"/>
+            <Entry Address="0x3A000438" dataType="000A" name="Bandwidth_B_1"/>
+            <Entry Address="0x3A00043C" dataType="000A" name="Alarmthresh_A_1"/>
+            <Entry Address="0x3A000440" dataType="000A" name="Stopthresh_A_1"/>
+            <Entry Address="0x3A000444" dataType="000A" name="Alarmthresh_B_1"/>
+            <Entry Address="0x3A000448" dataType="000A" name="Stopthresh_B_1"/>
+            <Entry Address="0x3A00044C" dataType="000A" name="Alarm_delay_A_1"/>
+            <Entry Address="0x3A000450" dataType="000A" name="Stop_delay_A_1"/>
+            <Entry Address="0x3A000454" dataType="000A" name="Alarm_delay_B_1"/>
+            <Entry Address="0x3A000458" dataType="000A" name="Stop_delay_B_1"/>
+            <Entry Address="0x3A00045C" dataType="000A" name="Centerfreq_A_2"/>
+            <Entry Address="0x3A000460" dataType="000A" name="Centerfreq_B_2"/>
+            <Entry Address="0x3A000464" dataType="000A" name="Bandwidth_A_2"/>
+            <Entry Address="0x3A000468" dataType="000A" name="Bandwidth_B_2"/>
+            <Entry Address="0x3A00046C" dataType="000A" name="Alarmthresh_A_2"/>
+            <Entry Address="0x3A000470" dataType="000A" name="Stopthresh_A_2"/>
+            <Entry Address="0x3A000474" dataType="000A" name="Alarmthresh_B_2"/>
+            <Entry Address="0x3A000478" dataType="000A" name="Stopthresh_B_2"/>
+            <Entry Address="0x3A00047C" dataType="000A" name="Alarm_delay_A_2"/>
+            <Entry Address="0x3A000480" dataType="000A" name="Stop_delay_A_2"/>
+            <Entry Address="0x3A000484" dataType="000A" name="Alarm_delay_B_2"/>
+            <Entry Address="0x3A000488" dataType="000A" name="Stop_delay_B_2"/>
+            <Entry Address="0x3A00048C" dataType="000A" name="EnPowerManage"/>
+            <Entry Address="0x3A000490" dataType="000A" name="par_IdleSpeed"/>
+            <Entry Address="0x3A000494" dataType="000A" name="par_GearOilHeatIdleTime"/>
+            <Entry Address="0x3A000498" dataType="000A" name="par_LVRTinputType"/>
+            <Entry Address="0x3A00049C" dataType="000A" name="par_Kopt0"/>
+            <Entry Address="0x3A0004A0" dataType="000A" name="par_Altitude"/>
+            <Entry Address="0x3A0004A4" dataType="000A" name="par_TipWind1"/>
+            <Entry Address="0x3A0004A8" dataType="000A" name="par_TipWind2"/>
+            <Entry Address="0x3A0004AC" dataType="000A" name="par_TipWind3"/>
+            <Entry Address="0x3A0004B0" dataType="000A" name="par_TipWind4"/>
+            <Entry Address="0x3A0004B4" dataType="000A" name="par_TipPitch1"/>
+            <Entry Address="0x3A0004B8" dataType="000A" name="par_TipPitch2"/>
+            <Entry Address="0x3A0004BC" dataType="000A" name="par_TipPitch3"/>
+            <Entry Address="0x3A0004C0" dataType="000A" name="par_TipPitch4"/>
+          </EntryBlock>
+          
+          <!-- 故障屏蔽 -->
+          <EntryBlock Address="0x38001000" name="SCSra">
+            <Entry Address="0x38001000" dataType="0008" name="SCS_0">
+              <Subentry Address="0x31011000" dataType="0001" name="shield_stopB200_1"/>
+              <Subentry Address="0x31021000" dataType="0001" name="shield_stopB200_2"/>
+              <Subentry Address="0x31031000" dataType="0001" name="shield_stopB200_3"/>
+              <Subentry Address="0x31041000" dataType="0001" name="shield_stopB200_4"/>
+              <Subentry Address="0x31051000" dataType="0001" name="shield_stopB200_5"/>
+              <Subentry Address="0x31061000" dataType="0001" name="shield_stopB200_6"/>
+              <Subentry Address="0x31071000" dataType="0001" name="shield_stopB200_7"/>
+              <Subentry Address="0x31081000" dataType="0001" name="shield_stopB200_8"/>
+            </Entry>
+            <Entry Address="0x38001004" dataType="0008" name="SCS_1">
+              <Subentry Address="0x31011004" dataType="0001" name="shield_stopB200_9"/>
+              <Subentry Address="0x31021004" dataType="0001" name="shield_stopB200_10"/>
+              <Subentry Address="0x31031004" dataType="0001" name="shield_stopB200_11"/>
+              <Subentry Address="0x31041004" dataType="0001" name="shield_stopB200_12"/>
+              <Subentry Address="0x31051004" dataType="0001" name="shield_stopB200_13"/>
+              <Subentry Address="0x31061004" dataType="0001" name="shield_stopB200_14"/>
+              <Subentry Address="0x31071004" dataType="0001" name="shield_stopB200_15"/>
+              <Subentry Address="0x31081004" dataType="0001" name="shield_stopB200_16"/>
+            </Entry>
+            <Entry Address="0x38001008" dataType="0008" name="SCS_2">
+              <Subentry Address="0x31011008" dataType="0001" name="shield_stopB190_1"/>
+              <Subentry Address="0x31021008" dataType="0001" name="shield_stopB190_2"/>
+              <Subentry Address="0x31031008" dataType="0001" name="shield_stopB190_3"/>
+              <Subentry Address="0x31041008" dataType="0001" name="shield_stopB190_4"/>
+              <Subentry Address="0x31051008" dataType="0001" name="shield_stopB190_5"/>
+              <Subentry Address="0x31061008" dataType="0001" name="shield_stopB190_6"/>
+              <Subentry Address="0x31071008" dataType="0001" name="shield_stopB190_7"/>
+              <Subentry Address="0x31081008" dataType="0001" name="shield_stopB190_8"/>
+            </Entry>
+            <Entry Address="0x3800100C" dataType="0008" name="SCS_3">
+              <Subentry Address="0x3101100C" dataType="0001" name="shield_stopB180_1"/>
+              <Subentry Address="0x3102100C" dataType="0001" name="shield_stopB180_2"/>
+              <Subentry Address="0x3103100C" dataType="0001" name="shield_stopB180_3"/>
+              <Subentry Address="0x3104100C" dataType="0001" name="shield_stopB180_4"/>
+              <Subentry Address="0x3105100C" dataType="0001" name="shield_stopB180_5"/>
+              <Subentry Address="0x3106100C" dataType="0001" name="shield_stopB180_6"/>
+              <Subentry Address="0x3107100C" dataType="0001" name="shield_stopB180_7"/>
+              <Subentry Address="0x3108100C" dataType="0001" name="shield_stopB180_8"/>
+            </Entry>
+            <Entry Address="0x38001010" dataType="0008" name="SCS_4">
+              <Subentry Address="0x31011010" dataType="0001" name="shield_stopB180_9"/>
+              <Subentry Address="0x31021010" dataType="0001" name="shield_stopB180_10"/>
+              <Subentry Address="0x31031010" dataType="0001" name="shield_stopB180_11"/>
+              <Subentry Address="0x31041010" dataType="0001" name="shield_stopB180_12"/>
+              <Subentry Address="0x31051010" dataType="0001" name="shield_stopB180_13"/>
+              <Subentry Address="0x31061010" dataType="0001" name="shield_stopB180_14"/>
+              <Subentry Address="0x31071010" dataType="0001" name="shield_stopB180_15"/>
+              <Subentry Address="0x31081010" dataType="0001" name="shield_stopB180_16"/>
+            </Entry>
+            <Entry Address="0x38001014" dataType="0008" name="SCS_5">
+              <Subentry Address="0x31011014" dataType="0001" name="shield_stopB180_17"/>
+              <Subentry Address="0x31021014" dataType="0001" name="shield_stopB180_18"/>
+              <Subentry Address="0x31031014" dataType="0001" name="shield_stopB180_19"/>
+              <Subentry Address="0x31041014" dataType="0001" name="shield_stopB180_20"/>
+              <Subentry Address="0x31051014" dataType="0001" name="shield_stopB180_21"/>
+              <Subentry Address="0x31061014" dataType="0001" name="shield_stopB180_22"/>
+              <Subentry Address="0x31071014" dataType="0001" name="shield_stopB180_23"/>
+              <Subentry Address="0x31081014" dataType="0001" name="shield_stopB180_24"/>
+            </Entry>
+            <Entry Address="0x38001018" dataType="0008" name="SCS_6">
+              <Subentry Address="0x31011018" dataType="0001" name="shield_stopB75_1"/>
+              <Subentry Address="0x31021018" dataType="0001" name="shield_stopB75_2"/>
+              <Subentry Address="0x31031018" dataType="0001" name="shield_stopB75_3"/>
+              <Subentry Address="0x31041018" dataType="0001" name="shield_stopB75_4"/>
+              <Subentry Address="0x31051018" dataType="0001" name="shield_stopB75_5"/>
+              <Subentry Address="0x31061018" dataType="0001" name="shield_stopB75_6"/>
+              <Subentry Address="0x31071018" dataType="0001" name="shield_stopB75_7"/>
+              <Subentry Address="0x31081018" dataType="0001" name="shield_stopB75_8"/>
+            </Entry>
+            <Entry Address="0x3800101C" dataType="0008" name="SCS_7">
+              <Subentry Address="0x3101101C" dataType="0001" name="shield_stopB75_9"/>
+              <Subentry Address="0x3102101C" dataType="0001" name="shield_stopB75_10"/>
+              <Subentry Address="0x3103101C" dataType="0001" name="shield_stopB75_11"/>
+              <Subentry Address="0x3104101C" dataType="0001" name="shield_stopB75_12"/>
+              <Subentry Address="0x3105101C" dataType="0001" name="shield_stopB75_13"/>
+              <Subentry Address="0x3106101C" dataType="0001" name="shield_stopB75_14"/>
+              <Subentry Address="0x3107101C" dataType="0001" name="shield_stopB75_15"/>
+              <Subentry Address="0x3108101C" dataType="0001" name="shield_stopB75_16"/>
+            </Entry>
+            <Entry Address="0x38001020" dataType="0008" name="SCS_8">
+              <Subentry Address="0x31011020" dataType="0001" name="shield_stopB60_1"/>
+              <Subentry Address="0x31021020" dataType="0001" name="shield_stopB60_2"/>
+              <Subentry Address="0x31031020" dataType="0001" name="shield_stopB60_3"/>
+              <Subentry Address="0x31041020" dataType="0001" name="shield_stopB60_4"/>
+              <Subentry Address="0x31051020" dataType="0001" name="shield_stopB60_5"/>
+              <Subentry Address="0x31061020" dataType="0001" name="shield_stopB60_6"/>
+              <Subentry Address="0x31071020" dataType="0001" name="shield_stopB60_7"/>
+              <Subentry Address="0x31081020" dataType="0001" name="shield_stopB60_8"/>
+            </Entry>
+            <Entry Address="0x38001024" dataType="0008" name="SCS_9">
+              <Subentry Address="0x31011024" dataType="0001" name="shield_stopB52_1"/>
+              <Subentry Address="0x31021024" dataType="0001" name="shield_stopB52_2"/>
+              <Subentry Address="0x31031024" dataType="0001" name="shield_stopB52_3"/>
+              <Subentry Address="0x31041024" dataType="0001" name="shield_stopB52_4"/>
+              <Subentry Address="0x31051024" dataType="0001" name="shield_stopB52_5"/>
+              <Subentry Address="0x31061024" dataType="0001" name="shield_stopB52_6"/>
+              <Subentry Address="0x31071024" dataType="0001" name="shield_stopB52_7"/>
+              <Subentry Address="0x31081024" dataType="0001" name="shield_stopB52_8"/>
+            </Entry>
+            <Entry Address="0x38001028" dataType="0008" name="SCS_10">
+              <Subentry Address="0x31011028" dataType="0001" name="shield_stopB52_9"/>
+              <Subentry Address="0x31021028" dataType="0001" name="shield_stopB52_10"/>
+              <Subentry Address="0x31031028" dataType="0001" name="shield_stopB52_11"/>
+              <Subentry Address="0x31041028" dataType="0001" name="shield_stopB52_12"/>
+              <Subentry Address="0x31051028" dataType="0001" name="shield_stopB52_13"/>
+              <Subentry Address="0x31061028" dataType="0001" name="shield_stopB52_14"/>
+              <Subentry Address="0x31071028" dataType="0001" name="shield_stopB52_15"/>
+              <Subentry Address="0x31081028" dataType="0001" name="shield_stopB52_16"/>
+            </Entry>
+            <Entry Address="0x3800102C" dataType="0008" name="SCS_11">
+              <Subentry Address="0x3101102C" dataType="0001" name="shield_stopB52_17"/>
+              <Subentry Address="0x3102102C" dataType="0001" name="shield_stopB52_18"/>
+              <Subentry Address="0x3103102C" dataType="0001" name="shield_stopB52_19"/>
+              <Subentry Address="0x3104102C" dataType="0001" name="shield_stopB52_20"/>
+              <Subentry Address="0x3105102C" dataType="0001" name="shield_stopB52_21"/>
+              <Subentry Address="0x3106102C" dataType="0001" name="shield_stopB52_22"/>
+              <Subentry Address="0x3107102C" dataType="0001" name="shield_stopB52_23"/>
+              <Subentry Address="0x3108102C" dataType="0001" name="shield_stopB52_24"/>
+            </Entry>
+            <Entry Address="0x38001030" dataType="0008" name="SCS_12">
+              <Subentry Address="0x31011030" dataType="0001" name="shield_stopB52_25"/>
+              <Subentry Address="0x31021030" dataType="0001" name="shield_stopB52_26"/>
+              <Subentry Address="0x31031030" dataType="0001" name="shield_stopB52_27"/>
+              <Subentry Address="0x31041030" dataType="0001" name="shield_stopB52_28"/>
+              <Subentry Address="0x31051030" dataType="0001" name="shield_stopB52_29"/>
+              <Subentry Address="0x31061030" dataType="0001" name="shield_stopB52_30"/>
+              <Subentry Address="0x31071030" dataType="0001" name="shield_stopB52_31"/>
+              <Subentry Address="0x31081030" dataType="0001" name="shield_stopB52_32"/>
+            </Entry>
+            <Entry Address="0x38001034" dataType="0008" name="SCS_13">
+              <Subentry Address="0x31011034" dataType="0001" name="shield_stopB52_33"/>
+              <Subentry Address="0x31021034" dataType="0001" name="shield_stopB52_34"/>
+              <Subentry Address="0x31031034" dataType="0001" name="shield_stopB52_35"/>
+              <Subentry Address="0x31041034" dataType="0001" name="shield_stopB52_36"/>
+              <Subentry Address="0x31051034" dataType="0001" name="shield_stopB52_37"/>
+              <Subentry Address="0x31061034" dataType="0001" name="shield_stopB52_38"/>
+              <Subentry Address="0x31071034" dataType="0001" name="shield_stopB52_39"/>
+              <Subentry Address="0x31081034" dataType="0001" name="shield_stopB52_40"/>
+            </Entry>
+            <Entry Address="0x38001038" dataType="0008" name="SCS_14">
+              <Subentry Address="0x31011038" dataType="0001" name="shield_stopB52_41"/>
+              <Subentry Address="0x31021038" dataType="0001" name="shield_stopB52_42"/>
+              <Subentry Address="0x31031038" dataType="0001" name="shield_stopB52_43"/>
+              <Subentry Address="0x31041038" dataType="0001" name="shield_stopB52_44"/>
+              <Subentry Address="0x31051038" dataType="0001" name="shield_stopB52_45"/>
+              <Subentry Address="0x31061038" dataType="0001" name="shield_stopB52_46"/>
+              <Subentry Address="0x31071038" dataType="0001" name="shield_stopB52_47"/>
+              <Subentry Address="0x31081038" dataType="0001" name="shield_stopB52_48"/>
+            </Entry>
+            <Entry Address="0x3800103C" dataType="0008" name="SCS_15">
+              <Subentry Address="0x3101103C" dataType="0001" name="shield_stopB52_49"/>
+              <Subentry Address="0x3102103C" dataType="0001" name="shield_stopB52_50"/>
+              <Subentry Address="0x3103103C" dataType="0001" name="shield_stopB52_51"/>
+              <Subentry Address="0x3104103C" dataType="0001" name="shield_stopB52_52"/>
+              <Subentry Address="0x3105103C" dataType="0001" name="shield_stopB52_53"/>
+              <Subentry Address="0x3106103C" dataType="0001" name="shield_stopB52_54"/>
+              <Subentry Address="0x3107103C" dataType="0001" name="shield_stopB52_55"/>
+              <Subentry Address="0x3108103C" dataType="0001" name="shield_stopB52_56"/>
+            </Entry>
+            <Entry Address="0x38001040" dataType="0008" name="SCS_16">
+              <Subentry Address="0x31011040" dataType="0001" name="shield_stopB52_57"/>
+              <Subentry Address="0x31021040" dataType="0001" name="shield_stopB52_58"/>
+              <Subentry Address="0x31031040" dataType="0001" name="shield_stopB52_59"/>
+              <Subentry Address="0x31041040" dataType="0001" name="shield_stopB52_60"/>
+              <Subentry Address="0x31051040" dataType="0001" name="shield_stopB52_61"/>
+              <Subentry Address="0x31061040" dataType="0001" name="shield_stopB52_62"/>
+              <Subentry Address="0x31071040" dataType="0001" name="shield_stopB52_63"/>
+              <Subentry Address="0x31081040" dataType="0001" name="shield_stopB52_64"/>
+            </Entry>
+            <Entry Address="0x38001044" dataType="0008" name="SCS_17">
+              <Subentry Address="0x31011044" dataType="0001" name="shield_stopB52_65"/>
+              <Subentry Address="0x31021044" dataType="0001" name="shield_stopB52_66"/>
+              <Subentry Address="0x31031044" dataType="0001" name="shield_stopB52_67"/>
+              <Subentry Address="0x31041044" dataType="0001" name="shield_stopB52_68"/>
+              <Subentry Address="0x31051044" dataType="0001" name="shield_stopB52_69"/>
+              <Subentry Address="0x31061044" dataType="0001" name="shield_stopB52_70"/>
+              <Subentry Address="0x31071044" dataType="0001" name="shield_stopB52_71"/>
+              <Subentry Address="0x31081044" dataType="0001" name="shield_stopB52_72"/>
+            </Entry>
+            <Entry Address="0x38001048" dataType="0008" name="SCS_18">
+              <Subentry Address="0x31011048" dataType="0001" name="shield_stopB52_73"/>
+              <Subentry Address="0x31021048" dataType="0001" name="shield_stopB52_74"/>
+              <Subentry Address="0x31031048" dataType="0001" name="shield_stopB52_75"/>
+              <Subentry Address="0x31041048" dataType="0001" name="shield_stopB52_76"/>
+              <Subentry Address="0x31051048" dataType="0001" name="shield_stopB52_77"/>
+              <Subentry Address="0x31061048" dataType="0001" name="shield_stopB52_78"/>
+              <Subentry Address="0x31071048" dataType="0001" name="shield_stopB52_79"/>
+              <Subentry Address="0x31081048" dataType="0001" name="shield_stopB52_80"/>
+            </Entry>
+            <Entry Address="0x3800104C" dataType="0008" name="SCS_19">
+              <Subentry Address="0x3101104C" dataType="0001" name="shield_stopB52_81"/>
+              <Subentry Address="0x3102104C" dataType="0001" name="shield_stopB52_82"/>
+              <Subentry Address="0x3103104C" dataType="0001" name="shield_stopB52_83"/>
+              <Subentry Address="0x3104104C" dataType="0001" name="shield_stopB52_84"/>
+              <Subentry Address="0x3105104C" dataType="0001" name="shield_stopB52_85"/>
+              <Subentry Address="0x3106104C" dataType="0001" name="shield_stopB52_86"/>
+              <Subentry Address="0x3107104C" dataType="0001" name="shield_stopB52_87"/>
+              <Subentry Address="0x3108104C" dataType="0001" name="shield_stopB52_88"/>
+            </Entry>
+            <Entry Address="0x38001050" dataType="0008" name="SCS_20">
+              <Subentry Address="0x31011050" dataType="0001" name="shield_stopB52_89"/>
+              <Subentry Address="0x31021050" dataType="0001" name="shield_stopB52_90"/>
+              <Subentry Address="0x31031050" dataType="0001" name="shield_stopB52_91"/>
+              <Subentry Address="0x31041050" dataType="0001" name="shield_stopB52_92"/>
+              <Subentry Address="0x31051050" dataType="0001" name="shield_stopB52_93"/>
+              <Subentry Address="0x31061050" dataType="0001" name="shield_stopB52_94"/>
+              <Subentry Address="0x31071050" dataType="0001" name="shield_stopB52_95"/>
+              <Subentry Address="0x31081050" dataType="0001" name="shield_stopB52_96"/>
+            </Entry>
+            <Entry Address="0x38001054" dataType="0008" name="SCS_21">
+              <Subentry Address="0x31011054" dataType="0001" name="shield_stopB52_97"/>
+              <Subentry Address="0x31021054" dataType="0001" name="shield_stopB52_98"/>
+              <Subentry Address="0x31031054" dataType="0001" name="shield_stopB52_99"/>
+              <Subentry Address="0x31041054" dataType="0001" name="shield_stopB52_100"/>
+              <Subentry Address="0x31051054" dataType="0001" name="shield_stopB52_101"/>
+              <Subentry Address="0x31061054" dataType="0001" name="shield_stopB52_102"/>
+              <Subentry Address="0x31071054" dataType="0001" name="shield_stopB52_103"/>
+              <Subentry Address="0x31081054" dataType="0001" name="shield_stopB52_104"/>
+            </Entry>
+            <Entry Address="0x38001058" dataType="0008" name="SCS_22">
+              <Subentry Address="0x31011058" dataType="0001" name="shield_stopB52_105"/>
+              <Subentry Address="0x31021058" dataType="0001" name="shield_stopB52_106"/>
+              <Subentry Address="0x31031058" dataType="0001" name="shield_stopB52_107"/>
+              <Subentry Address="0x31041058" dataType="0001" name="shield_stopB52_108"/>
+              <Subentry Address="0x31051058" dataType="0001" name="shield_stopB52_109"/>
+              <Subentry Address="0x31061058" dataType="0001" name="shield_stopB52_110"/>
+              <Subentry Address="0x31071058" dataType="0001" name="shield_stopB52_111"/>
+              <Subentry Address="0x31081058" dataType="0001" name="shield_stopB52_112"/>
+            </Entry>
+            <Entry Address="0x3800105C" dataType="0008" name="SCS_23">
+              <Subentry Address="0x3101105C" dataType="0001" name="shield_stopB52_113"/>
+              <Subentry Address="0x3102105C" dataType="0001" name="shield_stopB52_114"/>
+              <Subentry Address="0x3103105C" dataType="0001" name="shield_stopB52_115"/>
+              <Subentry Address="0x3104105C" dataType="0001" name="shield_stopB52_116"/>
+              <Subentry Address="0x3105105C" dataType="0001" name="shield_stopB52_117"/>
+              <Subentry Address="0x3106105C" dataType="0001" name="shield_stopB52_118"/>
+              <Subentry Address="0x3107105C" dataType="0001" name="shield_stopB52_119"/>
+              <Subentry Address="0x3108105C" dataType="0001" name="shield_stopB52_120"/>
+            </Entry>
+            <Entry Address="0x38001060" dataType="0008" name="SCS_24">
+              <Subentry Address="0x31011060" dataType="0001" name="shield_stopB52_121"/>
+              <Subentry Address="0x31021060" dataType="0001" name="shield_stopB52_122"/>
+              <Subentry Address="0x31031060" dataType="0001" name="shield_stopB52_123"/>
+              <Subentry Address="0x31041060" dataType="0001" name="shield_stopB52_124"/>
+              <Subentry Address="0x31051060" dataType="0001" name="shield_stopB52_125"/>
+              <Subentry Address="0x31061060" dataType="0001" name="shield_stopB52_126"/>
+              <Subentry Address="0x31071060" dataType="0001" name="shield_stopB52_127"/>
+              <Subentry Address="0x31081060" dataType="0001" name="shield_stopB52_128"/>
+            </Entry>
+            <Entry Address="0x38001064" dataType="0008" name="SCS_25">
+              <Subentry Address="0x31011064" dataType="0001" name="shield_stopB52_129"/>
+              <Subentry Address="0x31021064" dataType="0001" name="shield_stopB52_130"/>
+              <Subentry Address="0x31031064" dataType="0001" name="shield_stopB52_131"/>
+              <Subentry Address="0x31041064" dataType="0001" name="shield_stopB52_132"/>
+              <Subentry Address="0x31051064" dataType="0001" name="shield_stopB52_133"/>
+              <Subentry Address="0x31061064" dataType="0001" name="shield_stopB52_134"/>
+              <Subentry Address="0x31071064" dataType="0001" name="shield_stopB52_135"/>
+              <Subentry Address="0x31081064" dataType="0001" name="shield_stopB52_136"/>
+            </Entry>
+            <Entry Address="0x38001068" dataType="0008" name="SCS_26">
+              <Subentry Address="0x31011068" dataType="0001" name="shield_stopB50_1"/>
+              <Subentry Address="0x31021068" dataType="0001" name="shield_stopB50_2"/>
+              <Subentry Address="0x31031068" dataType="0001" name="shield_stopB50_3"/>
+              <Subentry Address="0x31041068" dataType="0001" name="shield_stopB50_4"/>
+              <Subentry Address="0x31051068" dataType="0001" name="shield_stopB50_5"/>
+              <Subentry Address="0x31061068" dataType="0001" name="shield_stopB50_6"/>
+              <Subentry Address="0x31071068" dataType="0001" name="shield_stopB50_7"/>
+              <Subentry Address="0x31081068" dataType="0001" name="shield_stopB50_8"/>
+            </Entry>
+            <Entry Address="0x3800106C" dataType="0008" name="SCS_27">
+              <Subentry Address="0x3101106C" dataType="0001" name="shield_alarm_1"/>
+              <Subentry Address="0x3102106C" dataType="0001" name="shield_alarm_2"/>
+              <Subentry Address="0x3103106C" dataType="0001" name="shield_alarm_3"/>
+              <Subentry Address="0x3104106C" dataType="0001" name="shield_alarm_4"/>
+              <Subentry Address="0x3105106C" dataType="0001" name="shield_alarm_5"/>
+              <Subentry Address="0x3106106C" dataType="0001" name="shield_alarm_6"/>
+              <Subentry Address="0x3107106C" dataType="0001" name="shield_alarm_7"/>
+              <Subentry Address="0x3108106C" dataType="0001" name="shield_alarm_8"/>
+            </Entry>
+            <Entry Address="0x38001070" dataType="0008" name="SCS_28">
+              <Subentry Address="0x31011070" dataType="0001" name="shield_alarm_9"/>
+              <Subentry Address="0x31021070" dataType="0001" name="shield_alarm_10"/>
+              <Subentry Address="0x31031070" dataType="0001" name="shield_alarm_11"/>
+              <Subentry Address="0x31041070" dataType="0001" name="shield_alarm_12"/>
+              <Subentry Address="0x31051070" dataType="0001" name="shield_alarm_13"/>
+              <Subentry Address="0x31061070" dataType="0001" name="shield_alarm_14"/>
+              <Subentry Address="0x31071070" dataType="0001" name="shield_alarm_15"/>
+              <Subentry Address="0x31081070" dataType="0001" name="shield_alarm_16"/>
+            </Entry>
+            <Entry Address="0x38001074" dataType="0008" name="SCS_29">
+              <Subentry Address="0x31011074" dataType="0001" name="shield_alarm_17"/>
+              <Subentry Address="0x31021074" dataType="0001" name="shield_alarm_18"/>
+              <Subentry Address="0x31031074" dataType="0001" name="shield_alarm_19"/>
+              <Subentry Address="0x31041074" dataType="0001" name="shield_alarm_20"/>
+              <Subentry Address="0x31051074" dataType="0001" name="shield_alarm_21"/>
+              <Subentry Address="0x31061074" dataType="0001" name="shield_alarm_22"/>
+              <Subentry Address="0x31071074" dataType="0001" name="shield_alarm_23"/>
+              <Subentry Address="0x31081074" dataType="0001" name="shield_alarm_24"/>
+            </Entry>
+            <Entry Address="0x38001078" dataType="0008" name="SCS_30">
+              <Subentry Address="0x31011078" dataType="0001" name="shield_alarm_25"/>
+              <Subentry Address="0x31021078" dataType="0001" name="shield_alarm_26"/>
+              <Subentry Address="0x31031078" dataType="0001" name="shield_alarm_27"/>
+              <Subentry Address="0x31041078" dataType="0001" name="shield_alarm_28"/>
+              <Subentry Address="0x31051078" dataType="0001" name="shield_alarm_29"/>
+              <Subentry Address="0x31061078" dataType="0001" name="shield_alarm_30"/>
+              <Subentry Address="0x31071078" dataType="0001" name="shield_alarm_31"/>
+              <Subentry Address="0x31081078" dataType="0001" name="shield_alarm_32"/>
+            </Entry>
+            <Entry Address="0x3800107C" dataType="0008" name="SCS_31">
+              <Subentry Address="0x3101107C" dataType="0001" name="shield_alarm_33"/>
+              <Subentry Address="0x3102107C" dataType="0001" name="shield_alarm_34"/>
+              <Subentry Address="0x3103107C" dataType="0001" name="shield_alarm_35"/>
+              <Subentry Address="0x3104107C" dataType="0001" name="shield_alarm_36"/>
+              <Subentry Address="0x3105107C" dataType="0001" name="shield_alarm_37"/>
+              <Subentry Address="0x3106107C" dataType="0001" name="shield_alarm_38"/>
+              <Subentry Address="0x3107107C" dataType="0001" name="shield_alarm_39"/>
+              <Subentry Address="0x3108107C" dataType="0001" name="shield_alarm_40"/>
+            </Entry>
+            <Entry Address="0x38001080" dataType="0008" name="SCS_32">
+              <Subentry Address="0x31011080" dataType="0001" name="shield_alarm_41"/>
+              <Subentry Address="0x31021080" dataType="0001" name="shield_alarm_42"/>
+              <Subentry Address="0x31031080" dataType="0001" name="shield_alarm_43"/>
+              <Subentry Address="0x31041080" dataType="0001" name="shield_alarm_44"/>
+              <Subentry Address="0x31051080" dataType="0001" name="shield_alarm_45"/>
+              <Subentry Address="0x31061080" dataType="0001" name="shield_alarm_46"/>
+              <Subentry Address="0x31071080" dataType="0001" name="shield_alarm_47"/>
+              <Subentry Address="0x31081080" dataType="0001" name="shield_alarm_48"/>
+            </Entry>
+          </EntryBlock>
+        </EntryList>
+   </EntryLayers>

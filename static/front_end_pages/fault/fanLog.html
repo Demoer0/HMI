@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>currentFault</title>
+		<link rel="stylesheet" href="../css/CSS.css" />
+                <link rel="stylesheet" href="../css/scrollBtn.css" />
+	    <style>
+	    	body{
+	    		background: #005D98;
+	    	}
+	    	.center{
+	    		text-align: center;
+	    	}
+	    	#fan-log-table{
+            width: 100%;
+	border-collapse: collapse;
+}
+        #fan-log-table td{
+            background: #BBB7B7;
+            border:1px solid black;
+	    text-align: center;
+	    height: 0.047rem;
+        }
+        #fanLog-content{
+	width: 100%;
+	overflow: hidden;
+	position: absolute;
+	top: 0.049rem;
+	bottom:0 ;
+}
+        #fanLog-content table{
+        overflow: hidden;
+        background: transparent;
+	border-collapse: collapse;
+	width: 100%;
+}
+        #fanLog-content-table td{
+        text-align: center;
+        border:1px solid black;
+        height: 0.047rem;
+	background: #005D98;
+			}
+                        #fanLog-content-table{
+                        border-top:none；
+}
+                #fanLog-content-table tr:first-of-type td{
+				border-top: none;
+			}
+			#fanLog-content-table td{
+				background: #005D98;
+			}
+			#fanLog-content-table>tr td:first-of-type{
+				width:0.1rem;
+			}
+
+			#fanLog-content-table>tr td:last-of-type{
+				width: 0.45rem;
+			}
+
+			#fanLog-content-table>tr td{
+				width: 0.45rem;
+			}
+	    	.seq{
+	    		text-align: center;
+	    		width: 10%;
+	    	}
+	    	#rootData{
+	    		padding: 0.006rem;
+				cursor:pointer;
+				position: fixed;
+				background: #BDD7EE;
+				border: 1px solid #2E75B6;
+				border-radius: 0.008rem;
+				right: 0;
+				bottom: 0rem;
+	    	}
+	    </style>
+	</head>
+
+	<body style="overflow-x: hidden;overflow-y: hidden;">
+		<div>
+			<table id="fan-log-table">
+				<tr>
+					<td class="seq">序号</td>
+					<td>事件名称</td>
+					<td>发生时间</td>
+				</tr>
+				<!--<tr>
+					<td class="seq">1</td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td class="seq">2</td>
+					<td></td>
+					<td></td>
+					<td></td>
+
+				</tr>
+				<tr>
+					<td class="seq">3</td>
+					<td></td>
+					<td></td>
+					<td></td>
+
+				</tr>
+				<tr>
+					<td class="seq">4</td>
+					<td></td>
+					<td></td>
+					<td></td>
+
+				</tr>-->
+			</table>
+		</div>
+		<div id="fanLog-content">
+			<table id="fanLog-content-table">
+			</table>
+		</div>
+                <div id="scroll-btns">
+     <p><img src="../img/scrollTop1.png" id="pull-up"/></p>
+     <p><img src="../img/scrollBottom1.png" id="drop-down"/></p>
+                </div>
+		<!--<div>
+			<span id="rootData">清除历史数据</span>
+		</div>-->
+		<script src="../js/jquery-3.2.0.js"></script>
+		<script type="text/javascript" src="../js/SelfAdaption.js"></script>
+		<script type="text/javascript" src="../js/config.js" ></script>
+		<script type="text/javascript" src="../js/load.js" ></script>
+		<script type="text/javascript" src="../js/fault/fanlog.js" ></script>
+	    <script type="text/javascript" src="../js/fault/fault.js" ></script>
+	</body>
+
+</html>

@@ -1,0 +1,89 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+body{
+    -moz-user-select:none;/*火狐*/
+    -webkit-user-select:none;/*webkit浏览器*/
+    -ms-user-select:none;/*IE10*/
+    -khtml-user-select:none;/*早期浏览器*/
+    user-select:none;
+    background: #005D98;
+    /*cursor: default;*/
+}
+table{
+    border: 0;
+    border-collapse: collapse;
+    text-align: center;
+    width:100%;
+}
+#div-style{
+	width: 100%;
+	overflow: hidden;
+	position: absolute;
+	top: 0;
+	bottom:0 ;
+}
+.table-content{
+width:100%;
+}
+#table-content{
+background: transparent;
+}
+.tag-table>tr th:first-of-type{
+width:10%;
+}
+.tag-table>tr th:last-of-type{
+width:90%;
+text-align: left;
+}
+#th1-style{
+border: 1px solid black;
+}
+#th2-style{
+border: 1px solid black;
+}
+.td1-style{
+width:10%;
+height: 0.047rem;
+}
+.td2-style{
+width:40%;
+height: 0.047rem;
+}
+.td3-style{
+width:25%;
+height: 0.047rem;
+}
+.td4-style{
+width:25%;
+height: 0.047rem;
+}
+th,td{
+    border: 1px solid black;
+    border-collapse: collapse;
+    border-bottom:none;
+    white-space:nowrap;
+    height: 0.047rem;
+    font-size:0.0205rem ;
+    font-family: "微软雅黑";
+    color: white;
+}
+th{
+cursor: pointer;
+}
+.shield{
+    text-align: center;
+    background: #00B0F0;
+    display: inline-block;
+    border-radius: 0.005rem;
+    line-height: 0.035rem;
+    height: 0.035rem;
+    width: 60%;
+    /*text-align: center;*/
+    min-width: 0.05rem;
+    max-width: 0.2rem;
+    padding: 0 0.008rem;
+    border: 1px solid #41719C;
+    cursor: pointer;
+}

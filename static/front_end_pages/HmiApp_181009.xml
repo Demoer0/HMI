@@ -1,0 +1,2650 @@
+<?xml version="1.0" encoding="gb2312" ?>
+<!--
+*******************************************************************************
+
+ XML HMI Application description
+
+*******************************************************************************
+
+ File:        HmiApp.xhd
+
+*******************************************************************************
+-->
+
+<ApplicationLayers>
+
+  <!-- 用户类型 -->
+  <UserTypeList>
+    <defType userType="1"><Guest/></defType>
+    <defType userType="2"><User/></defType>
+    <defType userType="3"><HighUser/></defType>
+    <defType userType="4"><SuperUser/></defType>
+    <defType userType="5"><Administrator/></defType>
+  </UserTypeList>
+
+  <!-- 数据类型 -->
+  <DataTypeList>
+    <defType dataType="1"><Boolean/></defType>
+    <defType dataType="2"><Integer8/></defType>
+    <defType dataType="3"><Integer16/></defType>
+    <defType dataType="4"><Integer32/></defType>
+    <defType dataType="5"><Integer64/></defType>
+    <defType dataType="6"><Unsigned8/></defType>
+    <defType dataType="7"><Unsigned16/></defType>
+    <defType dataType="8"><Unsigned32/></defType>
+    <defType dataType="9"><Unsigned64/></defType>
+    <defType dataType="10"><Real32/></defType>
+    <defType dataType="11"><Real64/></defType>
+  </DataTypeList>
+
+  <!-- 发电状态 -->
+  <StatusTypeList>
+    <defType statusType="1" statusName="启机" />
+    <defType statusType="2" statusName="自检" />
+    <defType statusType="3" statusName="升转速" />
+    <defType statusType="4" statusName="并网" />
+    <defType statusType="5" statusName="提升负荷" />
+    <defType statusType="6" statusName="稳态发电" />
+    <defType statusType="7" statusName="B50停机" />
+    <defType statusType="8" statusName="B52停机" />
+    <defType statusType="9" statusName="B60停机" />
+    <defType statusType="10" statusName="B75停机" />
+    <defType statusType="11" statusName="B180停机" />
+  </StatusTypeList>
+
+  <!-- 登录 -->
+  <LogTypeList>
+    <defType logType="1" logName="机舱" />
+    <defType logType="2" logName="塔底" />
+    <defType logType="3" logName="远程" />
+    <defType logType="4" logName="√机舱" />
+    <defType logType="5" logName="√塔底" />
+    <defType logType="6" logName="√远程" />
+  </LogTypeList>
+
+  <!-- 维修&维护状态 -->
+  <ServiceTypeList>
+    <defType serviceType="1" serviceName="维修" />
+    <defType serviceType="2" serviceName="维护" />
+  </ServiceTypeList>
+
+  <!-- DO状态 -->
+  <ButtonDoTypeList>
+    <defType ButtonDoType="0" ButtonDoName="启动" />
+    <defType ButtonDoType="1" ButtonDoName="停止" />
+  </ButtonDoTypeList>
+  
+  <!-- 故障屏蔽 -->
+  <ButtonFaultTypeList>
+    <defType ButtonFaultType="0" ButtonFaultName="屏蔽" />
+    <defType ButtonFaultType="1" ButtonFaultName="取消屏蔽" />
+  </ButtonFaultTypeList>
+
+  <!-- The <RootPage> elements describes the object dictionary of a device -->
+
+    <!-- Attributes of <Page> and <SubPage> and <Tag> and <Object> <Module>
+
+        Tag: 标签页 SubPage的下一级
+
+        datamapping: 前端对象映射->HmiEntry.xhd
+
+        name:   name as string without white spaces
+
+        dataType: HMI data type, see <DataTypeList>
+
+        authType: 授权，默认下发数据都需要授权，1为不授权。请求数据不需要授权
+
+        共同属性：
+        bold="1"加粗1 size="+1"在标准字体大小上+1，可以减 color="RRGGBB"十六进制
+
+        ** Table 表格 Row行 Col列 border=x边框宽
+        Col colspan占几列 rowspan占几行
+        align  左右位置 left居左 right居右 center居中 默认居左
+        valign 上下位置 top居上 bottom居下 middle居中 默认居上
+        <Table><Row><Col></Col><Col></Col></Row></Table>
+        ** Trend 趋?? Common常用点 Other不常用点
+
+        ** 参数、当前故障、历史故障、日志、屏蔽故障
+        parameter.csv：参数总数 参数编号 参数名?? 参数单位 参数分类 修改权限
+        Log 日志表格 Row行 Col列 border=x边框宽 datamapping长度 loglen="每个故障/日志/参数长度"字节
+        statuscode.csv解析状态码  状态码总数,状态码名称,使能,状态码分类
+        状态码编号,停机等级,偏航等??,复位权限,状态码是否触发,是否可屏蔽,触发时间,复位时间,屏蔽时间,触发总次数,触发总时间
+        Col colspan占几列 rowspan占几行
+        align  左右位置 left居左 right居右 center居中
+        valign 上下位置 top居上 bottom居下 middle居中
+        只列出2行的数据，第一行标题，第二行首个状态码/日志数据地址 下面行地址=(个数-1)*状态码/日志长度+首地址来进行解析
+        <Log datamapping="" Loglen="" filemapping="xx.csv">
+          <Row><Col></Col><Col></Col></Row>
+        </Log>
+
+        ** Object: type不写为默认0 显示name或datamapping，属性有unit单位 bold
+                   1 把变量解释成对应状态 name用读取datamapping的值解析typedef
+                   2 为允许弹出键盘输入修改，如功率设定等 min/max限定最小值和最大值 **
+                   3 像开关一样按下1，按钮颜色变红，再按弹出变0，颜色复原**
+        <Object name="DI1-2变频器急停" />
+        <Object datamapping="DI.1.2.xxx" />
+        <Object name="DI.1.2.xxx" datamapping="DI.1.2.xxx" />
+        <Object type="1" datamapping="AI.1.2.xxx" typedef="statusType" />
+        <Object type="2" datamapping="AO.1.2.xxx" min="-200" max="1600" />
+
+        ** Module 用于温度和油压控件 datamapping实时数据 没有的变量不显示 min和max是上下限范围 fault/alarmmin/max是故障/报警上下限
+        <Module datamapping="RTD_Nacelle" min="-40" faultmin="-20" alarmmin="-10" alarmmax="40" faultmax="50" max="250" />
+        <Module datamapping="Pre_Oil" min="0" faultmin="1.0" faultmax="2.5" max="8.0" />
+
+        ** Iconfault 故障或正常控件 正常-绿色 故障-红色 fault代表触发故障的条件，0代表低电平触发故障，1代表高电平触发故障 控件颜色由datamapping和fault共同决定**
+        <Iconfault datamapping="DI.1.1" />
+        <Iconfault datamapping="DI.1.1" fault="1" />
+
+        ** Button: type不写为默认0 按下datamapping指向的变量由0->1，释放后持续500ms后->0  不按恢复
+                                 1 像开关一样按下1，再按弹出变0
+                                 2 typedef="statusType" name用读取datamapping的值解析typedef**
+        <Button name="停机" datamapping="DI.1.1.xxx" />
+        <Button type="1" name="调试" datamapping="DO.1.1.xxx" />
+        <Button type="2" datamapping="DI.1.1.xxx" typedef="ButtonDoType" />
+				<Col width="20%"><Button type="2" datamapping="DO7偏航刹车2" typedef="ButtonDoType" /></Col>		
+        ** Yaw偏航对风控件 datamapping1-风向 datamapping2-机舱位置 datamapping3-偏航方向-箭头0没动 1顺时针 2逆时针 **
+        <Yaw datamapping1="RTD_Nacelle" datamapping2="RTD_Nacelle" datamapping3="RTD_Nacelle" />
+
+        accessType:
+               "const" 只读 read only access; the value is not changing
+               "ro"    只读 read only access
+               "wo"    只写 write only access
+               "rw"    读写 both read and write access
+
+    -->
+<!--***************************************************************************************************************************************************************-->
+
+  <!--** HMI主画面结构 **-->
+  <RootPage>
+    <!--** TopPage.1 HMI顶上2行状态数据，只显示映射数据和单位**-->
+    <TopPage pageurl="page.1" />
+
+    <!--** RightPage.2 右边的命令按钮 name为按钮显示的名字 **-->
+    <RightPage pageurl="page.2" />
+
+    <!--** MainPage.3 主界面 **-->
+    <MainPage>
+      <Page.3.1 name="主页" pageurl="page.3.1" userType="1" />
+
+      <Page.3.2 name="系统" pageurl="page.3.2" userType="1">
+        <!-- 3.2.1 安全链 -->
+        <Page.3.2.1 name="安全链" pageurl="page.3.2.1" />
+
+        <!-- 3.2.2 偏航系统展示 -->
+        <Page.3.2.2 name="偏航对风" >
+          <Page.3.2.2.1 name="偏航系统" pageurl="page.3.2.2.1" />
+
+          <!-- 风速风向展示 -->
+          <Page.3.2.2.2 name="风速风向" pageurl="page.3.2.2.2" />
+        </Page.3.2.2>
+
+        <!-- 3.2.3 传动链 -->
+        <Page.3.2.3 name="传动链" >
+          <!-- 3.2.3.1 齿轮箱-->
+          <Page.3.2.3.1 name="齿轮箱" pageurl="page.3.2.3.1" />
+
+          <!-- 3.2.3.2 发电机 -->
+          <Page.3.2.3.2 name="发电机" pageurl="page.3.2.3.2" />
+
+          <!-- 3.2.3.3 液压&刹车 -->
+          <Page.3.2.3.3 name="液压刹车" pageurl="page.3.2.3.3" />
+
+          <!-- 3.2.3.4 振动模块 -->
+          <Page.3.2.3.4 name="振动模块" pageurl="page.3.2.3.4" />
+        </Page.3.2.3>
+
+        <!-- 3.2.4 变桨系统变桨状态 -->
+        <Page.3.2.4 name="变桨系统">
+          <Page.3.2.4.1 name="变桨状态" pageurl="page.3.2.4.1" />
+
+          <Page.3.2.4.2 name="变桨DI/O" pageurl="page.3.2.4.2" />
+        </Page.3.2.4>
+
+        <Page.3.2.5 name="变频电网">
+          <Page.3.2.5.1 name="变频器" pageurl="page.3.2.5.1" />
+
+          <Page.3.2.5.2 name="电网" pageurl="page.3.2.5.2" />
+
+          <Page.3.2.5.3 name="箱变" pageurl="page.3.2.5.3" />
+        </Page.3.2.5>
+
+        <Page.3.2.6 name="I/O模块">
+          <Page.3.2.6.1 name="DI1032-1" pageurl="page.3.2.6.1" />
+
+          <Page.3.2.6.2 name="DI1032-2" pageurl="page.3.2.6.2" />
+
+          <Page.3.2.6.3 name="DO1032" pageurl="page.3.2.6.3" />
+
+          <Page.3.2.6.4 name="PI1032" pageurl="page.3.2.6.4" />
+
+          <Page.3.2.6.5 name="CR1022" pageurl="page.3.2.6.5" />
+
+          <Page.3.2.6.6 name="AI1012" pageurl="page.3.2.6.6" />
+
+          <Page.3.2.6.7 name="AO1008" pageurl="page.3.2.6.7" />
+
+          <Page.3.2.6.8 name="RT1012" pageurl="page.3.2.6.8" />
+        </Page.3.2.6>
+      </Page.3.2>
+
+      <Page.3.3 name="参数" userType="3">
+			<Page.3.3.1 name="系统参数" pageurl="page.3.3.1" />
+
+	        <Page.3.3.2 name="运行参数" pageurl="page.3.3.2" />
+
+	        <Page.3.3.3 name="控制参数" pageurl="page.3.3.3" />
+
+	        <Page.3.3.4 name="变桨参数" pageurl="page.3.3.4" />
+
+	        <Page.3.3.5 name="自动控制" pageurl="page.3.3.5" />
+
+	        <Page.3.3.6 name="泵参数" pageurl="page.3.3.6" />
+
+	        <Page.3.3.7 name="电网参数" pageurl="page.3.3.7" />
+
+	        <Page.3.3.8 name="转速参数" pageurl="page.3.3.8" />
+
+	        <Page.3.3.9 name="温度参数" pageurl="page.3.3.9" />
+
+	        <Page.3.3.10 name="振动参数" pageurl="page.3.3.10" />
+
+          <Page.3.3.11 name="待定名称" pageurl="page.3.3.11" />
+
+          <Page.3.3.12 name="状态屏蔽" pageurl="page.3.3.12" />
+      </Page.3.3>
+
+	  <!--
+      <Page.3.4 name="故障" userType="3">
+        <Page.3.4.1 name="当前故障" pageurl="page.3.4.1" />
+
+        <Page.3.4.2 name="历史故障" pageurl="page.3.4.2" />
+
+        <Page.3.4.3 name="用户日志" pageurl="page.3.4.3" />
+
+        <Page.3.4.4 name="风机日志" pageurl="page.3.4.4" />
+
+        <Page.3.4.5 name="屏蔽故障" pageurl="page.3.4.5" />
+      </Page.3.4>
+    -->
+      <Page.3.5 name="趋势" userType="3">
+        <Page.3.5.1 name="实时趋势" pageurl="page.3.5.1" />
+
+        <Page.3.5.2 name="历史趋势" pageurl="page.3.5.2" />
+
+        <Page.3.5.3 name="故障录波" pageurl="page.3.5.3" />
+      </Page.3.5>
+    
+      <Page.3.6 name="报表" userType="3">
+        <Page.3.6.1 name="总统计" pageurl="page.3.6.1" />
+
+        <Page.3.6.2 name="日统计" pageurl="page.3.6.2" />
+
+        <Page.3.6.3 name="月统计" pageurl="page.3.6.3" />
+
+        <Page.3.6.4 name="年统计" pageurl="page.3.6.4" />
+      </Page.3.6>
+    </MainPage>
+  </RootPage>
+
+  <!--** 具体页面内容 **-->
+  <Page name="1">
+    <Table>
+      <!--** Row行 **-->
+      <Row>
+        <Col width="10%"><Object filemapping="DEC_LOG.jpg" /></Col>
+        <Col width="8%"><Object datamapping="local_add" unit="#" /></Col>
+        <Col width="8%"><Object datamapping="run_state" /></Col>
+        <Col width="5%" align="left"><Object datamapping="Current_Position" /></Col>
+        <Col width="8%"><Object datamapping="Authority_Position" /></Col>
+        <Col width="8%"><Object datamapping="Service_Status" /></Col>
+        <Col width="33%" align="left"><Object datamapping="PLC_Timer" /></Col>
+        <Col width="10%" rowspan="2" ><Object datamapping="Login_Check" /></Col>
+        <Col width="10%" rowspan="2" ><Object datamapping="Get_Access" /></Col>
+      </Row>
+      </Table>
+      <Table>
+      <Row>
+        <Col width="8%"><Object datamapping="ave_Onesec_Wsp" unit="m/s" /></Col>
+        <Col width="8%"><Object datamapping="angle_ave" unit="°" /></Col>
+        <Col width="8%"><Object datamapping="Rotor_RSpd" unit="rpm" /></Col>
+        <Col width="8%"><Object datamapping="G_RSpd1" unit="rpm" /></Col>
+        <Col width="8%"><Object datamapping="G_Power_FB" unit="Kw" /></Col>
+        <Col width="10%"></Col>
+        <Col width="30%" align="left"><Object datamapping="PLC_Timer" /></Col>
+      </Row>
+    </Table>
+  </Page>
+
+  <!--** Right页 **-->
+  <Page name="2">
+    <Table>
+      <Row><Col><Button name="停机" datamapping="Manual_stop" /></Col></Row>
+      <Row><Col><Button name="复位" datamapping="stop_clear" /></Col></Row>
+      <Row><Col><Button name="启机" datamapping="quick_start_up" /></Col></Row>
+    </Table>
+  </Page>
+
+  <!--** Main主页 **-->
+  <!--** 系统主页 **-->
+  <Page name="3.2">
+  	<Table width="50%" align="center" valign="middle" boader="1" >
+  		<Row>
+        <Col width="50%" align="center"><Object name="安全链"/></Col>
+        <Col width="50%" align="center"><Iconfault datamapping="Safetychain_FB" fault="0"/></Col>
+      </Row>
+      <Row>
+        <Col width="50%" align="center"><Object name="偏航对风"/></Col>
+        <Col width="50%" align="center"><Iconfault datamapping="YAW_sys" fault="0"/></Col>
+      </Row>
+       <Row>
+        <Col width="50%" align="center"><Object name="传动链"/></Col>
+        <Col width="50%" align="center"><Iconfault datamapping="DC_state" fault="0"/></Col>
+      </Row>
+      <Row>
+        <Col width="50%" align="center"><Object name="变桨系统"/></Col>
+        <Col width="50%" align="center"><Iconfault datamapping="Pitch_sys" fault="0"/></Col>
+      </Row>
+      <Row>
+        <Col width="50%" align="center"><Object name="变频" pageurl="page.3.1"/></Col>
+        <Col width="50%" align="center"><Iconfault datamapping="conv_state" fault="0"/></Col>
+      </Row>
+      <Row>
+        <Col width="50%" align="center"><Object name="电网" pageurl="page.3.1"/></Col>
+        <Col width="50%" align="center"><Iconfault datamapping="grid_state" fault="0"/></Col>
+      </Row>
+      <Row>
+        <Col width="50%" align="center"><Object name="I/O模块"/></Col>
+        <Col width="50%" align="center"><Iconfault datamapping="DI1_state" fault="0" /></Col>
+      </Row>
+    </Table>
+  </Page>
+
+  <!--** 安全链 **-->
+  <Page name="3.2.1">
+    <Table boader="1">
+      <Row>
+      	<Col width="50%" ><Object name="DI1-1机舱控制柜急停" /></Col>
+      	<Col width="50%" align="center" ><Iconfault datamapping="Emer_StopTopbox" fault="0" /></Col>
+      </Row>
+      <Row>	
+      	<Col width="50%" ><Object name="DI1-2变频器急停"/></Col>
+      	<Col width="50%" align="center" ><Iconfault datamapping="Emer_StopConv" fault="0" /></Col>
+      </Row>
+      <Row>	
+      	<Col width="50%" ><Object name="DI1-3机舱便携盒急停" align="center"/></Col>
+      	<Col width="50%" align="center" ><Iconfault datamapping="Emer_StopNac" fault="0" /></Col>
+      </Row>
+      <Row>
+      	<Col width="50%" ><Object name="DI1-4维护开关" /></Col>
+      	<Col width="50%" align="center" ><Iconfault datamapping="Service_Bladea" fault="0" /></Col>
+      </Row>
+      <Row>	
+      	<Col width="50%" ><Object name="DI1-5顺时针绞缆极限" /></Col>
+      	<Col width="50%" align="center" ><Iconfault datamapping="Ctwisted_CW" fault="0" /></Col>
+      </Row>
+      <Row>	
+      	<Col width="50%" ><Object name="DI1-6逆时针绞缆极限" /></Col>
+      	<Col width="50%" align="center" ><Iconfault datamapping="Ctwisted_CCW" fault="0" /></Col>
+      </Row>
+      <Row>	
+      	<Col width="50%" ><Object name="DI1-7振动开关" /></Col>
+      	<Col width="50%" align="center" ><Iconfault datamapping="Vibration" fault="0" /></Col>
+      </Row>	
+      <Row>	
+      	<Col width="50%" ><Object name="DI1-8主轴超速" /></Col>
+      	<Col width="50%" align="center" ><Iconfault datamapping="WP2035_ROspeed" fault="0" /></Col>
+      </Row>	
+      <Row>	
+      	<Col width="50%" ><Object name="DI1-9齿轮箱高速轴超速" /></Col>
+      	<Col width="50%" align="center" ><Iconfault datamapping="WP2035_GOspeed" fault="0" /></Col>
+      </Row>	
+      <Row>	
+      	<Col width="50%" ><Object name="DI1-10安全链正常" /></Col>
+      	<Col width="50%" align="center" ><Iconfault datamapping="Safetychain_FB" fault="0" /></Col>
+      </Row>	
+      <Row>	
+      	<Col width="50%" ><Object name="DI1-11复位安全链" /></Col>
+      	<Col width="50%" align="center" ><Iconfault datamapping="Safetychain" fault="0" /></Col>
+      </Row>	
+      <Row>	
+      	<Col width="50%" ><Object name="DO1主控制器正常" /></Col>
+      	<Col width="50%" align="center" ><Iconfault datamapping="Conv_MainconOK" fault="0"/></Col>      	
+      </Row>
+    </Table>
+  </Page>
+
+  <!--** 偏航 **-->
+  <Page name="3.2.2.1">
+    <Table boader="1">
+      <Row>
+      	<Col width="20%"><Object name="偏航状态" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="YAW_sys"/></Col>
+      	<Col width="60%" rowspan="4" ><Yaw datamapping1="YAW_sys" datamapping2="Nac_Pos" datamapping3="Cable_twist_value" /></Col>
+      </Row>
+      <Row>
+      	<Col width="20%"><Object name="机舱角度" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="Nac_Pos" unit="°" /></Col>
+      </Row>
+      <Row>
+      	<Col width="20%"><Object name="扭缆角度" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="Cable_twist_value" unit="°"/></Col>
+      </Row>
+      </Table>
+    <Table boader="1">
+      <Row>
+      	<Col width="20%"><Object name="DI偏航传感器1" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="Yaw_sensor1" /></Col>
+      	<Col width="20%" align="center"><Button name="逆时针偏航" datamapping="Yawing_vane" /></Col>
+      	<Col width="20%" align="center"><Button name="解缆" datamapping="Auto_Twist" /></Col>
+      	<Col width="20%" align="center"><Button name="顺时针偏航" datamapping="Yawing_vane" /></Col>
+      </Row>
+    </Table>
+    <Table boader="1">
+   	  <Row>
+      	<Col width="20%"><Object name="DI偏航传感器2" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="Yaw_sensor2" /></Col>
+      	<Col width="20%"><Object name="DO2偏航顺时针1、3" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="Yaw_CW13" /></Col>
+      	<Col width="20%"></Col>
+      </Row>
+      <Row>
+      	<Col width="20%"><Object name="DI1-14偏航电机1、3" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="CB_YawM13" /></Col>
+      	<Col width="20%"><Object name="DO3偏航逆时针1、3" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="Yaw_CCW13" /></Col>
+      	<Col width="20%"></Col>
+      </Row>
+      <Row>
+      	<Col width="20%"><Object name="DI1-15偏航电机2、4" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="CB_YawM24" /></Col>
+      	<Col width="20%"><Object name="DO4偏航顺时针2、4" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="Yaw_CW24" /></Col>
+      	<Col width="20%"></Col>
+      </Row>
+      <Row>
+      	<Col width="20%"><Object name="DI1-16偏航电气刹车" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="CB_YawBrake" /></Col>
+      	<Col width="20%"><Object name="DO5偏航逆时针2、4" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="Yaw_CCW24" /></Col>
+      	<Col width="20%"></Col>
+      </Row>
+      <Row>
+      	<Col width="20%"><Object name="DI1-5顺时针绞缆极限" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="Ctwisted_CW" /></Col>
+      	<Col width="20%"><Object name="DO6偏航刹车1" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="Yaw_Brake1" /></Col>
+      	<Col width="20%"><Button type="2" datamapping="Yaw_Brake1" typedef="ButtonDoType" /></Col>
+      </Row>
+      <Row>
+      	<Col width="20%"><Object name="DI1-6逆时针绞缆极限" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="Ctwisted_CCW" /></Col>
+      	<Col width="20%"><Object name="DO7偏航刹车2" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="Yaw_Brakesoft" /></Col>
+      	<Col width="20%"><Button type="2" datamapping="Yaw_Brakesoft" typedef="ButtonDoType" /></Col>
+      </Row>
+    </Table>
+  </Page>
+
+  <!--** 测风 **-->
+  <Page name="3.2.2.2">
+    <Table boader="1">
+      <Row>
+        <Col width="25%"><Object name="风速计1" /></Col>
+        <Col width="25%" align="center"><Object datamapping="Wind_Spd1" unit="m/s" /></Col>
+        <Col width="25%"><Object name="风速计2" /></Col>
+        <Col width="25%" align="center"><Object datamapping="Wind_Spd2"  unit="m/s" /></Col>
+      </Row>
+      <Row>
+       <Col width="25%"><Object name="瞬时风速" /></Col>
+       <Col width="25%" align="center"><Object datamapping="ave_Onesec_Wsp" unit="m/s" /></Col>
+       <Col width="25%"><Object name="瞬时风向" /></Col>
+       <Col width="25%" align="center"><Object datamapping="ave_Onesec_Wdir" unit="°" /></Col>
+      </Row>
+      <Row>
+       <Col width="25%"><Object name="30s平均风速" /></Col>
+       <Col width="25%" align="center"><Object datamapping="ave_Halfmin_Wsp" unit="m/s" /></Col>
+       <Col width="25%"><Object name="10s平均风向" /></Col>
+       <Col width="25%" align="center"><Object datamapping="ave_Tensec_Wdir" unit="°" /></Col>
+      </Row>
+      <Row>
+       <Col width="25%"><Object name="10min平均风速" /></Col>
+       <Col width="25%" align="center"><Object datamapping="ave_Tenmin_Wsp" unit="m/s" /></Col>
+       <Col width="25%"><Object name="1min平均风向" /></Col>
+       <Col width="25%" align="center"><Object datamapping="ave_Onemin_Wdir" unit="°" /></Col>
+      </Row>
+    </Table>
+
+    <Table boader="1">
+      <Row>
+       <Col width="15%"></Col>
+       <Col width="15%" align="center"><Object name="当前温度(℃)" /></Col>
+       <Col width="40%"></Col>
+       <Col width="15%" align="center"><Object name="MAX(24h)(℃)" /></Col>
+       <Col width="15%" align="center"><Object name="MIN(24h)(℃)" /></Col>
+      </Row>
+      <Row>
+       <Col width="15%"><Object name="机舱温度" /></Col>
+       <Col width="15%" align="center"><Object datamapping="Nacelle_Temp" /></Col>
+       <Col width="40%"><Module datamapping="Nacelle_Temp" min="-40" faultmin="-20" alarmmin="-10" alarmmax="40" faultmax="50" max="250" /></Col>
+      </Row>
+
+      <Row>
+       <Col width="15%"><Object name="机舱外温度" /></Col>
+       <Col width="15%" align="center"><Object datamapping="OutDoor_Temp" /></Col>
+       <Col width="40%"><Module datamapping="OutDoor_Temp" min="-40" faultmin="-20" alarmmin="-10" alarmmax="40" faultmax="50" max="250" /></Col>
+      </Row>
+    </Table>
+
+    <Table boader="1">
+      <Row>
+       <Col width="25%"><Object name="海拔高度" /></Col>
+       <Col width="25%" align="center"><Object type="2" datamapping="par_Altitude" min="0" max="5000" /></Col>
+       <Col width="25%"><Object name="空气密度" /></Col>
+       <Col width="25%" align="center"><Object datamapping="air_density" /></Col>
+      </Row>
+      <Row>
+       <Col width="25%"><Object name="风速计/风向标加热" /></Col>
+       <Col width="25%" align="center"><Object datamapping="GHeating" unit="m" /></Col>
+      </Row>
+    </Table>
+  </Page>
+
+	<!--** 齿轮箱 **-->
+  <Page name="3.2.3.1">
+  	<Table boader="1">
+  		<Row>
+  			<Col width="25%"><Object name="主轴转速" /></Col>
+  			<Col width="25%" align="center"><Object datamapping="Rotor_RSpd" unit="rpm/s" /></Col>
+  			<Col width="25%"><Object name="齿轮箱转速" /></Col>
+  			<Col width="25%" align="center"><Object datamapping="Gear_RSpd" unit="rpm/s" /></Col>
+  		</Row>
+  	</Table>
+  	<Table boader="1">
+  		<Row>
+  			<Col width="25%"><Object name="齿轮箱油入口压力" /></Col>
+        <Col width="25%" align="center"><Object datamapping="GearIn_Pre" /></Col>
+        <Col width="50%"><Module datamapping="GearIn_Pre" min="0" faultmin="1.0" faultmax="2.5" max="8.0" /></Col>
+  		</Row>
+  		<Row>
+  			<Col width="25%"><Object name="齿轮油泵压力" /></Col>
+        <Col width="25%" align="center"><Object datamapping="GearPump_Pre" /></Col>
+        <Col width="50%"><Module datamapping="GearPump_Pre" min="0" faultmin="1.0" faultmax="2.5" max="8.0" /></Col>
+  		</Row>
+  	</Table>
+  	<Table boader="1">
+  		<Row>
+        <Col width="15%"></Col>
+        <Col width="15%" align="center"><Object name="当前温度(℃)" /></Col>
+        <Col width="40%"></Col>
+        <Col width="15%" align="center"><Object name="MAX(24h)(℃)" /></Col>
+        <Col width="15%" align="center"><Object name="MIN(24h)(℃)" /></Col>
+      </Row>
+      <Row>
+        <Col width="15%"><Object name="主轴轴承温度" /></Col>
+        <Col width="15%" align="center"><Object datamapping="RotBear_Temp" /></Col>
+        <Col width="40%"><Module datamapping="RotBear_Temp" min="-40" faultmin="-20" alarmmin="-10" alarmmax="40" faultmax="50" max="250" /></Col>
+      </Row>
+      <Row>
+        <Col width="15%"><Object name="齿轮箱前轴承温??" /></Col>
+        <Col width="15%" align="center"><Object datamapping="GearBear1_Temp" /></Col>
+        <Col width="40%"><Module datamapping="RTD.9.GearBear2" min="-40" faultmin="-20" alarmmin="-10" alarmmax="40" faultmax="50" max="250" /></Col>
+      </Row>
+      <Row>
+        <Col width="15%"><Object name="齿轮箱后轴承温度" /></Col>
+        <Col width="15%" align="center"><Object datamapping="GearBear2_Temp" /></Col>
+        <Col width="40%"><Module datamapping="GearBear2_Temp" min="-40" faultmin="-20" alarmmin="-10" alarmmax="40" faultmax="50" max="250" /></Col>
+      </Row> 
+      <Row>
+        <Col width="15%"><Object name="齿轮箱油入口温度" /></Col>
+        <Col width="15%" align="center"><Object datamapping="GearIn_Temp" /></Col>
+        <Col width="40%"><Module datamapping="GearIn_Temp" min="-40" faultmin="-20" alarmmin="-10" alarmmax="40" faultmax="50" max="250" /></Col>
+      </Row> 
+      <Row>
+        <Col width="15%"><Object name="齿轮箱油温度" /></Col>
+        <Col width="15%" align="center"><Object datamapping="Gearoil_Temp" /></Col>
+        <Col width="40%"><Module datamapping="Gearoil_Temp" min="-40" faultmin="-20" alarmmin="-10" alarmmax="40" faultmax="50" max="250" /></Col>
+      </Row>                       		
+  	</Table>	
+  <!--** 齿轮箱跳转 **-->
+  	<Table boader="1">
+   	  <Row>
+      	<Col width="20%"><Object name="DI1-17主轴转速传感器1" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="Rpm1_Left" /></Col>
+      	<Col width="20%"><Object name="DO9主轴润滑油泵启动" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="Rotor_Bearlub" /></Col>
+      	<Col width="20%"></Col>
+      </Row>
+      <Row>
+      	<Col width="20%"><Object name="DI1-18主轴转速传感器2" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="Rpm2_Right" /></Col>
+      	<Col width="20%"><Object name="DO10主轴刹车2(延时10s)" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="Disk_Brake2" /></Col>
+      	<Col width="20%"></Col>
+      </Row>
+      <Row>
+      	<Col width="20%"><Object name="DI1-19主轴润滑油泵供电" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="CB_Lubricat" /></Col>
+      	<Col width="20%"><Object name="DO11主轴刹车1" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="Disk_Brake1" /></Col>
+      	<Col width="20%"></Col>
+      </Row>
+      <Row>
+      	<Col width="20%"><Object name="DI1-20齿轮油液位低" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="Gear_OilLevel" /></Col>
+      	<Col width="20%"><Object name="DO12齿轮箱油泵启动" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="Gearoil_Pump1" /></Col>
+      	<Col width="20%"></Col>
+      </Row>
+      <Row>
+      	<Col width="20%"><Object name="DI1-21齿轮油冷却风扇" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="CB_GearOilfan" /></Col>
+      	<Col width="20%"><Object name="DO13齿轮油冷却" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="Gearoil_Fan" /></Col>
+      	<Col width="20%"><Button type="2" datamapping="Gearoil_Fan" typedef="ButtonDoType" /></Col>
+      </Row>
+      <Row>
+      	<Col width="20%"><Object name="DI1-22齿轮油旁路过滤器" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="Gear_PresDif" /></Col>
+      	<Col width="20%"><Object name="DO14齿轮油加热" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="Gear_Heating" /></Col>
+      	<Col width="20%"><Button type="2" datamapping="Gear_Heating" typedef="ButtonDoType" /></Col>
+      </Row>
+      <Row>
+      	<Col width="20%"><Object name="DI1-24齿轮油加热开关" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="CB_GearHeating" /></Col>
+      	<Col width="20%"><Object name="DO15齿轮油过滤器" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="Gearoil_Pump2" /></Col>
+      	<Col width="20%"><Button type="2" datamapping="Gearoil_Pump2" typedef="ButtonDoType" /></Col>
+      </Row>
+    </Table>
+    <Table>
+      <Row>
+      	<Col width="20%"><Object name="DI1-25齿轮油过滤器堵塞" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="Filter_Chok" /></Col>
+      	<Col width="60%"></Col>
+      </Row>
+    </Table>
+  </Page> 
+  <!--** 发电机 **-->
+  <Page name="3.2.3.2">
+  	<Table boader="1">
+        <Col width="25%"><Object name="发电机转速" /></Col>
+        <Col width="25%" align="center"><Object datamapping="G_RSpd1" unit="rpm/s" /></Col>
+        <Col width="50%"></Col>
+  	</Table>
+  	<Table boader="1">
+  		<Row>
+        <Col width="15%"></Col>
+        <Col width="15%" align="center"><Object name="当前温度(℃)" /></Col>
+        <Col width="40%"></Col>
+        <Col width="15%" align="center"><Object name="MAX(24h)(℃)" /></Col>
+        <Col width="15%" align="center"><Object name="MIN(24h)(℃)" /></Col>
+      </Row>
+      <Row>
+        <Col width="15%"><Object name="发电机前轴承温度" /></Col>
+        <Col width="15%" align="center"><Object datamapping="GBear1_Temp" /></Col>
+        <Col width="40%"><Module datamapping="GBear1_Temp" min="-40" faultmin="-20" alarmmin="-10" alarmmax="40" faultmax="50" max="250" /></Col>
+      </Row>
+      <Row>
+        <Col width="15%"><Object name="发电机后轴承温度" /></Col>
+        <Col width="15%" align="center"><Object datamapping="GBear2_Temp" /></Col>
+        <Col width="40%"><Module datamapping="GBear2_Temp" min="-40" faultmin="-20" alarmmin="-10" alarmmax="40" faultmax="50" max="250" /></Col>
+      </Row>
+      <Row>
+        <Col width="15%"><Object name="发电机定子线圈温度" /></Col>
+        <Col width="15%" align="center"><Object datamapping="GSCoil_Temp" /></Col>
+        <Col width="40%"><Module datamapping="GSCoil_Temp" min="-40" faultmin="-20" alarmmin="-10" alarmmax="40" faultmax="50" max="250" /></Col>
+      </Row>		  		
+  	</Table> 
+  	<Table boader="1">
+  		<Row>
+  		  <Col width="20%"><Object name="DI1-27发电机散热风扇1供电" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="CB_GFan1" /></Col>
+      	<Col width="20%"><Object name="DI1-32发电机过滤器堵塞" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="Filter_Chok" /></Col>
+      </Row>
+      <Row>
+  		  <Col width="20%"><Object name="DI1-28发电机散热风扇2供电" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="CB_GFan2" /></Col>
+      	<Col width="20%"><Object name="DO16发电机冷却风扇1启动" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="GFan1" /></Col>
+      	<Col width="20%"><Button type="2" datamapping="GFan1" typedef="ButtonDoType" /></Col>
+      </Row>
+      <Row>
+        <Col width="20%"><Object name="DI1-29发电机防雷保护" /></Col>
+        <Col width="20%" align="center"><Object datamapping="Lightn_Prot" /></Col>
+        <Col width="20%"><Object name="DO17发电机冷却风扇2启动" /></Col>
+        <Col width="20%" align="center"><Object datamapping="GFan2" /></Col>
+        <Col width="20%"><Button type="2" datamapping="GFan2" typedef="ButtonDoType" /></Col>
+      </Row>
+      <Row>
+  		  <Col width="20%"><Object name="DI1-30发电机定子PTC过热" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="Thermistor" /></Col>
+      </Row>
+      <Row>
+  		  <Col width="20%"><Object name="DI1-31发电机碳刷磨损" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="Brush_Worn" /></Col>
+      	<Col width="20%"><Object name="DO19断路器关断" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="GSwitch_Off" /></Col>
+      	<Col width="20%"><Button type="2" datamapping="GSwitch_Off" typedef="ButtonDoType" /></Col>
+      </Row>
+  	</Table>
+  </Page>
+  
+  <!--** 液压刹车 **-->
+  <Page name="3.2.3.3">
+    <Table boader="1">
+  		<Row>
+  			<Col width="25%"><Object name="液压站油压" /></Col>
+        <Col width="25%" align="center"><Object datamapping="Hyd_Pre" /></Col>
+        <Col width="50%"><Module datamapping="Hyd_Pre" min="0" faultmin="1.0" faultmax="2.5" max="8.0" /></Col>
+  		</Row>
+  	</Table>
+  	<Table boader="1">
+  		<Row>
+  		  <Col width="20%"><Object name="DI2-1液压站液位过低" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="Hydr_OilLevel" /></Col>
+      	<Col width="20%"><Object name="DO20液压站油泵启动" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="Hydraulic" /></Col>
+      	<Col width="20%"><Button type="2" datamapping="Hydraulic" typedef="ButtonDoType" /></Col>
+      </Row>
+    </Table>
+    <Table boader="1">
+      <Row>
+  		  <Col width="20%"><Object name="DI2-2液压站油泵供电" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="CB_HydrPump" /></Col>
+      	<Col width="60%"></Col>
+      </Row>
+      <Row>
+  		  <Col width="20%"><Object name="DI2-3刹车1反馈" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="Brake1_FB" /></Col>
+      	<Col width="60%"></Col>
+      </Row>
+      <Row>
+  		  <Col width="20%"><Object name="DI2-4刹车1磨损" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="Brake_Wornout1" /></Col>
+      	<Col width="60%"></Col>
+      </Row>
+      <Row>
+  		  <Col width="20%"><Object name="DI2-5刹车2反馈" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="Brake2_FB" /></Col>
+      	<Col width="60%"></Col>
+      </Row>
+      <Row>
+  		  <Col width="20%"><Object name="DI2-6刹车2磨损" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="Brake_Wornout2" /></Col>
+      	<Col width="60%"></Col>
+      </Row>
+      <Row>
+  		  <Col width="20%"><Object name="DI2-7手动刹车" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="Close_Brake" /></Col>
+      	<Col width="60%"></Col>
+      </Row>
+  	</Table>
+  </Page>
+  <!--** 振动模块 **-->
+  <Page name="3.2.3.4">
+  	<Table boader="1">
+  		<Row><Col width="100%" align="center"><Object name="通讯状态" /></Col></Row>		  
+  	</Table>
+  	<Table boader="1">
+  		<Row>
+        <Col width="50%"><Object name="齿轮箱振动模块通讯状态(8m)" /></Col>
+        <Col width="25%" align="center"><Iconfault datamapping="VM_state1_com" /></Col>
+        <Col width="25%"></Col>
+      </Row>
+  		<Row>
+        <Col width="50%"><Object name="塔筒振动模块通讯状态(5m)" /></Col>
+        <Col width="25%" align="center"><Iconfault datamapping="VM_state2_com" /></Col>
+        <Col width="25%"></Col>
+      </Row>
+      <Row>
+        <Col width="50%"><Object name="齿轮箱振动模块通讯质量" /></Col>
+        <Col width="25%" align="center"><Iconfault datamapping="VM_quality1_com" /></Col>
+        <Col width="25%"></Col>
+      </Row>
+	  <Row>
+        <Col width="50%"><Object name="齿轮箱振动模块通讯质量" /></Col>
+        <Col width="25%" align="center"><Iconfault datamapping="VM_quality2_com" /></Col>
+        <Col width="25%"></Col>
+      </Row>
+  	</Table>
+  	<Table boader="1">
+  		<Row>
+        <Col width="50%"></Col>
+        <Col width="25%" align="center"><Object name="幅值" /></Col>
+        <Col width="25%"></Col>
+      </Row>
+      <Row>
+        <Col width="50%" align="center"><Object name="塔筒振动模块左右振动(5m)" /></Col>
+        <Col width="25%" align="center"><Object datamapping="df4084_1_amp1" /></Col>
+        <Col width="25%"></Col>
+      </Row>
+      <Row>
+        <Col width="50%" align="center"><Object name="塔筒振动模块前后振动(5m)" /></Col>
+        <Col width="25%" align="center"><Object datamapping="df4084_1_amp2" /></Col>
+        <Col width="25%"></Col>
+      </Row>
+      <Row>
+        <Col width="50%" align="center"><Object name="齿轮箱振动模块左右振动(8m)" /></Col>
+        <Col width="25%" align="center"><Object datamapping="df4084_2_amp1" /></Col>
+        <Col width="25%"></Col>
+      </Row>
+       <Row>
+        <Col width="50%" align="center"><Object name="齿轮箱振动模块上下振动(8m)" /></Col>
+        <Col width="25%" align="center"><Object datamapping="df4084_2_amp2" /></Col>
+        <Col width="25%"></Col>
+      </Row>
+    </Table>  	
+  </Page>
+  <!--** 变桨状态 **-->
+  <Page name="3.2.4.1">
+    <Table boader="1">
+      <Row>
+        <Col width="25%"><Object name="变桨通讯状态" /></Col>
+        <Col width="25%" align="center"><Iconfault datamapping="Pitch_com_state" /></Col>
+        <Col width="25%"><Object name="桨通讯质量" /></Col>
+        <Col width="25%" align="center"><Object datamapping="Pitch_com_quality" /></Col>
+      </Row>
+      <Row>
+        <Col width="25%"><Object name="当前使用编码器" /></Col>
+        <Col width="25%" align="center" ><Object datamapping="Pitch_encode" /></Col>
+        <Col width="25%"></Col>
+        <Col width="25%"></Col>
+      </Row>
+    </Table>
+    <Table boader="1">
+      <Row>
+      	<Col width="25%"></Col>
+        <Col width="25%" align="center" ><Object name="桨叶1" /></Col>
+        <Col width="25%" align="center" ><Object name="桨叶2" /></Col>
+        <Col width="25%" align="center" ><Object name="桨叶3" /></Col>
+      </Row>
+      <Row>
+      	<Col width="25%"><Object name="设定角度" /></Col>
+        <Col width="25%" align="center" ><Object type="2" datamapping="pit_set1" min="-5" max="100" unit="°" /></Col>
+        <Col width="25%" align="center" ><Object type="2" datamapping="pit_set2" min="-5" max="100" unit="°" /></Col>
+        <Col width="25%" align="center" ><Object type="2" datamapping="pit_set3" min="-5" max="100" unit="°" /></Col>
+      </Row>
+      <Row>
+      	<Col width="25%"><Object name="A编码器角度" /></Col>
+        <Col width="25%" align="center" ><Object datamapping="angle1" unit="°" /></Col>
+        <Col width="25%" align="center" ><Object datamapping="angle2" unit="°" /></Col>
+        <Col width="25%" align="center" ><Object datamapping="angle3" unit="°" /></Col>
+      </Row>
+      <Row>
+      	<Col width="25%"><Object name="变桨速度" /></Col>
+        <Col width="25%" align="center" ><Object datamapping="pit_speed1" unit="°/s" /></Col>
+        <Col width="25%" align="center" ><Object datamapping="pit_speed2" unit="°/s" /></Col>
+        <Col width="25%" align="center" ><Object datamapping="pit_speed3" unit="°/s" /></Col>
+      </Row>
+      <Row>
+      	<Col width="25%"><Object name="91°限位" /></Col>
+        <Col width="25%" align="center" ><Object datamapping="driver1_limit91" /></Col>
+        <Col width="25%" align="center" ><Object datamapping="driver2_limit91" /></Col>
+        <Col width="25%" align="center" ><Object datamapping="driver3_limit91" /></Col>
+      </Row>
+      <Row>
+      	<Col width="25%"><Object name="95°限位" /></Col>
+        <Col width="25%" align="center" ><Object datamapping="driver1_limit95" /></Col>
+        <Col width="25%" align="center" ><Object datamapping="driver2_limit95" /></Col>
+        <Col width="25%" align="center" ><Object datamapping="driver3_limit95" /></Col>
+      </Row>
+      <Row>
+      	<Col width="25%"><Object name="变桨驱动器激活" /></Col>
+        <Col width="25%" align="center" ><Object datamapping="driver1_ok" /></Col>
+        <Col width="25%" align="center" ><Object datamapping="driver2_ok" /></Col>
+        <Col width="25%" align="center" ><Object datamapping="driver3_ok" /></Col>
+      </Row>
+      <Row>
+      	<Col width="25%"><Object name="变桨电机电流" /></Col>
+        <Col width="25%" align="center" ><Object datamapping="pit_Cur1" unit="A" /></Col>
+        <Col width="25%" align="center" ><Object datamapping="pit_Cur2" unit="A" /></Col>
+        <Col width="25%" align="center" ><Object datamapping="pit_Cur3" unit="A" /></Col>
+      </Row>
+      <Row>
+      	<Col width="25%"><Object name="变桨电机温度" /></Col>
+        <Col width="25%" align="center" ><Object datamapping="pit_tem1" unit="℃" /></Col>
+        <Col width="25%" align="center" ><Object datamapping="pit_tem2" unit="℃" /></Col>
+        <Col width="25%" align="center" ><Object datamapping="pit_tem3" unit="℃" /></Col>
+      </Row>
+      <Row>
+      	<Col width="25%"><Object name="变桨电机保护" /></Col>
+        <Col width="25%" align="center" ><Object datamapping="driver1_overcurrent" /></Col>
+        <Col width="25%" align="center" ><Object datamapping="driver2_overcurrent" /></Col>
+        <Col width="25%" align="center" ><Object datamapping="driver3_overcurrent" /></Col>
+      </Row>
+      <Row>
+      	<Col width="25%"><Object name="变桨电池" /></Col>
+        <Col width="25%" align="center" ><Object datamapping="driver1_batt_voltage" /></Col>
+        <Col width="25%" align="center" ><Object datamapping="driver2_batt_voltage" /></Col>
+        <Col width="25%" align="center" ><Object datamapping="driver3_batt_voltage" /></Col>
+      </Row>
+    </Table>
+  </Page>
+  
+  <!--** 变桨I/O **-->
+  <Page name="3.2.4.2">
+    <Table boader="1" bold="1">
+      <Row>
+      	<Col><Object name="硬接线24V信号" /></Col>
+      </Row>
+    </Table>
+    <Table boader="1" >
+      <Row>
+      	<Col width="50%"><Object name="DI2-8变桨电池电压" /></Col>
+      	<Col width="50%" align="center" ><Object datamapping="Battery_OK" /></Col>
+      </Row>
+      <Row>
+      	<Col width="50%"><Object name="DI2-9变桨返回风暴位置" /></Col>
+      	<Col width="50%" align="center" ><Object datamapping="FB_Stormpos" /></Col>
+      </Row>
+      <Row>
+      	<Col width="50%"><Object name="DI2-10变桨小故障" /></Col>
+      	<Col width="50%" align="center" ><Object datamapping="Small_Error" /></Col>
+      </Row>
+      <Row>
+      	<Col width="50%"><Object name="DI2-11维护开关" /></Col>
+      	<Col width="50%" align="center" ><Object datamapping="Service_Bladea" /></Col>
+      </Row>
+    </Table>
+    <Table boader="1" >
+      <Row>
+      	<Col width="34%"><Object name="DO21旁路限位开关" /></Col>
+      	<Col width="33%" align="center"><Object datamapping="Bypass_Limitsw" /></Col>
+      	<Col width="33%"><Button type="2" datamapping="Bypass_Limitsw" typedef="ButtonDoType" /></Col>
+      </Row>
+    </Table>
+    <Table boader="1" bold="1">
+      <Row>
+      	<Col><Object name="通讯反馈信号" /></Col>
+      </Row>
+    </Table>
+    <Table boader="1" >
+      <Row>
+      	<Col width="50%"><Object name="充电电压正常" /></Col>
+      	<Col width="50%" align="center" ><Object datamapping="driver1_batt_voltage" /></Col>
+      </Row>
+      <Row>
+      	<Col width="50%"><Object name="电池充电正常" /></Col>
+      	<Col width="50%" align="center" ><Object datamapping="driver1_chargerOK" /></Col>
+      </Row>
+      <Row>
+      	<Col width="50%"><Object name="充电循环正常" /></Col>
+      	<Col width="50%" align="center" ><Object datamapping="drivers_chargecyc" /></Col>
+      </Row>
+      <Row>
+      	<Col width="50%"><Object name="变桨电机保护风扇" /></Col>
+      	<Col width="50%" align="center" ><Object datamapping="drivers_fan" /></Col>
+      </Row>
+      <Row>
+      	<Col width="50%"><Object name="变桨电机过热" /></Col>
+      	<Col width="50%" align="center" ><Object datamapping="drivers_ptc" /></Col>
+      </Row>
+      <Row>
+      	<Col width="50%"><Object name="变桨超速" /></Col>
+      	<Col width="50%" align="center" ><Object datamapping="Gospeed" /></Col>    <!--**PitchRunAway?**-->
+      </Row>
+    </Table>
+  </Page>
+  <!--** 变频电网 **-->
+  <!--** 变频器 **-->
+  <Page name="3.2.5.1" >
+    <Table boader="1" >
+    	<Row>
+      	<Col width="25%"><Object name="主控设定扭矩" /></Col>
+      	<Col width="25%" align="center" ><Object datamapping="Torque_Set" /></Col>
+      	<Col width="25%"><Object name="变频器反馈扭矩" /></Col>
+      	<Col width="25%" align="center" ><Object datamapping="Conv_Torque" /></Col>
+      </Row>
+      <Row>
+      	<Col width="25%"><Object name="变频器反馈转速" /></Col>
+      	<Col width="25%" align="center" ><Object datamapping="Conv_GSpd" /></Col>
+      	<Col width="50%"></Col>
+      </Row>
+    </Table>
+    <Table boader="1">
+  		<Row>
+        <Col width="15%"></Col>
+        <Col width="15%" align="center"><Object name="当前温度(℃)" /></Col>
+        <Col width="40%"></Col>
+        <Col width="15%" align="center"><Object name="MAX(24h)(℃)" /></Col>
+        <Col width="15%" align="center"><Object name="MIN(24h)(℃)" /></Col>
+      </Row>
+      <Row>
+        <Col width="15%"><Object name="变频器入口温度" /></Col>
+        <Col width="15%" align="center"><Object datamapping="ConvIn_Temp" /></Col>
+        <Col width="40%"><Module datamapping="ConvIn_Temp" min="-40" faultmin="-20" alarmmin="-10" alarmmax="40" faultmax="50" max="250" /></Col>
+      </Row>
+    </Table>
+    <Table boader="1">
+    	<Row>
+  		  <Col width="20%"><Object name="DI1-2变频器急停" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="Emer_StopConv" /></Col>
+      	<Col width="20%"><Object name="DI2-20变频器电网主开关" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="Conv_CBtrip" /></Col>
+      	<Col width="20%"></Col>
+      </Row>
+      <Row>
+  		  <Col width="20%"><Object name="DI2-12变频器超速" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="Conv_Overspeed" /></Col>
+      	<Col width="20%"><Object name="DI2-21变频器降功率运行" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="Reduce_Conv" /></Col>
+      	<Col width="20%"></Col>
+      </Row>
+      <Row>
+  		  <Col width="20%"><Object name="DI2-17变频器运行OK" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="Conv_OK" /></Col>
+      	<Col width="20%"><Object name="DI2-22变频器温度过低" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="Conv_Cold" /></Col>
+      	<Col width="20%"></Col>
+      </Row>
+      <Row>
+  		  <Col width="20%"><Object name="DI2-14变频器错误" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="Conv_Error" /></Col>
+      </Row>
+      <Row>
+  		  <Col width="20%"><Object name="DI2-15变频器报电网错误" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="Conv_Griderror" /></Col>
+      </Row>
+      <Row>
+  		  <Col width="20%"><Object name="DI2-16变频器并网范围" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="Conv_OperRange" /></Col>
+      	<Col width="20%"><Object name="DO24复位变频器错误" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="Conv_Reseterror" /></Col>
+      	<Col width="20%"><Button type="2" datamapping="Conv_Reseterror" typedef="ButtonDoType" /></Col>
+      </Row>
+      <Row>
+  		  <Col width="20%"><Object name="DI2-17变频器准备" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="Conv_Readyfor" /></Col>
+      	<Col width="20%"><Object name="DO25变频器励磁" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="Conv_Startexcit" /></Col>
+      	<Col width="20%"><Button type="2" datamapping="Conv_Startexcit" typedef="ButtonDoType" /></Col>
+      </Row>
+      <Row>
+  		  <Col width="20%"><Object name="DI2-18变频器电网连接" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="Conv_Gridconnec" /></Col>
+      	<Col width="20%"><Object name="DO26变频器加负载" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="Conv_Startprod" /></Col>
+      	<Col width="20%"><Button type="2" datamapping="Conv_Startprod" typedef="ButtonDoType" /></Col>
+      </Row>
+      <Row>
+  		  <Col width="20%"><Object name="DI2-19UPS告警" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="UPS_Warning" /></Col>
+      	<Col width="20%"><Object name="DO27主控OK" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="Conv_MainconOK" /></Col>
+      	<Col width="20%"><Button type="2" datamapping="Conv_MainconOK" typedef="ButtonDoType" /></Col>
+      </Row>
+    </Table>
+  </Page>
+  <!--** 电网 **-->
+  <Page name="3.2.5.2">
+  	<Table boader="1">
+  		<Row>
+        <Col width="25%"></Col>
+        <Col width="25%" align="center"><Object name="U" /></Col>
+        <Col width="25%" align="center"><Object name="V" /></Col>
+        <Col width="25%" align="center"><Object name="W" /></Col>
+      </Row>
+  		<Row>
+        <Col width="25%"><Object name="线电压" /></Col>
+        <Col width="25%" align="center"><Object datamapping="Vol_L1" unit="V" /></Col>
+				<Col width="25%" align="center"><Object datamapping="Vol_L2" unit="V" /></Col>
+				<Col width="25%" align="center"><Object datamapping="Vol_L3" unit="V"/></Col>			
+      </Row>
+      <Row>
+        <Col width="25%"><Object name="相电流" /></Col>
+        <Col width="25%" align="center"><Object datamapping="Cur_L1" unit="A" /></Col>
+				<Col width="25%" align="center"><Object datamapping="Cur_L2" unit="A" /></Col>
+				<Col width="25%" align="center"><Object datamapping="Cur_L3" unit="A"/></Col>
+      </Row>
+      <Row>
+        <Col width="25%"><Object name="相位角" /></Col>
+        <Col width="25%" align="center"><Object datamapping="Ang_L1" unit="°" /></Col>
+				<Col width="25%" align="center"><Object datamapping="Ang_L2" unit="°" /></Col>
+				<Col width="25%" align="center"><Object datamapping="Ang_L3" unit="°"/></Col>
+      </Row>
+  	</Table>
+  	<Table boader="1">
+  	  <Row>
+        <Col width="25%"><Object name="有功功率" /></Col>
+        <Col width="75%" align="center"><Object datamapping="G_Power_FB" unit="W" /></Col>		
+      </Row>
+      <Row>
+        <Col width="25%"><Object name="无功功率" /></Col>
+        <Col width="75%" align="center"><Object datamapping="reactive_Power_FB" unit="Var" /></Col>		
+      </Row>
+      <Row>
+        <Col width="25%"><Object name="功率因数" /></Col>
+        <Col width="75%" align="center"><Object datamapping="Power_factor" /></Col>		
+      </Row>
+      <Row>
+        <Col width="25%"><Object name="电网频率" /></Col>
+        <Col width="75%" align="center"><Object datamapping="Frequence" unit="Hz" /></Col>		
+      </Row>
+  	</Table> 	
+  	<Table boader="1">
+  	  <Row>
+  		  <Col width="20%"><Object name="DI2-23变频器低电压穿越信号" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="LVRT_Input" /></Col>
+      	<Col width="20%"><Object name="DO28风机可利用率" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="Availability_buf_total" /></Col>
+      	<Col width="20%"><Button type="2" datamapping="Availability_buf_total" typedef="ButtonDoType" /></Col>
+      </Row>
+  	  <Row>
+  		  <Col width="20%"><Object name="有功管理信号" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="AP_manage" /></Col>
+      	<Col width="20%"><Object name="有功设定值" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="AGCSet" /></Col>
+      	<Col width="20%"></Col>
+      </Row>
+      <Row>
+  		  <Col width="20%"><Object name="无功管理信号" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="RP_manage" /></Col>
+      	<Col width="20%"><Object name="无功设定值" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="AVCSet" /></Col>
+      	<Col width="20%"></Col>
+      </Row>
+  	</Table>
+  </Page>
+  <!--** 箱变 **-->
+  <Page name="3.2.5.3">
+  	<Table boader="1">
+  		<Row>
+  		  <Col width="20%"><Object name="DI2-24箱式变压器温度过高" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="Trafo_HW_Prt" /></Col>
+      </Row>
+    </Table>
+    <Table boader="1">
+      <Row>
+  		  <Col width="20%"><Object name="DI2-25箱式变压器过热跳闸" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="Trafo_TempStop" /></Col>
+      	<Col width="60%"></Col>    	
+      </Row>
+  		<Row>
+  		  <Col width="20%"><Object name="DI2-26低压测开关位置信号" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="Trafo_LV_Brk_Place" /></Col>
+      	<Col width="60%"></Col>    	
+      </Row>
+      <Row>
+  		  <Col width="20%"><Object name="DI2-27高压测开关位置信号" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="Trafo_HV_Brk_Place" /></Col>
+      	<Col width="60%"></Col>    	
+      </Row>
+      <Row>
+  		  <Col width="20%"><Object name="DI2-28轻瓦斯保护信号" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="Trafo_LW_Prt" /></Col>
+      	<Col width="60%"></Col>    	
+      </Row>
+  		<Row>
+  		  <Col width="20%"><Object name="DI2-29重瓦斯保护信号" /></Col>
+      	<Col width="20%" align="center"><Object datamapping="Trafo_HW_Prt" /></Col>
+      	<Col width="60%"></Col>    	
+      </Row>
+  	</Table>
+  </Page>
+  <!--** IO模块 **-->
+  <!--** DI1032-1 **-->
+  <Page name="3.2.6.1" >
+    <Table boader="1">
+        <Row>
+            <Col width="25%" align="center"><Object name="刹车1" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="Brake1_FB" fault="0"/></Col>
+            <Col width="25%" align="center"><Object name="变频器超速" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="Conv_Overspeed" fault="0" /></Col>
+        </Row>
+        <Row>
+            <Col width="25%" align="center"><Object name="刹车2" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="Brake2_FB" fault="0" /></Col>
+            <Col width="25%" align="center"><Object name="变频器正常" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="Conv_OK" fault="0" /></Col>
+        </Row>
+        <Row>
+            <Col width="25%" align="center"><Object name="手动刹车" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="Close_Brake" fault="0" /></Col>
+            <Col width="25%" align="center"><Object name="变频器并网范围" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="Conv_OperRange" fault="0" /></Col>
+        </Row>
+        <Row>
+            <Col width="25%" align="center"><Object name="发电机过滤器堵塞" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="Filter_Chok" fault="0" /></Col>
+            <Col width="25%" align="center"><Object name="变频器准备" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="Conv_Readyfor" fault="0" /></Col>
+        </Row>
+        <Row>
+            <Col width="25%" align="center"><Object name="发电机电刷磨损" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="Brush_Worn" fault="0" /></Col>
+            <Col width="25%" align="center"><Object name="变频器错误" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="Conv_Error" fault="0" /></Col>
+        </Row>
+        <Row>
+            <Col width="25%" align="center"><Object name="UPS告警" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="UPS_Warning" fault="0" /></Col>
+            <Col width="25%" align="center"><Object name="变频器电网连接" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="Conv_Gridconnec" fault="0" /></Col>
+        </Row>
+        <Row>
+            <Col width="25%" align="center"><Object name="偏航传感器A" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="Yaw_sensor1" fault="0" /></Col>
+            <Col width="25%" align="center"><Object name="变频器电网错误" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="Conv_Griderror" fault="0" /></Col>
+        </Row>
+        <Row>
+            <Col width="25%" align="center"><Object name="偏航传感器B" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="Yaw_sensor2" fault="0" /></Col>
+            <Col width="25%" align="center"><Object name="变频器电网主开关" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="Conv_CBtrip" fault="0" /></Col>
+        </Row>
+        <Row>
+            <Col width="25%" align="center"><Object name="扭缆顺时针触发" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="Ctwisted_CW" fault="0" /></Col>
+            <Col width="25%" align="center"><Object name="变桨小错误" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="Small_Error" fault="0" /></Col>
+        </Row>
+        <Row>
+            <Col width="25%" align="center"><Object name="扭缆逆时针触发" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="Ctwisted_CCW" fault="0" /></Col>
+            <Col width="25%" align="center"><Object name="变桨电池正常" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="Battery_OK" fault="0" /></Col>
+        </Row>
+        <Row>
+            <Col width="25%" align="center"><Object name="低速轴传感器1" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="Rpm1_Left" fault="0" /></Col>
+            <Col width="25%" align="center"><Object name="变桨91度限位开关" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="FB_Stormpos" fault="0" /></Col>
+        </Row>
+        <Row>
+            <Col width="25%" align="center"><Object name="低速轴传感器2" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="Rpm2_Right" fault="0" /></Col>
+            <Col width="25%" align="center"><Object name="变频器降功率" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="Reduce_Conv" fault="0" /></Col>
+        </Row>
+        <Row>
+            <Col width="25%" align="center"><Object name="变桨服务开关" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="Service_Bladea" fault="0" /></Col>
+            <Col width="25%" align="center"><Object name="振动开关" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="Vibration" fault="0" /></Col>
+        </Row>
+        <Row>
+            <Col width="25%" align="center"><Object name="高油温跳闸" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="Trafo_BrkTempHigh" fault="0" /></Col>
+            <Col width="25%" align="center"><Object name="变频器温度过低" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="Conv_Cold" fault="0" /></Col>
+        </Row>
+        <Row>
+            <Col width="25%" align="center"><Object name="便携盒紧急停机" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="Emer_StopNac" fault="0" /></Col>
+            <Col width="25%" align="center"><Object name="液压油位" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="Hydr_OilLevel" fault="0" /></Col>
+        </Row>
+        <Row>
+            <Col width="25%" align="center"><Object name="变频器紧急停机" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="Emer_StopConv" fault="0" /></Col>
+            <Col width="25%" align="center"><Object name="低电压穿越输入信号" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="LVRT_Input" fault="0" /></Col>
+        </Row>
+    </Table> 	
+  </Page>
+  <Page name="3.2.6.2" >
+    <Table boader="1">
+        <Row>
+            <Col width="25%" align="center"><Object name="齿轮油过滤器" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="Gear_PresDif" fault="0" /></Col>
+            <Col width="25%" align="center"><Object name="偏航电机1,3开关" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="CB_YawM13" fault="0" /></Col>
+        </Row>
+        <Row>
+            <Col width="25%" align="center"><Object name="高油温报警" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="Trafo_AlmTempHigh" fault="0" /></Col>
+            <Col width="25%" align="center"><Object name="偏航电机2,4开关" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="CB_YawM24" fault="0" /></Col>
+        </Row>
+        <Row>
+            <Col width="25%" align="center"><Object name="齿轮油位" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="Gear_OilLevel" fault="0" /></Col>
+            <Col width="25%" align="center"><Object name="发电机风扇1开关" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="CB_GFan1" fault="0" /></Col>
+        </Row>
+        <Row>
+            <Col width="25%" align="center"><Object name="低速轴超速模块" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="WP2035_ROspeed" fault="0" /></Col>
+            <Col width="25%" align="center"><Object name="发电机风扇2开关" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="CB_GFan2" fault="0" /></Col>
+        </Row>
+        <Row>
+            <Col width="25%" align="center"><Object name="齿轮箱超速模块" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="WP2035_GOspeed" fault="0" /></Col>
+            <Col width="25%" align="center"><Object name="齿轮油风扇开关" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="CB_GearOilfan" fault="0" /></Col>
+        </Row>
+        <Row>
+            <Col width="25%" align="center"><Object name="主控柜紧急停机" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="Emer_StopTopbox" fault="0" /></Col>
+            <Col width="25%" align="center"><Object name="齿轮第二油泵开关" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="CB_GearPump2" fault="0" /></Col>
+        </Row>
+        <Row>
+            <Col width="25%" align="center"><Object name="安全链" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="Safetychain_FB" fault="0" /></Col>
+            <Col width="25%" align="center"><Object name="齿轮油泵开关" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="CB_GearPump1" fault="0" /></Col>
+        </Row>
+        <Row>
+            <Col width="25%" align="center"><Object name="发电机雷电保护" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="Lightn_Prot" fault="0" /></Col>
+            <Col width="25%" align="center"><Object name="齿轮油加热开关" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="CB_GearHeating" fault="0" /></Col>
+        </Row>
+        <Row>
+            <Col width="25%" align="center"><Object name="刹车磨损1" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="Brake_Wornout1" fault="0" /></Col>
+            <Col width="25%" align="center"><Object name="液压泵开关" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="CB_HydrPump" fault="0" /></Col>
+        </Row>
+        <Row>
+            <Col width="25%" align="center"><Object name="刹车磨损2" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="Brake_Wornout2" fault="0" /></Col>
+            <Col width="25%" align="center"><Object name="偏航刹车开关" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="CB_YawBrake" fault="0" /></Col>
+        </Row>
+        <Row>
+            <Col width="25%" align="center"><Object name="上电复位" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="Power_Upreset" fault="0" /></Col>
+            <Col width="25%" align="center"><Object name="低压开关位置信号" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="Trafo_LV_Brk_Place" fault="0" /></Col>
+        </Row>
+        <Row>
+            <Col width="25%" align="center"><Object name="发电机热电偶" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="Thermistor" fault="0" /></Col>
+            <Col width="25%" align="center"><Object name="高压开关位置信号" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="Trafo_HV_Brk_Place" fault="0" /></Col>
+        </Row>
+        <Row>
+            <Col width="25%" align="center"><Object name="箱式变压器温度过热" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="Trafo_TempHigh" fault="0" /></Col>
+            <Col width="25%" align="center"><Object name="低速轴润滑油开关" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="CB_Lubricat" fault="0" /></Col>
+        </Row>
+        <Row>
+            <Col width="25%" align="center"><Object name="箱式变压器过热跳闸" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="Trafo_TempStop" fault="0" /></Col>
+            <Col width="25%" align="center"></Col>
+            <Col width="25%" align="center"></Col>
+        </Row>
+        <Row>
+            <Col width="25%" align="center"><Object name="待定" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="Trafo_LW_Prt" fault="0" /></Col>
+            <Col width="25%" align="center"></Col>
+            <Col width="25%" align="center"></Col>
+        </Row>
+        <Row>
+            <Col width="25%" align="center"><Object name="待定" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="Trafo_HW_Prt" fault="0" /></Col>
+            <Col width="25%" align="center"></Col>
+            <Col width="25%" align="center"></Col>
+        </Row>
+    </Table>
+  </Page>
+  <Page name="3.2.6.3" >
+    <Table boader="1">
+        <Row>
+            <Col width="25%" align="center"><Object name="偏航顺时针电机1,3" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="Yaw_CW13" fault="0" /></Col>
+            <Col width="25%" align="center"><Object name="复位变频器错误" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="Conv_Reseterror" fault="0" /></Col>
+        </Row>
+        <Row>
+            <Col width="25%" align="center"><Object name="偏航逆时针电机1,3" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="Yaw_CCW13" fault="0" /></Col>
+            <Col width="25%" align="center"><Object name="变频器励磁" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="Conv_Startexcit" fault="0" /></Col>
+        </Row>
+        <Row>
+            <Col width="25%" align="center"><Object name="偏航顺时针电机2,4" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="Yaw_CW24" fault="0" /></Col>
+            <Col width="25%" align="center"><Object name="主控发给变频器OK" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="Conv_MainconOK" fault="0" /></Col>
+        </Row>
+        <Row>
+            <Col width="25%" align="center"><Object name="偏航逆时针电机2,4" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="Yaw_CCW24" fault="0" /></Col>
+            <Col width="25%" align="center"><Object name="变频器加负载" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="Conv_Startprod" fault="0" /></Col>
+        </Row>
+        <Row>
+            <Col width="25%" align="center"><Object name="偏航刹车1" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="Yaw_Brake1" fault="0" /></Col>
+            <Col width="25%" align="center"><Object name="变桨快速停止" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="Pitchstop_Fast" fault="0" /></Col>
+        </Row>
+        <Row>
+            <Col width="25%" align="center"><Object name="偏航刹车2" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="Yaw_Brakesoft" fault="0" /></Col>
+            <Col width="25%" align="center"><Object name="旁路限位开关" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="Bypass_Limitsw" fault="0" /></Col>
+        </Row>
+        <Row>
+            <Col width="25%" align="center"><Object name="发电机风扇1" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="GFan1" fault="0" /></Col>
+            <Col width="25%" align="center"><Object name="主轴刹车2（延迟）" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="Disk_Brake2" fault="0" /></Col>
+        </Row>
+        <Row>
+            <Col width="25%" align="center"><Object name="发电机风扇2" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="GFan2" fault="0" /></Col>
+            <Col width="25%" align="center"><Object name="主轴刹车1" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="Disk_Brake1" fault="0" /></Col>
+        </Row>
+        <Row>
+            <Col width="25%" align="center"><Object name="齿轮旁路油泵" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="Gearoil_Pump2" fault="0" /></Col>
+            <Col width="25%" align="center"><Object name="启动液压泵" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="Hydraulic" fault="0" /></Col>
+        </Row>
+        <Row>
+            <Col width="25%" align="center"><Object name="齿轮油风扇" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="Gearoil_Fan" fault="0" /></Col>
+            <Col width="25%" align="center"><Object name="安全链开关" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="Safetychain" fault="0" /></Col>
+        </Row>
+        <Row>
+            <Col width="25%" align="center"><Object name="齿轮油泵" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="Gearoil_Pump1" fault="0" /></Col>
+            <Col width="25%" align="center"><Object name="风速计风向标加热" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="Heat_Windmea" fault="0" /></Col>
+        </Row>
+        <Row>
+            <Col width="25%" align="center"><Object name="齿轮油加热" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="Gear_Heating" fault="0" /></Col>
+            <Col width="25%" align="center"><Object name="发电机关??" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="GSwitch_Off" fault="0" /></Col>
+        </Row>
+    </Table> 
+  </Page>
+  <Page name="3.2.6.4" >
+    <Table boader="1">
+        <Row>
+            <Col width="25%" align="center"><Object name="风速计1" /></Col>
+            <Col width="25%" align="center"><Object datamapping="Wind_Spd1" /></Col>
+            <Col width="25%" align="center"></Col>
+            <Col width="25%" align="center"></Col>
+        </Row>
+        <Row>
+            <Col width="25%" align="center"><Object name="风速计2" /></Col>
+            <Col width="25%" align="center"><Object datamapping="Wind_Spd2" /></Col>
+            <Col width="25%" align="center"></Col>
+            <Col width="25%" align="center"></Col>
+        </Row>
+        <Row>
+            <Col width="25%" align="center"><Object name="主轴转速" /></Col>
+            <Col width="25%" align="center"><Object datamapping="Rotor_RSpd" /></Col>
+            <Col width="25%" align="center"></Col>
+            <Col width="25%" align="center"></Col>
+        </Row>
+        <Row>
+            <Col width="25%" align="center"><Object name="齿轮箱转速" /></Col>
+            <Col width="25%" align="center"><Object datamapping="Gear_RSpd" /></Col>
+            <Col width="25%" align="center"></Col>
+            <Col width="25%" align="center"></Col>
+        </Row>
+        <Row>
+            <Col width="25%" align="center"><Object name="发电机转速" /></Col>
+            <Col width="25%" align="center"><Object datamapping="G_RSpd1" /></Col>
+            <Col width="25%" align="center"></Col>
+            <Col width="25%" align="center"></Col>
+        </Row>
+    </Table>
+  </Page>
+  <Page name="3.2.6.5" >
+    <Table boader="1">
+        <Row>
+            <Col width="25%" align="center"><Object name="变桨系统通信状态" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="Pitch_com_state" fault="0" /></Col>
+            <Col width="25%" align="center"><Object name="变桨系统通信质量" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="Pitch_com_quality" fault="0" /></Col>
+        </Row>
+        <Row>
+            <Col width="25%" align="center"><Object name="振动模块1通信状态" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="VM_state1_com" fault="0" /></Col>
+            <Col width="25%" align="center"><Object name="振动模块1通信质量" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="VM_quality1_com" fault="0" /></Col>
+        </Row>
+        <Row>
+            <Col width="25%" align="center"><Object name="振动模块2通信状态" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="VM_state2_com" fault="0" /></Col>
+            <Col width="25%" align="center"><Object name="振动模块2通信质量" /></Col>
+            <Col width="25%" align="center"><Iconfault datamapping="VM_quality2_com" fault="0" /></Col>
+        </Row>
+    </Table> 
+  </Page>
+  <Page name="3.2.6.6" >
+    <Table boader="1">
+        <Row>
+            <Col width="25%" align="center"><Object name="齿轮油泵压力" /></Col>
+            <Col width="25%" align="center"><Object datamapping="GearPump_Pre" /></Col>
+            <Col width="25%" align="center"></Col>
+            <Col width="25%" align="center"></Col>
+        </Row>
+        <Row>
+            <Col width="25%" align="center"><Object name="齿轮油入口压力" /></Col>
+            <Col width="25%" align="center"><Object datamapping="GearIn_Pre" /></Col>
+            <Col width="25%" align="center"></Col>
+            <Col width="25%" align="center"></Col>
+        </Row>
+        <Row>
+            <Col width="25%" align="center"><Object name="液压压力" /></Col>
+            <Col width="25%" align="center"><Object datamapping="Hyd_Pre" /></Col>
+            <Col width="25%" align="center"></Col>
+            <Col width="25%" align="center"></Col>
+        </Row>
+        <Row>
+            <Col width="25%" align="center"><Object name="变频器转矩" /></Col>
+            <Col width="25%" align="center"><Object datamapping="Conv_Torque" /></Col>
+            <Col width="25%" align="center"></Col>
+            <Col width="25%" align="center"></Col>
+        </Row>
+        <Row>
+            <Col width="25%" align="center"><Object name="变频器反馈速度" /></Col>
+            <Col width="25%" align="center"><Object datamapping="Conv_GSpd" /></Col>
+            <Col width="25%" align="center"></Col>
+            <Col width="25%" align="center"></Col>
+        </Row>
+    </Table> 
+  </Page>
+    <Page name="3.2.6.7" >
+        <Table boader="1">
+            <Row>
+                <Col width="25%" align="center"><Object name="功率因数设定" /></Col>
+                <Col width="25%" align="center"><Object datamapping="Power_factor" /></Col>
+                <Col width="25%" align="center"></Col>
+                <Col width="25%" align="center"></Col>
+            </Row>
+        </Table>
+    </Page>
+    <Page name="3.2.6.8" >
+        <Table boader="1">
+            <Row>
+                <Col width="25%" align="center"><Object name="齿轮油温通道" /></Col>
+                <Col width="25%" align="center"><Object datamapping="Gearoil_Temp" /></Col>
+                <Col width="25%" align="center"></Col>
+                <Col width="25%" align="center"></Col>
+            </Row>
+            <Row>
+                <Col width="25%" align="center"><Object name="齿轮轴承1温度通道" /></Col>
+                <Col width="25%" align="center"><Object datamapping="GearBear1_Temp" /></Col>
+                <Col width="25%" align="center"></Col>
+                <Col width="25%" align="center"></Col>
+            </Row>
+            <Row>
+                <Col width="25%" align="center"><Object name="齿轮入口温度通道" /></Col>
+                <Col width="25%" align="center"><Object datamapping="GearIn_Temp" /></Col>
+                <Col width="25%" align="center"></Col>
+                <Col width="25%" align="center"></Col>
+            </Row>
+            <Row>
+                <Col width="25%" align="center"><Object name="发电机轴承1温度通道" /></Col>
+                <Col width="25%" align="center"><Object datamapping="GBear1_Temp" /></Col>
+                <Col width="25%" align="center"></Col>
+                <Col width="25%" align="center"></Col>
+            </Row>
+            <Row>
+                <Col width="25%" align="center"><Object name="发电机轴承2温度通道" /></Col>
+                <Col width="25%" align="center"><Object datamapping="GBear2_Temp" /></Col>
+                <Col width="25%" align="center"></Col>
+                <Col width="25%" align="center"></Col>
+            </Row>
+            <Row>
+                <Col width="25%" align="center"><Object name="发电机定子线圈温度通道" /></Col>
+                <Col width="25%" align="center"><Object datamapping="GSCoil_Temp" /></Col>
+                <Col width="25%" align="center"></Col>
+                <Col width="25%" align="center"></Col>
+            </Row>
+            <Row>
+                <Col width="25%" align="center"><Object name="变频器入口温度通道" /></Col>
+                <Col width="25%" align="center"><Object datamapping="ConvIn_Temp" /></Col>
+                <Col width="25%" align="center"></Col>
+                <Col width="25%" align="center"></Col>
+            </Row>
+            <Row>
+                <Col width="25%" align="center"><Object name="齿轮轴承2温度通道" /></Col>
+                <Col width="25%" align="center"><Object datamapping="GearBear2_Temp" /></Col>
+                <Col width="25%" align="center"></Col>
+                <Col width="25%" align="center"></Col>
+            </Row>
+            <Row>
+                <Col width="25%" align="center"><Object name="户外温度通道" /></Col>
+                <Col width="25%" align="center"><Object datamapping="OutDoor_Temp" /></Col>
+                <Col width="25%" align="center"></Col>
+                <Col width="25%" align="center"></Col>
+            </Row>
+            <Row>
+                <Col width="25%" align="center"><Object name="机舱温度通道" /></Col>
+                <Col width="25%" align="center"><Object datamapping="Nacelle_Temp" /></Col>
+                <Col width="25%" align="center"></Col>
+                <Col width="25%" align="center"></Col>
+            </Row>
+            <Row>
+                <Col width="25%" align="center"><Object name="低速轴轴承温度通??" /></Col>
+                <Col width="25%" align="center"><Object datamapping="RotBear_Temp" /></Col>
+                <Col width="25%" align="center"></Col>
+                <Col width="25%" align="center"></Col>
+            </Row>
+        </Table>
+    </Page>
+
+
+  <!--** 参数设置 **-->
+  <Page name="3.3.1">
+     <Log datamapping="2" Loglen="4" filemapping="parameter.csv">
+        <Row>
+        	<Col width="10%" align="center" ><Object name="序号" /></Col>
+        	<Col width="40%" ><Object name="参数名称" /></Col>
+        	<Col width="40%" align="center" ><Object name="参数值" /></Col>
+        	<Col width="10%" align="center" ><Object name="单位" /></Col>
+        </Row>
+		<Para parameterNum="P_00_00" datamapping="local_add"/>
+		<Para parameterNum="P_00_01" datamapping="PAR_SystemConfig"/>
+     </Log>
+  </Page>
+  <!--运行参数-->
+   <Page name="3.3.2">
+     <Log datamapping="2" Loglen="4" filemapping="parameter.csv">
+        <Row>
+        	<Col width="10%" align="center" ><Object name="序号" /></Col>
+        	<Col width="40%" align="center" ><Object name="参数名称" /></Col>
+        	<Col width="40%" align="center" ><Object name="参数值" /></Col>
+        	<Col width="10%" align="center" ><Object name="单位" /></Col>
+        </Row>
+        <Para parameterNum="P_01_00" datamapping="start_Wind_spd"/>
+        <Para parameterNum="P_01_01" datamapping="Yaw_start_wind_spd"/>
+        <Para parameterNum="P_01_02" datamapping="start_wait_time"/>
+        <Para parameterNum="P_01_03" datamapping="conect_G_RSpd"/>
+        <Para parameterNum="P_01_04" datamapping="conect_G_RSpd_range"/>
+        <Para parameterNum="P_01_05" datamapping="Conv_Gridconnec_time"/>
+        <Para parameterNum="P_01_06" datamapping="Gridconnec_cut_power1"/>
+        <Para parameterNum="P_01_07" datamapping="Gridconnec_cut_time1"/>
+        <Para parameterNum="P_01_08" datamapping="Gridconnec_cut_power2"/>
+        <Para parameterNum="P_01_09" datamapping="Gridconnec_cut_time2"/>
+        <Para parameterNum="P_01_0A" datamapping="max_Power_ten"/>
+        <Para parameterNum="P_01_0B" datamapping="Peak_rpm"/>
+        <Para parameterNum="P_01_0C" datamapping="max_Power"/>
+        <Para parameterNum="P_01_0D" datamapping="max_Wind_spd_ten_min"/>
+        <Para parameterNum="P_01_0E" datamapping="max_Wind_spd_thir_s"/>
+        <Para parameterNum="P_01_0F" datamapping="max_Wind_spd"/>
+        <Para parameterNum="P_01_10" datamapping="Winddown_spd"/>
+        <Para parameterNum="P_01_11" datamapping="Battery_test_time"/>
+        <Para parameterNum="P_01_12" datamapping="Icewarn_reset_time"/>
+        <Para parameterNum="P_01_13" datamapping="Frq_conv_powerup_time"/>
+        <Para parameterNum="P_01_14" datamapping="Frq_cnv_time"/>
+        <Para parameterNum="P_01_15" datamapping="Medium_off_time"/>
+        <Para parameterNum="P_01_16" datamapping="Rewind_low_wind"/>
+        <Para parameterNum="P_01_17" datamapping="Rewind"/>
+        <Para parameterNum="P_01_18" datamapping="Max_cable_twist"/>
+        <Para parameterNum="P_01_19" datamapping="Nord_offset"/>
+        <Para parameterNum="P_01_1A" datamapping="Start_yaw_pos_1"/>
+        <Para parameterNum="P_01_1B" datamapping="Start_yaw_pos_2"/>
+        <Para parameterNum="P_01_1C" datamapping="Wait_time_yaw_1"/>
+        <Para parameterNum="P_01_1D" datamapping="Wait_time_yaw_2"/>
+        <Para parameterNum="P_01_1E" datamapping="Stop_yaw_pos"/>
+        <Para parameterNum="P_01_1F" datamapping="Start_yaw_now"/>
+        <Para parameterNum="P_01_20" datamapping="Yaw_prog_1_spd"/>
+        <Para parameterNum="P_01_21" datamapping="Yaw_prog_2_spd"/>
+        <Para parameterNum="P_01_22" datamapping="B1_B2_delay"/>
+     </Log>
+  </Page>
+
+   <Page name="3.3.3">
+     <Log datamapping="2" Loglen="4" filemapping="parameter.csv">
+        <Row>
+        	<Col width="10%" align="center" ><Object name="序号" /></Col>
+        	<Col width="40%" ><Object name="参数名称" /></Col>
+        	<Col width="40%" align="center" ><Object name="参数值" /></Col>
+        	<Col width="10%" align="center" ><Object name="单位" /></Col>
+        </Row>
+        <Para parameterNum="P_02_00" datamapping="G_RSpd_rated"/>
+        <Para parameterNum="P_02_01" datamapping="Power_rpm"/>
+        <Para parameterNum="P_02_02" datamapping="Power_rated"/>
+        <Para parameterNum="P_02_03" datamapping="Start_torque"/>
+        <Para parameterNum="P_02_04" datamapping="Rated_torque"/>
+        <Para parameterNum="P_02_05" datamapping="RPM_measuring"/>
+        <Para parameterNum="P_02_06" datamapping="G_safe_rmp"/>
+        <Para parameterNum="P_02_07" datamapping="G_safe_time"/>
+        <Para parameterNum="P_02_08" datamapping="G_ramp_rmp"/>
+        <Para parameterNum="P_02_09" datamapping="max_Tower_resonance"/>
+        <Para parameterNum="P_02_0A" datamapping="min_Tower_resonance"/>
+        <Para parameterNum="P_02_0B" datamapping="max_Tower_resonance_time"/>
+        <Para parameterNum="P_02_0C" datamapping="T_safe_time"/>
+        <Para parameterNum="P_02_0D" datamapping="max_Freewheel_time"/>
+        <Para parameterNum="P_02_0E" datamapping="Rampend1"/>
+        <Para parameterNum="P_02_0F" datamapping="Rampspeed1"/>
+        <Para parameterNum="P_02_10" datamapping="Rampend2"/>
+        <Para parameterNum="P_02_11" datamapping="Rampspeed2"/>
+        <Para parameterNum="P_02_12" datamapping="start_ramp"/>
+        <Para parameterNum="P_02_13" datamapping="Rampend"/>
+        <Para parameterNum="P_02_14" datamapping="Torque_out_4mA"/>
+        <Para parameterNum="P_02_15" datamapping="Torque_out_20mA"/>
+        <Para parameterNum="P_02_16" datamapping="Torque_in_4mA"/>
+        <Para parameterNum="P_02_17" datamapping="Torque_in_20mA"/>
+        <Para parameterNum="P_02_18" datamapping="Frq_con_4mA"/>
+        <Para parameterNum="P_02_19" datamapping="Frq_con_20mA"/>
+     </Log>
+  </Page>
+
+   <Page name="3.3.4">
+     <Log datamapping="2" Loglen="4" filemapping="parameter.csv">
+        <Row>
+        	<Col width="10%" align="center" ><Object name="序号" /></Col>
+        	<Col width="40%" ><Object name="参数名称" /></Col>
+        	<Col width="40%" align="center" ><Object name="参数值" /></Col>
+        	<Col width="10%" align="center" ><Object name="单位" /></Col>
+        </Row>
+        <Para parameterNum="P_03_00" datamapping="Pitch_max"/>
+        <Para parameterNum="P_03_01" datamapping="Pitch_min"/>
+        <Para parameterNum="P_03_02" datamapping="Pos_reached_win"/>
+        <Para parameterNum="P_03_03" datamapping="max_Dif_sys"/>
+        <Para parameterNum="P_03_04" datamapping="Max_reactionerr"/>
+        <Para parameterNum="P_03_05" datamapping="max_Running_ang"/>
+        <Para parameterNum="P_03_06" datamapping="Pitch_end_time"/>
+        <Para parameterNum="P_03_07" datamapping="max_Pitch_current"/>
+        <Para parameterNum="P_03_08" datamapping="B50_pitch_angle"/>
+        <Para parameterNum="P_03_09" datamapping="Torque_cut_G_RSpd"/>
+        <Para parameterNum="P_03_0A" datamapping="Torque_ramp_time"/>
+        <Para parameterNum="P_03_0B" datamapping="BP_pitch_slow_angel"/>
+        <Para parameterNum="P_03_0C" datamapping="BP_pitchslow"/>
+        <Para parameterNum="P_03_0D" datamapping="B50_slow_angel_range"/>
+        <Para parameterNum="P_03_0E" datamapping="min_B50_pitch_slow_spd"/>
+        <Para parameterNum="P_03_0F" datamapping="B60_slow_angel_range"/>
+        <Para parameterNum="P_03_10" datamapping="min_B60_pitch_slow_spd"/>
+        <Para parameterNum="P_03_11" datamapping="B75_pitch_spd"/>
+        <Para parameterNum="P_03_12" datamapping="B75_B180_slow_angel_range"/>
+        <Para parameterNum="P_03_13" datamapping="min_B180P_spd"/>
+        <Para parameterNum="P_03_14" datamapping="Offset_1"/>
+        <Para parameterNum="P_03_15" datamapping="Offset_2"/>
+        <Para parameterNum="P_03_16" datamapping="Offset_3"/>
+        <Para parameterNum="P_03_17" datamapping="Pitch_stop_time"/>
+     </Log>
+  </Page>
+
+   <Page name="3.3.5">
+     <Log datamapping="2" Loglen="4" filemapping="parameter.csv">
+        <Row>
+        	<Col width="10%" align="center" ><Object name="序号" /></Col>
+        	<Col width="40%" ><Object name="参数名称" /></Col>
+        	<Col width="40%" align="center" ><Object name="参数值" /></Col>
+        	<Col width="10%" align="center" ><Object name="单位" /></Col>
+        </Row>
+        <Para parameterNum="P_04_00" datamapping="Pitch_interval"/>
+        <Para parameterNum="P_04_01" datamapping="Pitch_PID_KP"/>
+        <Para parameterNum="P_04_02" datamapping="Pitch_PID_KI"/>
+        <Para parameterNum="P_04_03" datamapping="Pitch_PID_KD"/>
+        <Para parameterNum="P_04_04" datamapping="pitch_min_rate"/>
+        <Para parameterNum="P_04_05" datamapping="pitch_max_rate"/>
+        <Para parameterNum="P_04_06" datamapping="low_wsp_rpm_1"/>
+        <Para parameterNum="P_04_07" datamapping="low_wsp_Troque_1"/>
+        <Para parameterNum="P_04_08" datamapping="low_wsp_rpm_2"/>
+        <Para parameterNum="P_04_09" datamapping="low_wsp_Troque_2"/>
+        <Para parameterNum="P_04_0A" datamapping="low_wsp_rpm_3"/>
+        <Para parameterNum="P_04_0B" datamapping="low_wsp_Troque_3"/>
+        <Para parameterNum="P_04_0C" datamapping="low_wsp_rpm_4"/>
+        <Para parameterNum="P_04_0D" datamapping="low_wsp_Troque_4"/>
+        <Para parameterNum="P_04_0E" datamapping="low_wsp_rpm_5"/>
+        <Para parameterNum="P_04_0F" datamapping="low_wsp_Troque_5"/>
+        <Para parameterNum="P_04_10" datamapping="low_wsp_rpm_6"/>
+        <Para parameterNum="P_04_11" datamapping="low_wsp_Troque_6"/>
+        <Para parameterNum="P_04_12" datamapping="low_wsp_rpm_7"/>
+        <Para parameterNum="P_04_13" datamapping="low_wsp_Troque_7"/>
+        <Para parameterNum="P_04_14" datamapping="low_wsp_rpm_8"/>
+        <Para parameterNum="P_04_15" datamapping="low_wsp_Troque_8"/>
+        <Para parameterNum="P_04_16" datamapping="low_wsp_rpm_9"/>
+        <Para parameterNum="P_04_17" datamapping="low_wsp_Troque_9"/>
+        <Para parameterNum="P_04_18" datamapping="low_wsp_rpm_10"/>
+        <Para parameterNum="P_04_19" datamapping="low_wsp_Troque_10"/>
+        <Para parameterNum="P_04_1A" datamapping="low_wsp_rpm_11"/>
+        <Para parameterNum="P_04_1B" datamapping="low_wsp_Troque_11"/>
+        <Para parameterNum="P_04_1C" datamapping="pitsangle1"/>
+        <Para parameterNum="P_04_1D" datamapping="gskgain1"/>
+        <Para parameterNum="P_04_1E" datamapping="pitsangle2"/>
+        <Para parameterNum="P_04_1F" datamapping="gskgain2"/>
+        <Para parameterNum="P_04_20" datamapping="pitsangle3"/>
+        <Para parameterNum="P_04_21" datamapping="gskgain3"/>
+        <Para parameterNum="P_04_22" datamapping="pitsangle4"/>
+        <Para parameterNum="P_04_23" datamapping="gskgain4"/>
+        <Para parameterNum="P_04_24" datamapping="Torq_erro_1686"/>
+        <Para parameterNum="P_04_25" datamapping="Torq_acc_1686"/>
+        <Para parameterNum="P_04_26" datamapping="Set_delay_1687"/>
+        <Para parameterNum="P_04_27" datamapping="Torq_acc_1687"/>
+        <Para parameterNum="P_04_28" datamapping="Set_delay_1688"/>
+     </Log>
+  </Page>
+
+  <Page name="3.3.6">
+     <Log datamapping="2" Loglen="4" filemapping="parameter.csv">
+        <Row>
+        	<Col width="10%" align="center" ><Object name="序号" /></Col>
+        	<Col width="40%" ><Object name="参数名称" /></Col>
+        	<Col width="40%" align="center" ><Object name="参数值" /></Col>
+        	<Col width="10%" align="center" ><Object name="单位" /></Col>
+        </Row>
+        <Para parameterNum="P_05_00" datamapping="min_Hyd_pres"/>
+        <Para parameterNum="P_05_01" datamapping="max_Hyd_pres"/>
+        <Para parameterNum="P_05_02" datamapping="max_min_Hyd_test_time"/>
+        <Para parameterNum="P_05_03" datamapping="P_Start_Hyd_Pump"/>
+        <Para parameterNum="P_05_04" datamapping="P_Stop_Hyd_Pump"/>
+        <Para parameterNum="P_05_05" datamapping="max_start_Hyd_time"/>
+        <Para parameterNum="P_05_06" datamapping="min_start_Hyd_time"/>
+        <Para parameterNum="P_05_07" datamapping="P_Oil_pump_on_rpm"/>
+        <Para parameterNum="P_05_08" datamapping="P_Oil_pump_interv"/>
+        <Para parameterNum="P_05_09" datamapping="P_Oil_pump_pause"/>
+        <Para parameterNum="P_05_0A" datamapping="Rotor_lub_OFF_set"/>
+        <Para parameterNum="P_05_0B" datamapping="Rotor_lub_ON_set"/>
+        <Para parameterNum="P_05_0C" datamapping="Gear_in_tst"/>
+        <Para parameterNum="P_05_0D" datamapping="Gear_test"/>
+        <Para parameterNum="P_05_0E" datamapping="Gear_in_test"/>
+        <Para parameterNum="P_05_0F" datamapping="Gear_in_20mA"/>
+        <Para parameterNum="P_05_10" datamapping="Low_gear_oil_set"/>
+        <Para parameterNum="P_05_11" datamapping="P_Mech_pump"/>
+        <Para parameterNum="P_05_12" datamapping="P_Epump_on_pre"/>
+        <Para parameterNum="P_05_13" datamapping="P_Epump_off_pre"/>
+        <Para parameterNum="P_05_14" datamapping="P_Epump_on_tmp"/>
+        <Para parameterNum="P_05_15" datamapping="P_Epump_off_tmp"/>
+     </Log>
+  </Page>
+
+  <Page name="3.3.7">
+     <Log datamapping="2" Loglen="4" filemapping="parameter.csv">
+        <Row>
+        	<Col width="10%" align="center" ><Object name="序号" /></Col>
+        	<Col width="40%" ><Object name="参数名称" /></Col>
+        	<Col width="40%" align="center" ><Object name="参数值" /></Col>
+        	<Col width="10%" align="center" ><Object name="单位" /></Col>
+        </Row>
+        <Para parameterNum="P_06_00" datamapping="Voltage_phase_diff"/>
+        <Para parameterNum="P_06_01" datamapping="L1_L2_L3_diff"/>
+        <Para parameterNum="P_06_02" datamapping="I1_I2_I3_diff"/>
+        <Para parameterNum="P_06_03" datamapping="nom_Grid_volt"/>
+        <Para parameterNum="P_06_04" datamapping="min_Grid_volt"/>
+        <Para parameterNum="P_06_05" datamapping="min_Grid_volt_test_time"/>
+        <Para parameterNum="P_06_06" datamapping="max_Grid_volt"/>
+        <Para parameterNum="P_06_07" datamapping="max_Grid_volt_test_time"/>
+        <Para parameterNum="P_06_08" datamapping="nom_Grid_freq"/>
+        <Para parameterNum="P_06_09" datamapping="min_Grid_freq"/>
+        <Para parameterNum="P_06_0A" datamapping="min_Grid_freq_test_time"/>
+        <Para parameterNum="P_06_0B" datamapping="max_Grid_freq"/>
+        <Para parameterNum="P_06_0C" datamapping="max_Grid_freq_test_time"/>
+        <Para parameterNum="P_06_0D" datamapping="P_MinGridFreq"/>
+        <Para parameterNum="P_06_0E" datamapping="P_MinGridFreqTime"/>
+        <Para parameterNum="P_06_1F" datamapping="P_MaxGridFreq"/>
+        <Para parameterNum="P_06_10" datamapping="P_MaxGridFreqTime"/>
+        <Para parameterNum="P_06_11" datamapping="PW_test_Wind_spd"/>
+        <Para parameterNum="P_06_12" datamapping="power_PW_test"/>
+        <Para parameterNum="P_06_13" datamapping="power_PW_test_ratio"/>
+        <Para parameterNum="P_06_14" datamapping="Fast_Cut_Out"/>
+        <Para parameterNum="P_06_15" datamapping="Griddrop_reset"/>
+        <Para parameterNum="P_06_16" datamapping="G_transient"/>
+        <Para parameterNum="P_06_17" datamapping="Transient_m"/>
+        <Para parameterNum="P_06_18" datamapping="no_Grid_Un"/>
+        <Para parameterNum="P_06_19" datamapping="critical_Grid_freq"/>
+        <Para parameterNum="P_06_1A" datamapping="Rated_cosphi"/>
+        <Para parameterNum="P_06_1B" datamapping="Powerman_enable"/>
+        <Para parameterNum="P_06_1C" datamapping="vP_factor"/>
+        <Para parameterNum="P_06_1D" datamapping="Phi_mode_x"/>
+        <Para parameterNum="P_06_1E" datamapping="Convertertype_x"/>
+        <Para parameterNum="P_06_1F" datamapping="Angle_Phi_set"/>
+     </Log>
+  </Page>
+
+  <Page name="3.3.8">
+     <Log datamapping="2" Loglen="4" filemapping="parameter.csv">
+        <Row>
+        	<Col width="10%" align="center" ><Object name="序号" /></Col>
+        	<Col width="40%" ><Object name="参数名称" /></Col>
+        	<Col width="40%" align="center" ><Object name="参数值" /></Col>
+        	<Col width="10%" align="center" ><Object name="单位" /></Col>
+        </Row>
+        <Para parameterNum="P_07_00" datamapping="R_Pulses"/>
+        <Para parameterNum="P_07_01" datamapping="max_Rotor_rpm"/>
+        <Para parameterNum="P_07_02" datamapping="max_Gen_rpm"/>
+        <Para parameterNum="P_07_03" datamapping="max_Gear_rpm"/>
+        <Para parameterNum="P_07_04" datamapping="Gener_Rotor_contrast"/>
+        <Para parameterNum="P_07_05" datamapping="Gen_Pulses"/>
+        <Para parameterNum="P_07_06" datamapping="Gear_Pulses"/>
+        <Para parameterNum="P_07_07" datamapping="Rotor_m_B200"/>
+        <Para parameterNum="P_07_08" datamapping="Gear_m_B200"/>
+        <Para parameterNum="P_07_09" datamapping="Windvane_offs_1"/>
+        <Para parameterNum="P_07_0A" datamapping="Ane1_offset"/>
+        <Para parameterNum="P_07_0B" datamapping="Ane1_Gain"/>
+        <Para parameterNum="P_07_0C" datamapping="Windvane_offs_2"/>
+        <Para parameterNum="P_07_0D" datamapping="Ane2_offset"/>
+        <Para parameterNum="P_07_0E" datamapping="Ane2_Gain"/>
+        <Para parameterNum="P_07_0F" datamapping="Reset_delay_210"/>
+        <Para parameterNum="P_07_10" datamapping="Reset_delay_214"/>
+     </Log>
+  </Page>
+
+  <Page name="3.3.9">
+     <Log datamapping="2" Loglen="4" filemapping="parameter.csv">
+        <Row>
+        	<Col width="10%" align="center" ><Object name="序号" /></Col>
+        	<Col width="40%" ><Object name="参数名称" /></Col>
+        	<Col width="40%" align="center" ><Object name="参数值" /></Col>
+        	<Col width="10%" align="center" ><Object name="单位" /></Col>
+        </Row>
+        <Para parameterNum="P_08_00" datamapping="Set_stat_1327_tem"/>
+        <Para parameterNum="P_08_01" datamapping="Clr_stat_1327_tem"/>
+        <Para parameterNum="P_08_02" datamapping="Set_stat_1328_tem"/>
+        <Para parameterNum="P_08_03" datamapping="Clr_stat_1328_tem"/>
+        <Para parameterNum="P_08_04" datamapping="P_Heat_pump_on_tmp"/>
+        <Para parameterNum="P_08_05" datamapping="P_Heat_pump_off_tmp"/>
+        <Para parameterNum="P_08_06" datamapping="P_GearB1Vent_on_temp"/>
+        <Para parameterNum="P_08_07" datamapping="P_GearB1Vent_off_temp"/>
+        <Para parameterNum="P_08_08" datamapping="P_Sec_pump_on_tmp"/>
+        <Para parameterNum="P_08_09" datamapping="P_Sec_pump_off_tmp"/>
+        <Para parameterNum="P_08_0A" datamapping="Power_reduce_tem"/>
+        <Para parameterNum="P_08_0B" datamapping="Power_reduce_rmp"/>
+        <Para parameterNum="P_08_0C" datamapping="Setstat_1323_tem"/>
+        <Para parameterNum="P_08_0D" datamapping="Clrstat_1323_tem"/>
+        <Para parameterNum="P_08_0E" datamapping="Setstat_1324_tem"/>
+        <Para parameterNum="P_08_0F" datamapping="P_GearOVent_on_temp"/>
+        <Para parameterNum="P_08_10" datamapping="P_GearOVent_off_temp"/>
+        <Para parameterNum="P_08_11" datamapping="Setstat_526_tem"/>
+        <Para parameterNum="P_08_12" datamapping="Clrstat_526_tem"/>
+        <Para parameterNum="P_08_13" datamapping="Setstat_527_tem"/>
+        <Para parameterNum="P_08_14" datamapping="Setstat_528_tem"/>
+        <Para parameterNum="P_08_15" datamapping="Clrstat_528_tem"/>
+        <Para parameterNum="P_08_16" datamapping="Setstat_529_tem"/>
+        <Para parameterNum="P_08_17" datamapping="Setstat_513_tem"/>
+        <Para parameterNum="P_08_18" datamapping="Clrstat_513_tem"/>
+        <Para parameterNum="P_08_19" datamapping="Setstat_514_tem"/>
+        <Para parameterNum="P_08_1A" datamapping="Clrstat_514_tem"/>
+        <Para parameterNum="P_08_1B" datamapping="P_GVent_on_temp"/>
+        <Para parameterNum="P_08_1C" datamapping="P_GVent_off_temp"/>
+        <Para parameterNum="P_08_1D" datamapping="P_GVent2_on_temp"/>
+        <Para parameterNum="P_08_1E" datamapping="P_GVent2_off_temp"/>
+        <Para parameterNum="P_08_1F" datamapping="Powerreduce_tem"/>
+        <Para parameterNum="P_08_20" datamapping="Powerreduce_rmp"/>
+        <Para parameterNum="P_08_21" datamapping="Setstat_1499_tem"/>
+        <Para parameterNum="P_08_22" datamapping="Clrstat_1499_tem"/>
+        <Para parameterNum="P_08_23" datamapping="Setstat_1325_tem"/>
+        <Para parameterNum="P_08_24" datamapping="Clrstat_1325_tem"/>
+        <Para parameterNum="P_08_25" datamapping="Setstat_1326_tem"/>
+        <Para parameterNum="P_08_26" datamapping="P_GearOVent2_on_temp"/>
+        <Para parameterNum="P_08_27" datamapping="P_GearOVent2_off_temp"/>
+        <Para parameterNum="P_08_28" datamapping="Setstat_200_tem"/>
+        <Para parameterNum="P_08_29" datamapping="Clrstat_200_tem"/>
+        <Para parameterNum="P_08_2A" datamapping="Setstat_201_tem"/>
+        <Para parameterNum="P_08_2B" datamapping="Clrstat_201_tem"/>
+        <Para parameterNum="P_08_2C" datamapping="windvane_Heating_on"/>
+        <Para parameterNum="P_08_2D" datamapping="windvane_Heating_off"/>
+        <Para parameterNum="P_08_2E" datamapping="Setstat_30_tem"/>
+        <Para parameterNum="P_08_2F" datamapping="Clrstat_30_tem"/>
+        <Para parameterNum="P_08_30" datamapping="Setstat_31_tem"/>
+        <Para parameterNum="P_08_31" datamapping="P_Cool_Nac_temp"/>
+        <Para parameterNum="P_08_32" datamapping="P_no_Cool_Nac_temp"/>
+        <Para parameterNum="P_08_33" datamapping="Setstat_1713_tem"/>
+        <Para parameterNum="P_08_34" datamapping="Clrstat_1713_tem"/>
+        <Para parameterNum="P_08_35" datamapping="Setstat_1714_tem"/>
+        <Para parameterNum="P_08_36" datamapping="Setstat_1147_tem"/>
+        <Para parameterNum="P_08_37" datamapping="Clrstat_1147_tem"/>
+        <Para parameterNum="P_08_38" datamapping="Setstat_1148_tem"/>
+        <Para parameterNum="P_08_39" datamapping="Clrstat_1148_tem"/>
+        <Para parameterNum="P_08_3A" datamapping="Setstat_1149_tem"/>
+        <Para parameterNum="P_08_3B" datamapping="Clrstat_1149_tem"/>
+        <Para parameterNum="P_08_3C" datamapping="Setstat_1198_tem"/>
+        <Para parameterNum="P_08_3D" datamapping="Clrstat_1198_tem"/>
+     </Log>
+  </Page>
+
+  <Page name="3.3.10">
+     <Log datamapping="2" Loglen="4" filemapping="parameter.csv">
+        <Row>
+        	<Col width="10%" align="center" ><Object name="序号" /></Col>
+        	<Col width="40%" ><Object name="参数名称" /></Col>
+        	<Col width="40%" align="center" ><Object name="参数值" /></Col>
+        	<Col width="10%" align="center" ><Object name="单位" /></Col>
+        </Row>
+        <Para parameterNum="P_09_00" datamapping="Centerfreq_A_1"/>
+        <Para parameterNum="P_09_01" datamapping="Centerfreq_B_1"/>
+        <Para parameterNum="P_09_02" datamapping="Bandwidth_A_1"/>
+        <Para parameterNum="P_09_03" datamapping="Bandwidth_B_1"/>
+        <Para parameterNum="P_09_04" datamapping="Alarmthresh_A_1"/>
+        <Para parameterNum="P_09_05" datamapping="Stopthresh_A_1"/>
+        <Para parameterNum="P_09_06" datamapping="Alarmthresh_B_1"/>
+        <Para parameterNum="P_09_07" datamapping="Stopthresh_B_1"/>
+        <Para parameterNum="P_09_08" datamapping="Alarm_delay_A_1"/>
+        <Para parameterNum="P_09_09" datamapping="Stop_delay_A_1"/>
+        <Para parameterNum="P_09_0A" datamapping="Alarm_delay_B_1"/>
+        <Para parameterNum="P_09_0B" datamapping="Stop_delay_B_1"/>
+        <Para parameterNum="P_09_0C" datamapping="Centerfreq_A_2"/>
+        <Para parameterNum="P_09_0D" datamapping="Centerfreq_B_2"/>
+        <Para parameterNum="P_09_0E" datamapping="Bandwidth_A_2"/>
+        <Para parameterNum="P_09_0F" datamapping="Bandwidth_B_2"/>
+        <Para parameterNum="P_09_10" datamapping="Alarmthresh_A_2"/>
+        <Para parameterNum="P_09_11" datamapping="Stopthresh_A_2"/>
+        <Para parameterNum="P_09_12" datamapping="Alarmthresh_B_2"/>
+        <Para parameterNum="P_09_13" datamapping="Stopthresh_B_2"/>
+        <Para parameterNum="P_09_14" datamapping="Alarm_delay_A_2"/>
+        <Para parameterNum="P_09_15" datamapping="Stop_delay_A_2"/>
+        <Para parameterNum="P_09_16" datamapping="Alarm_delay_B_2"/>
+        <Para parameterNum="P_09_17" datamapping="Stop_delay_B_2"/>
+     </Log>
+  </Page>
+
+  <Page name="3.3.11">
+     <Log datamapping="2" Loglen="4" filemapping="parameter.csv">
+        <Row>
+        	<Col width="10%" align="center" ><Object name="序号" /></Col>
+        	<Col width="40%" ><Object name="参数名称" /></Col>
+        	<Col width="40%" align="center" ><Object name="参数值" /></Col>
+        	<Col width="10%" align="center" ><Object name="单位" /></Col>
+        </Row>
+        <Para parameterNum="P_0A_00" datamapping="EnPowerManage"/>
+        <Para parameterNum="P_0A_01" datamapping="par_IdleSpeed"/>
+        <Para parameterNum="P_0A_02" datamapping="par_GearOilHeatIdleTime"/>
+        <Para parameterNum="P_0A_03" datamapping="par_LVRTinputType"/>
+        <Para parameterNum="P_0A_04" datamapping="par_Kopt0"/>
+        <Para parameterNum="P_0A_05" datamapping="par_Altitude"/>
+        <Para parameterNum="P_0A_06" datamapping="par_TipWind1"/>
+        <Para parameterNum="P_0A_07" datamapping="par_TipWind2"/>
+        <Para parameterNum="P_0A_08" datamapping="par_TipWind3"/>
+        <Para parameterNum="P_0A_09" datamapping="par_TipWind4"/>
+        <Para parameterNum="P_0A_0A" datamapping="par_TipPitch1"/>
+        <Para parameterNum="P_0A_0B" datamapping="par_TipPitch2"/>
+        <Para parameterNum="P_0A_0C" datamapping="par_TipPitch3"/>
+        <Para parameterNum="P_0A_0D" datamapping="par_TipPitch4"/>
+     </Log>
+  </Page>
+  
+  <Page name="3.3.12">
+     <Log datamapping="2" Loglen="4" filemapping="parameter.csv">
+        <Row>
+        	<Col width="10%" align="center" ><Object name="序号" /></Col>
+        	<Col width="40%" ><Object name="参数名称" /></Col>
+        	<Col width="40%" align="center" ><Object name="参数值" /></Col>
+        	<Col width="10%" align="center" ><Object name="单位" /></Col>
+        </Row>
+        <Para parameterNum="P_0B_00" datamapping="shield_stopB200_1"/> 
+        <Para parameterNum="P_0B_01" datamapping="shield_stopB200_2"/> 
+        <Para parameterNum="P_0B_02" datamapping="shield_stopB200_3"/> 
+        <Para parameterNum="P_0B_03" datamapping="shield_stopB200_4"/> 
+        <Para parameterNum="P_0B_04" datamapping="shield_stopB200_5"/> 
+        <Para parameterNum="P_0B_05" datamapping="shield_stopB200_6"/> 
+        <Para parameterNum="P_0B_06" datamapping="shield_stopB200_7"/> 
+        <Para parameterNum="P_0B_07" datamapping="shield_stopB200_8"/> 
+        <Para parameterNum="P_0B_08" datamapping="shield_stopB200_9"/> 
+        <Para parameterNum="P_0B_09" datamapping="shield_stopB200_10"/>
+        <Para parameterNum="P_0B_0A" datamapping="shield_stopB200_11"/>
+        <Para parameterNum="P_0B_0B" datamapping="shield_stopB200_12"/>
+        <Para parameterNum="P_0B_0C" datamapping="shield_stopB200_13"/>
+        <Para parameterNum="P_0B_0D" datamapping="shield_stopB200_14"/>
+        <Para parameterNum="P_0B_0E" datamapping="shield_stopB200_15"/>
+        <Para parameterNum="P_0B_0F" datamapping="shield_stopB200_16"/>
+        <Para parameterNum="P_0B_10" datamapping="shield_stopB190_1"/> 
+        <Para parameterNum="P_0B_11" datamapping="shield_stopB190_2"/> 
+        <Para parameterNum="P_0B_12" datamapping="shield_stopB190_3"/> 
+        <Para parameterNum="P_0B_13" datamapping="shield_stopB190_4"/> 
+        <Para parameterNum="P_0B_14" datamapping="shield_stopB190_5"/> 
+        <Para parameterNum="P_0B_15" datamapping="shield_stopB190_6"/> 
+        <Para parameterNum="P_0B_16" datamapping="shield_stopB190_7"/> 
+        <Para parameterNum="P_0B_17" datamapping="shield_stopB190_8"/> 
+        <Para parameterNum="P_0B_18" datamapping="shield_stopB180_1"/> 
+        <Para parameterNum="P_0B_19" datamapping="shield_stopB180_2"/> 
+        <Para parameterNum="P_0B_1A" datamapping="shield_stopB180_3"/> 
+        <Para parameterNum="P_0B_1B" datamapping="shield_stopB180_4"/> 
+        <Para parameterNum="P_0B_1C" datamapping="shield_stopB180_5"/> 
+        <Para parameterNum="P_0B_1D" datamapping="shield_stopB180_6"/> 
+        <Para parameterNum="P_0B_1E" datamapping="shield_stopB180_7"/> 
+        <Para parameterNum="P_0B_1F" datamapping="shield_stopB180_8"/> 
+        <Para parameterNum="P_0B_20" datamapping="shield_stopB180_9"/> 
+        <Para parameterNum="P_0B_21" datamapping="shield_stopB180_10"/>
+        <Para parameterNum="P_0B_22" datamapping="shield_stopB180_11"/>
+        <Para parameterNum="P_0B_23" datamapping="shield_stopB180_12"/>
+        <Para parameterNum="P_0B_24" datamapping="shield_stopB180_13"/>
+        <Para parameterNum="P_0B_25" datamapping="shield_stopB180_14"/>
+        <Para parameterNum="P_0B_26" datamapping="shield_stopB180_15"/>
+        <Para parameterNum="P_0B_27" datamapping="shield_stopB180_16"/>
+        <Para parameterNum="P_0B_28" datamapping="shield_stopB180_17"/>
+        <Para parameterNum="P_0B_29" datamapping="shield_stopB180_18"/>
+        <Para parameterNum="P_0B_2A" datamapping="shield_stopB180_19"/>
+        <Para parameterNum="P_0B_2B" datamapping="shield_stopB180_20"/>
+        <Para parameterNum="P_0B_2C" datamapping="shield_stopB180_21"/>
+        <Para parameterNum="P_0B_2D" datamapping="shield_stopB180_22"/>
+        <Para parameterNum="P_0B_2E" datamapping="shield_stopB180_23"/>
+        <Para parameterNum="P_0B_2F" datamapping="shield_stopB180_24"/>
+        <Para parameterNum="P_0B_30" datamapping="shield_stopB75_1"/>  
+        <Para parameterNum="P_0B_31" datamapping="shield_stopB75_2"/>  
+        <Para parameterNum="P_0B_32" datamapping="shield_stopB75_3"/>  
+        <Para parameterNum="P_0B_33" datamapping="shield_stopB75_4"/>  
+        <Para parameterNum="P_0B_34" datamapping="shield_stopB75_5"/>  
+        <Para parameterNum="P_0B_35" datamapping="shield_stopB75_6"/>  
+        <Para parameterNum="P_0B_36" datamapping="shield_stopB75_7"/>  
+        <Para parameterNum="P_0B_37" datamapping="shield_stopB75_8"/>  
+        <Para parameterNum="P_0B_38" datamapping="shield_stopB75_9"/>  
+        <Para parameterNum="P_0B_39" datamapping="shield_stopB75_10"/> 
+        <Para parameterNum="P_0B_3A" datamapping="shield_stopB75_11"/> 
+        <Para parameterNum="P_0B_3B" datamapping="shield_stopB75_12"/> 
+        <Para parameterNum="P_0B_3C" datamapping="shield_stopB75_13"/> 
+        <Para parameterNum="P_0B_3D" datamapping="shield_stopB75_14"/> 
+        <Para parameterNum="P_0B_3E" datamapping="shield_stopB75_15"/> 
+        <Para parameterNum="P_0B_3F" datamapping="shield_stopB75_16"/> 
+        <Para parameterNum="P_0B_40" datamapping="shield_stopB60_1"/>  
+        <Para parameterNum="P_0B_41" datamapping="shield_stopB60_2"/>  
+        <Para parameterNum="P_0B_42" datamapping="shield_stopB60_3"/>  
+        <Para parameterNum="P_0B_43" datamapping="shield_stopB60_4"/>  
+        <Para parameterNum="P_0B_44" datamapping="shield_stopB60_5"/>  
+        <Para parameterNum="P_0B_45" datamapping="shield_stopB60_6"/>  
+        <Para parameterNum="P_0B_46" datamapping="shield_stopB60_7"/>  
+        <Para parameterNum="P_0B_47" datamapping="shield_stopB60_8"/>  
+        <Para parameterNum="P_0B_48" datamapping="shield_stopB52_1"/>  
+        <Para parameterNum="P_0B_49" datamapping="shield_stopB52_2"/>  
+        <Para parameterNum="P_0B_4A" datamapping="shield_stopB52_3"/>  
+        <Para parameterNum="P_0B_4B" datamapping="shield_stopB52_4"/>  
+        <Para parameterNum="P_0B_4C" datamapping="shield_stopB52_5"/>  
+        <Para parameterNum="P_0B_4D" datamapping="shield_stopB52_6"/>  
+        <Para parameterNum="P_0B_4E" datamapping="shield_stopB52_7"/>  
+        <Para parameterNum="P_0B_4F" datamapping="shield_stopB52_8"/>  
+        <Para parameterNum="P_0B_50" datamapping="shield_stopB52_9"/>  
+        <Para parameterNum="P_0B_51" datamapping="shield_stopB52_10"/> 
+        <Para parameterNum="P_0B_52" datamapping="shield_stopB52_11"/> 
+        <Para parameterNum="P_0B_53" datamapping="shield_stopB52_12"/> 
+        <Para parameterNum="P_0B_54" datamapping="shield_stopB52_13"/> 
+        <Para parameterNum="P_0B_55" datamapping="shield_stopB52_14"/> 
+        <Para parameterNum="P_0B_56" datamapping="shield_stopB52_15"/> 
+        <Para parameterNum="P_0B_57" datamapping="shield_stopB52_16"/> 
+        <Para parameterNum="P_0B_58" datamapping="shield_stopB52_17"/> 
+        <Para parameterNum="P_0B_59" datamapping="shield_stopB52_18"/> 
+        <Para parameterNum="P_0B_5A" datamapping="shield_stopB52_19"/> 
+        <Para parameterNum="P_0B_5B" datamapping="shield_stopB52_20"/> 
+        <Para parameterNum="P_0B_5C" datamapping="shield_stopB52_21"/> 
+        <Para parameterNum="P_0B_5D" datamapping="shield_stopB52_22"/> 
+        <Para parameterNum="P_0B_5E" datamapping="shield_stopB52_23"/> 
+        <Para parameterNum="P_0B_5F" datamapping="shield_stopB52_24"/> 
+        <Para parameterNum="P_0B_60" datamapping="shield_stopB52_25"/> 
+        <Para parameterNum="P_0B_61" datamapping="shield_stopB52_26"/> 
+        <Para parameterNum="P_0B_62" datamapping="shield_stopB52_27"/> 
+        <Para parameterNum="P_0B_63" datamapping="shield_stopB52_28"/> 
+        <Para parameterNum="P_0B_64" datamapping="shield_stopB52_29"/> 
+        <Para parameterNum="P_0B_65" datamapping="shield_stopB52_30"/> 
+        <Para parameterNum="P_0B_66" datamapping="shield_stopB52_31"/> 
+        <Para parameterNum="P_0B_67" datamapping="shield_stopB52_32"/> 
+        <Para parameterNum="P_0B_68" datamapping="shield_stopB52_33"/> 
+        <Para parameterNum="P_0B_69" datamapping="shield_stopB52_34"/> 
+        <Para parameterNum="P_0B_6A" datamapping="shield_stopB52_35"/> 
+        <Para parameterNum="P_0B_6B" datamapping="shield_stopB52_36"/> 
+        <Para parameterNum="P_0B_6C" datamapping="shield_stopB52_37"/> 
+        <Para parameterNum="P_0B_6D" datamapping="shield_stopB52_38"/> 
+        <Para parameterNum="P_0B_6E" datamapping="shield_stopB52_39"/> 
+        <Para parameterNum="P_0B_6F" datamapping="shield_stopB52_40"/> 
+        <Para parameterNum="P_0B_70" datamapping="shield_stopB52_41"/> 
+        <Para parameterNum="P_0B_71" datamapping="shield_stopB52_42"/> 
+        <Para parameterNum="P_0B_72" datamapping="shield_stopB52_43"/> 
+        <Para parameterNum="P_0B_73" datamapping="shield_stopB52_44"/> 
+        <Para parameterNum="P_0B_74" datamapping="shield_stopB52_45"/> 
+        <Para parameterNum="P_0B_75" datamapping="shield_stopB52_46"/> 
+        <Para parameterNum="P_0B_76" datamapping="shield_stopB52_47"/> 
+        <Para parameterNum="P_0B_77" datamapping="shield_stopB52_48"/> 
+        <Para parameterNum="P_0B_78" datamapping="shield_stopB52_49"/> 
+        <Para parameterNum="P_0B_79" datamapping="shield_stopB52_50"/> 
+        <Para parameterNum="P_0B_7A" datamapping="shield_stopB52_51"/> 
+        <Para parameterNum="P_0B_7B" datamapping="shield_stopB52_52"/> 
+        <Para parameterNum="P_0B_7C" datamapping="shield_stopB52_53"/> 
+        <Para parameterNum="P_0B_7D" datamapping="shield_stopB52_54"/> 
+        <Para parameterNum="P_0B_7E" datamapping="shield_stopB52_55"/> 
+        <Para parameterNum="P_0B_7F" datamapping="shield_stopB52_56"/> 
+        <Para parameterNum="P_0B_80" datamapping="shield_stopB52_57"/> 
+        <Para parameterNum="P_0B_81" datamapping="shield_stopB52_58"/> 
+        <Para parameterNum="P_0B_82" datamapping="shield_stopB52_59"/> 
+        <Para parameterNum="P_0B_83" datamapping="shield_stopB52_60"/> 
+        <Para parameterNum="P_0B_84" datamapping="shield_stopB52_61"/> 
+        <Para parameterNum="P_0B_85" datamapping="shield_stopB52_62"/> 
+        <Para parameterNum="P_0B_86" datamapping="shield_stopB52_63"/> 
+        <Para parameterNum="P_0B_87" datamapping="shield_stopB52_64"/> 
+        <Para parameterNum="P_0B_88" datamapping="shield_stopB52_65"/> 
+        <Para parameterNum="P_0B_89" datamapping="shield_stopB52_66"/> 
+        <Para parameterNum="P_0B_8A" datamapping="shield_stopB52_67"/> 
+        <Para parameterNum="P_0B_8B" datamapping="shield_stopB52_68"/> 
+        <Para parameterNum="P_0B_8C" datamapping="shield_stopB52_69"/> 
+        <Para parameterNum="P_0B_8D" datamapping="shield_stopB52_70"/> 
+        <Para parameterNum="P_0B_8E" datamapping="shield_stopB52_71"/> 
+        <Para parameterNum="P_0B_8F" datamapping="shield_stopB52_72"/> 
+        <Para parameterNum="P_0B_90" datamapping="shield_stopB52_73"/> 
+        <Para parameterNum="P_0B_91" datamapping="shield_stopB52_74"/> 
+        <Para parameterNum="P_0B_92" datamapping="shield_stopB52_75"/> 
+        <Para parameterNum="P_0B_93" datamapping="shield_stopB52_76"/> 
+        <Para parameterNum="P_0B_94" datamapping="shield_stopB52_77"/> 
+        <Para parameterNum="P_0B_95" datamapping="shield_stopB52_78"/> 
+        <Para parameterNum="P_0B_96" datamapping="shield_stopB52_79"/> 
+        <Para parameterNum="P_0B_97" datamapping="shield_stopB52_80"/> 
+        <Para parameterNum="P_0B_98" datamapping="shield_stopB52_81"/> 
+        <Para parameterNum="P_0B_99" datamapping="shield_stopB52_82"/> 
+        <Para parameterNum="P_0B_9A" datamapping="shield_stopB52_83"/> 
+        <Para parameterNum="P_0B_9B" datamapping="shield_stopB52_84"/> 
+        <Para parameterNum="P_0B_9C" datamapping="shield_stopB52_85"/> 
+        <Para parameterNum="P_0B_9D" datamapping="shield_stopB52_86"/> 
+        <Para parameterNum="P_0B_9E" datamapping="shield_stopB52_87"/> 
+        <Para parameterNum="P_0B_9F" datamapping="shield_stopB52_88"/> 
+        <Para parameterNum="P_0B_A0" datamapping="shield_stopB52_89"/> 
+        <Para parameterNum="P_0B_A1" datamapping="shield_stopB52_90"/> 
+        <Para parameterNum="P_0B_A2" datamapping="shield_stopB52_91"/> 
+        <Para parameterNum="P_0B_A3" datamapping="shield_stopB52_92"/> 
+        <Para parameterNum="P_0B_A4" datamapping="shield_stopB52_93"/> 
+        <Para parameterNum="P_0B_A5" datamapping="shield_stopB52_94"/> 
+        <Para parameterNum="P_0B_A6" datamapping="shield_stopB52_95"/> 
+        <Para parameterNum="P_0B_A7" datamapping="shield_stopB52_96"/> 
+        <Para parameterNum="P_0B_A8" datamapping="shield_stopB52_97"/> 
+        <Para parameterNum="P_0B_A9" datamapping="shield_stopB52_98"/> 
+        <Para parameterNum="P_0B_AA" datamapping="shield_stopB52_99"/> 
+        <Para parameterNum="P_0B_AB" datamapping="shield_stopB52_100"/>
+        <Para parameterNum="P_0B_AC" datamapping="shield_stopB52_101"/>
+        <Para parameterNum="P_0B_AD" datamapping="shield_stopB52_102"/>
+        <Para parameterNum="P_0B_AE" datamapping="shield_stopB52_103"/>
+        <Para parameterNum="P_0B_AF" datamapping="shield_stopB52_104"/>
+        <Para parameterNum="P_0B_B0" datamapping="shield_stopB52_105"/>
+        <Para parameterNum="P_0B_B1" datamapping="shield_stopB52_106"/>
+        <Para parameterNum="P_0B_B2" datamapping="shield_stopB52_107"/>
+        <Para parameterNum="P_0B_B3" datamapping="shield_stopB52_108"/>
+        <Para parameterNum="P_0B_B4" datamapping="shield_stopB52_109"/>
+        <Para parameterNum="P_0B_B5" datamapping="shield_stopB52_110"/>
+        <Para parameterNum="P_0B_B6" datamapping="shield_stopB52_111"/>
+        <Para parameterNum="P_0B_B7" datamapping="shield_stopB52_112"/>
+        <Para parameterNum="P_0B_B8" datamapping="shield_stopB52_113"/>
+        <Para parameterNum="P_0B_B9" datamapping="shield_stopB52_114"/>
+        <Para parameterNum="P_0B_BA" datamapping="shield_stopB52_115"/>
+        <Para parameterNum="P_0B_BB" datamapping="shield_stopB52_116"/>
+        <Para parameterNum="P_0B_BC" datamapping="shield_stopB52_117"/>
+        <Para parameterNum="P_0B_BD" datamapping="shield_stopB52_118"/>
+        <Para parameterNum="P_0B_BE" datamapping="shield_stopB52_119"/>
+        <Para parameterNum="P_0B_BF" datamapping="shield_stopB52_120"/>
+        <Para parameterNum="P_0B_C0" datamapping="shield_stopB52_121"/>
+        <Para parameterNum="P_0B_C1" datamapping="shield_stopB52_122"/>
+        <Para parameterNum="P_0B_C2" datamapping="shield_stopB52_123"/>
+        <Para parameterNum="P_0B_C3" datamapping="shield_stopB52_124"/>
+        <Para parameterNum="P_0B_C4" datamapping="shield_stopB52_125"/>
+        <Para parameterNum="P_0B_C5" datamapping="shield_stopB52_126"/>
+        <Para parameterNum="P_0B_C6" datamapping="shield_stopB52_127"/>
+        <Para parameterNum="P_0B_C7" datamapping="shield_stopB52_128"/>
+        <Para parameterNum="P_0B_C8" datamapping="shield_stopB52_129"/>
+        <Para parameterNum="P_0B_C9" datamapping="shield_stopB52_130"/>
+        <Para parameterNum="P_0B_CA" datamapping="shield_stopB52_131"/>
+        <Para parameterNum="P_0B_CB" datamapping="shield_stopB52_132"/>
+        <Para parameterNum="P_0B_CC" datamapping="shield_stopB52_133"/>
+        <Para parameterNum="P_0B_CD" datamapping="shield_stopB52_134"/>
+        <Para parameterNum="P_0B_CE" datamapping="shield_stopB52_135"/>
+        <Para parameterNum="P_0B_CF" datamapping="shield_stopB52_136"/>
+        <Para parameterNum="P_0B_D0" datamapping="shield_stopB50_1"/>  
+        <Para parameterNum="P_0B_D1" datamapping="shield_stopB50_2"/>  
+        <Para parameterNum="P_0B_D2" datamapping="shield_stopB50_3"/>  
+        <Para parameterNum="P_0B_D3" datamapping="shield_stopB50_4"/>  
+        <Para parameterNum="P_0B_D4" datamapping="shield_stopB50_5"/>  
+        <Para parameterNum="P_0B_D5" datamapping="shield_stopB50_6"/>  
+        <Para parameterNum="P_0B_D6" datamapping="shield_stopB50_7"/>  
+        <Para parameterNum="P_0B_D7" datamapping="shield_stopB50_8"/>  
+        <Para parameterNum="P_0B_D8" datamapping="shield_alarm_1"/>    
+        <Para parameterNum="P_0B_D9" datamapping="shield_alarm_2"/>    
+        <Para parameterNum="P_0B_DA" datamapping="shield_alarm_3"/>    
+        <Para parameterNum="P_0B_DB" datamapping="shield_alarm_4"/>    
+        <Para parameterNum="P_0B_DC" datamapping="shield_alarm_5"/>    
+        <Para parameterNum="P_0B_DD" datamapping="shield_alarm_6"/>    
+        <Para parameterNum="P_0B_DE" datamapping="shield_alarm_7"/>    
+        <Para parameterNum="P_0B_DF" datamapping="shield_alarm_8"/>    
+        <Para parameterNum="P_0B_E0" datamapping="shield_alarm_9"/>    
+        <Para parameterNum="P_0B_E1" datamapping="shield_alarm_10"/>   
+        <Para parameterNum="P_0B_E2" datamapping="shield_alarm_11"/>   
+        <Para parameterNum="P_0B_E3" datamapping="shield_alarm_12"/>   
+        <Para parameterNum="P_0B_E4" datamapping="shield_alarm_13"/>   
+        <Para parameterNum="P_0B_E5" datamapping="shield_alarm_14"/>   
+        <Para parameterNum="P_0B_E6" datamapping="shield_alarm_15"/>   
+        <Para parameterNum="P_0B_E7" datamapping="shield_alarm_16"/>   
+        <Para parameterNum="P_0B_E8" datamapping="shield_alarm_17"/>   
+        <Para parameterNum="P_0B_E9" datamapping="shield_alarm_18"/>   
+        <Para parameterNum="P_0B_EA" datamapping="shield_alarm_19"/>   
+        <Para parameterNum="P_0B_EB" datamapping="shield_alarm_20"/>   
+        <Para parameterNum="P_0B_EC" datamapping="shield_alarm_21"/>   
+        <Para parameterNum="P_0B_ED" datamapping="shield_alarm_22"/>   
+        <Para parameterNum="P_0B_EE" datamapping="shield_alarm_23"/>   
+        <Para parameterNum="P_0B_EF" datamapping="shield_alarm_24"/>   
+        <Para parameterNum="P_0B_F0" datamapping="shield_alarm_25"/>   
+        <Para parameterNum="P_0B_F1" datamapping="shield_alarm_26"/>   
+        <Para parameterNum="P_0B_F2" datamapping="shield_alarm_27"/>   
+        <Para parameterNum="P_0B_F3" datamapping="shield_alarm_28"/>   
+        <Para parameterNum="P_0B_F4" datamapping="shield_alarm_29"/>   
+        <Para parameterNum="P_0B_F5" datamapping="shield_alarm_30"/>   
+        <Para parameterNum="P_0B_F6" datamapping="shield_alarm_31"/>   
+        <Para parameterNum="P_0B_F7" datamapping="shield_alarm_32"/>   
+        <Para parameterNum="P_0B_F8" datamapping="shield_alarm_33"/>   
+        <Para parameterNum="P_0B_F9" datamapping="shield_alarm_34"/>   
+        <Para parameterNum="P_0B_FA" datamapping="shield_alarm_35"/>   
+        <Para parameterNum="P_0B_FB" datamapping="shield_alarm_36"/>   
+        <Para parameterNum="P_0B_FC" datamapping="shield_alarm_37"/>   
+        <Para parameterNum="P_0B_FD" datamapping="shield_alarm_38"/>   
+        <Para parameterNum="P_0B_FE" datamapping="shield_alarm_39"/>   
+        <Para parameterNum="P_0B_FF" datamapping="shield_alarm_40"/>   
+     </Log>
+  </Page>
+
+  <!--** 当前故障 **
+  读取故障名称需自行根据故障编号查询故障列表-->
+  <Page name="3.4.1">
+     <Log datamapping="2" Loglen="4" filemapping="fault_list.csv">
+        <Row>
+        	<Col width="10%" align="center" ><Object name="序号" /></Col>
+        	<Col width="45%" ><Object name="故障名称" /></Col>
+        	<Col width="45%" align="center" ><Object name="故障时间" /></Col>
+        </Row>
+        <Row>
+        	<Col width="10%" align="center" ><Object datamapping="序号" /></Col>
+        	<Col width="45%" ><Object datamapping="故障编号" csvmapping="故障名称" /></Col>
+        	<Col width="45%" align="center" ><Object datamapping="故障时间" /></Col>
+        </Row>
+     </Log>
+  </Page>
+  <!--** 历史故障 **
+  读取故障名称需自行根据故障编号查询故障列表-->
+  <Page name="3.4.2">
+     <Log datamapping="2" Loglen="4" filemapping="故障列表.csv">
+        <Row>
+        	<Col width="10%" align="center" ><Object name="序号" /></Col>
+        	<Col width="30%" align="center" ><Object name="故障名称" /></Col>
+        	<Col width="30%" align="center" ><Object name="故障时间" /></Col>
+        	<Col width="30%" align="center" ><Object name="故障复位时间" /></Col>
+        </Row>
+        <Row>
+        	<Col width="10%" align="center" ><Object datamapping="序号" /></Col>       	
+        	<Col width="30%" ><Object datamapping="故障编号" csvmapping="故障名称" /></Col>
+        	<Col width="30%" align="center" ><Object datamapping="故障时间" /></Col>
+        	<Col width="30%" align="center" ><Object datamapping="故障复位时间" /></Col>
+        </Row>
+     </Log>
+  </Page>
+  <!--** 用户日志 **
+  读取用户日志名称需自行根据故障编号查询用户日志列表-->
+  <Page name="3.4.3">
+     <Log datamapping="2" Loglen="4" filemapping="用户日志.csv">
+        <Row>
+        	<Col width="10%" align="center" ><Object name="序号" /></Col>
+        	<Col width="30%" align="center" ><Object name="事件名称" /></Col>
+        	<Col width="30%" align="center" ><Object name="地点" /></Col>
+        	<Col width="30%" align="center" ><Object name="时间" /></Col>
+        </Row>
+        <Row>
+        	<Col width="10%" align="center" ><Object datamapping="序号" /></Col>       	
+        	<Col width="45%" ><Object datamapping="用户日志编号" csvmapping="日志名称" /></Col>
+        	<Col width="45%" align="center" ><Object datamapping="用户日志" /></Col>
+        	<Col width="45%" align="center" ><Object datamapping="时间" /></Col>
+        </Row>
+     </Log>
+  </Page>
+  <!--** 风机日志 **
+  读取风机日志名称需自行根据故障编号查询风机日志列表-->
+  <Page name="3.4.4">
+     <Log datamapping="2" Loglen="4" filemapping="风机日志.csv">
+        <Row>
+        	<Col width="10%" align="center" ><Object name="序号" /></Col>
+        	<Col width="30%" align="center" ><Object name="事件名称" /></Col>
+        	<Col width="30%" align="center" ><Object name="地点" /></Col>
+        	<Col width="30%" align="center" ><Object name="时间" /></Col>
+        </Row>
+        <Row>
+        	<Col width="10%" align="center" ><Object datamapping="序号" /></Col>       	
+        	<Col width="45%" ><Object datamapping="风机日志编号" csvmapping="日志名称" /></Col>
+        	<Col width="45%" align="center" ><Object datamapping="故障时间" /></Col>
+        	<Col width="45%" align="center" ><Object datamapping="时间" /></Col>
+        </Row>
+     </Log>
+  </Page>
+  <!--** 屏蔽故障 **-->
+  <Page name="3.4.5">
+     <Log datamapping="2" Loglen="4" filemapping="故障列表.csv">
+        <Row>
+        	<Col width="10%" align="center" ><Object name="大项序号" /></Col>
+        	<Col width="90%" ><Object name="B200故障列表" /></Col>
+        </Row>        
+     </Log>
+     <Log datamapping="2" Loglen="4" filemapping="故障列表.csv">
+        <Row>
+        	<Col width="10%" ></Col>
+        	<Col width="10%" align="center" ><Object name="小项序号" /></Col>
+        	<Col width="27%" ><Object csvmapping="故障名称" /></Col>
+        	<Col width="26%" ><Object datamapping="当前值" /></Col>
+        	<Col width="27%"><Button type="1" datamapping="当前值" typedef="ButtonFaultType" /></Col>
+        </Row>
+      </Log>
+  </Page>
+ <!--** 已屏蔽故障 **-->
+  <Page name="3.4.6">
+     <Log datamapping="2" Loglen="4" filemapping="故障列表.csv">
+        <Row>
+        	<Col width="10%" ></Col>
+        	<Col width="30%" ><Object name="故障名称" /></Col>
+        	<Col width="30%" ><Object name="屏蔽故障时间" /></Col>
+        	<Col width="30%" ></Col>
+        </Row>        
+     </Log>
+     <Log datamapping="2" Loglen="4" filemapping="故障列表.csv">
+        <Row>
+        	<Col width="10%" ><Object name="序列号" /></Col>
+        	<Col width="30%" ><Object datamapping="屏蔽故障" csvmapping="故障名称" /></Col>
+        	<Col width="30%" ><Object datamapping="屏蔽故障时间" /></Col>
+        	<Col width="30%" ><Button type="2" datamapping="当前值" typedef="ButtonFaultType" /></Col>
+        </Row>
+     </Log>
+  </Page>
+  
+  <!--** 趋势 **-->
+  <!--** 常用点 **-->
+  <Page name="3.5.1">  	
+    <Table boader="1">
+      <Row>
+        <Col width="16%" align="center"><Button type="3" name="瞬时风速" datamapping="ave_Onesec_Wsp" /></Col>
+        <Col width="16%" align="center"><Button type="3" name="30s平均风速" datamapping="ave_Halfmin_Wsp" /></Col>
+        <Col width="17%" align="center"><Button type="3" name="10min平均风速" datamapping="ave_Tenmin_Wsp" /></Col>
+        <Col width="17%" align="center"><Button type="3" name="主轴转速" datamapping="Rotor_RSpd" /></Col>
+        <Col width="17%" align="center"><Button type="3" name="齿轮箱转速" datamapping="Gear_RSpd" /></Col>
+        <Col width="17%" align="center"><Button type="3" name="发电机转速" datamapping="G_RSpd1" /></Col>     
+      </Row>
+      <Row>
+        <Col width="16%" align="center"><Button type="3" name="变桨设定角度" datamapping="pit_set1" /></Col>
+        <Col width="16%" align="center"><Button type="3" name="桨叶1角度" datamapping="angle1" /></Col>
+        <Col width="17%" align="center"><Button type="3" name="主控设定扭矩" datamapping="Torque_Set" /></Col>
+        <Col width="17%" align="center"><Button type="3" name="变频器返回扭矩" datamapping="Conv_Torque" /></Col>
+        <Col width="17%" align="center"><Button type="3" name="变频器反馈转速" datamapping="Conv_GSpd" /></Col>
+        <Col width="17%" align="center"><Button type="3" name="有功功率" datamapping="G_Power_FB" /></Col>     
+      </Row>      
+    </Table>
+  </Page>
+  
+  <!--** 不常用点 **-->
+  <Page name="3.5.2">  	
+ <!--   <Table boader="1">
+      <Row>
+        <Col width="100%" align="center"><Object name="安全链" /></Col>          
+      </Row>
+    </Table>
+-->
+    <Table boader="1">
+      <Row>
+        <Col width="16%" align="center"><Button type="3" name="DI1-1机舱控制柜急停" datamapping="Emer_StopTopbox" /></Col>
+        <Col width="16%" align="center"><Button type="3" name="DI1-2变频器急停" datamapping="Emer_StopConv" /></Col>
+        <Col width="17%" align="center"><Button type="3" name="DI1-3机舱便携盒急停" datamapping="Emer_StopNac" /></Col>
+        <Col width="17%" align="center"><Button type="3" name="DI1-4维护开关" datamapping="Service_Bladea" /></Col>
+        <Col width="17%" align="center"><Button type="3" name="DI1-5顺时针绞缆极限" datamapping="Ctwisted_CW" /></Col>
+        <Col width="17%" align="center"><Button type="3" name="DI1-6逆时针绞缆极限" datamapping="Ctwisted_CCW" /></Col>     
+      </Row>      
+    </Table>
+    <Table boader="1">
+      <Row>
+        <Col width="100%" align="center"><Object name="风系统" /></Col>          
+      </Row>
+    </Table>
+    <Table boader="1">
+      <Row>
+        <Col width="16%" align="center"><Button type="3" name="瞬时风速" datamapping="ave_Onesec_Wsp" /></Col>
+        <Col width="16%" align="center"><Button type="3" name="机舱温度" datamapping="Nacelle_Temp" /></Col>
+        <Col width="17%" align="center"><Button type="3" name="机舱外温度" datamapping="OutDoor_Temp" /></Col>
+        <Col width="17%" align="center"><Button type="3" name="DI1-12偏航传感器1" datamapping="Yaw_sensor1" /></Col>
+        <Col width="17%" align="center"><Button type="3" name="DI1-13偏航传感器2" datamapping="Yaw_sensor2" /></Col>
+        <Col width="17%" align="center"><Button type="3" name="DI1-14偏航电机1、3" datamapping="CB_YawM13" /></Col>     
+      </Row> 
+      <Row>
+        <Col width="16%" align="center"><Button type="3" name="DO6偏航电气刹车1" datamapping="Yaw_Brake1" /></Col>
+        <Col width="16%" align="center"><Button type="3" name="DO8风速、风向加热" datamapping="Heat_Windmea" /></Col>
+        <Col width="17%" ></Col>
+        <Col width="17%" ></Col>
+        <Col width="17%" ></Col>
+        <Col width="17%" ></Col>     
+      </Row>     
+    </Table>
+  </Page>
+  
+    
+ <!--** 报表 **-->
+  <!--** 总统计 **  -->
+  <Page name="3.6.1">  	
+    <Log datamapping="2" Loglen="4" filemapping="总统计.csv">
+      <Row>
+        <Col width="35%" align="center"><Object name="有功总发电量（KW）" /></Col>
+        <Col width="65%" align="center"><Object datamapping="production_active_total" /></Col>
+      </Row>
+      <Row>
+        <Col width="35%" align="center"><Object name="无功总发电量（KW）" /></Col>
+        <Col width="65%" align="center"><Object datamapping="production_reactive_total" /></Col>
+      </Row>
+      <Row>
+        <Col width="35%" align="center"><Object name="有功总耗电量（KW）" /></Col>
+        <Col width="65%" align="center"><Object datamapping="consumption_active_total" /></Col>
+      </Row>
+      <Row>
+        <Col width="35%" align="center"><Object name="无功总耗电量（KW）" /></Col>
+        <Col width="65%" align="center"><Object datamapping="consumption_reactive_total" /></Col>
+      </Row>
+      <Row>
+        <Col width="35%" align="center"><Object name="总运行时间（h）" /></Col>
+        <Col width="65%" align="center"><Object datamapping="run_time_total" /></Col>
+      </Row>
+      <Row>
+        <Col width="35%" align="center"><Object name="总维护时间（h）" /></Col>
+        <Col width="65%" align="center"><Object datamapping="maintain_time_total" /></Col>
+      </Row>
+      <Row>
+        <Col width="35%" align="center"><Object name="总维修时间（h）" /></Col>
+        <Col width="65%" align="center"><Object datamapping="repair_time_total" /></Col>
+      </Row>
+      <Row>
+        <Col width="35%" align="center"><Object name="总电网故障停机时间（h）" /></Col>
+        <Col width="65%" align="center"><Object datamapping="griderr_time_total" /></Col>
+      </Row>
+      <Row>
+        <Col width="35%" align="center"><Object name="总气象故障停机时间（h）" /></Col>
+        <Col width="65%" align="center"><Object datamapping="weathererr_time_total" /></Col>
+      </Row>
+      <Row>
+        <Col width="35%" align="center"><Object name="总停机时间（h）" /></Col>
+        <Col width="65%" align="center"><Object datamapping="stop_time_total" /></Col>
+      </Row>
+      <Row>
+        <Col width="35%" align="center"><Object name="总并网次数（次数）" /></Col>
+        <Col width="65%" align="center"><Object datamapping="generate_record_total" /></Col>
+      </Row>
+      <Row>
+        <Col width="35%" align="center"><Object name="总停机次数（次数）" /></Col>
+        <Col width="65%" align="center"><Object datamapping="stop_record_total" /></Col>
+      </Row>
+      <Row>
+        <Col width="35%" align="center"><Object name="总可利用率(%)" /></Col>
+        <Col width="65%" align="center"><Object datamapping="Availability_buf_total" /></Col>
+      </Row>
+      <!--** 最后一行 **-->
+      <!--<Row>
+        <Col width="100%" align="right"><Button name="历史数据清零" datamapping="历史数据清零" /></Col>          
+      </Row>  -->
+    </Log>
+  </Page>
+  <!--** 日统计 **  -->
+  <Page name="3.6.2"> 
+  	<Log datamapping="2" Loglen="4" filemapping="日统计.csv">
+        <Row>
+        	<Col width="25%" align="center" ><Object name="时间（日）" /></Col>
+			<Col width="25%" align="center" ><Object datamapping="time_thisdate" /></Col> 
+        </Row>
+        <Row>
+			 <Col width="25%" align="center" ><Object name="有功发电量（KW）" /></Col>
+			 <Col width="25%" align="center" ><Object datamapping="production_active_thisdate" /></Col>
+	    </Row>
+		<Row>
+			<Col width="25%" align="center" ><Object name="无功发电量（KW）" /></Col>
+			<Col width="25%" align="center" ><Object datamapping="production_reactive_thisdate" /></Col>
+		</Row>
+		<Row>
+			<Col width="25%" align="center" ><Object name="有功耗电量（KW）" /></Col>
+			<Col width="25%" align="center" ><Object datamapping="consumption_active_thisdate" /></Col>
+		</Row>
+		<Row>
+        	<Col width="25%" align="center" ><Object name="无功耗电量（KW）" /></Col>
+			<Col width="25%" align="center" ><Object datamapping="consumption_reactive_thisdate" /></Col>
+		</Row>
+		<Row>
+        	<Col width="30%" align="center" ><Object name="日可利用率（%）" /></Col>     	       	
+			<Col width="25%" align="center" ><Object datamapping="Availability_buf_thisdate" /></Col>
+        </Row>
+     </Log>
+  </Page>
+  <!--** 月统计 **  -->
+  <Page name="3.6.3"> 
+  	<Log datamapping="2" Loglen="4" filemapping="月统计.csv">
+        <Row>
+        	<Col width="25%" align="center" ><Object name="时间（月）" /></Col>
+			<Col width="25%" align="center" ><Object datamapping="time_thismonth" /></Col> 
+        </Row>
+        <Row>
+			 <Col width="25%" align="center" ><Object name="有功发电量（KW）" /></Col>
+			 <Col width="25%" align="center" ><Object datamapping="production_active_thismonth" /></Col>
+	    </Row>
+		<Row>
+			<Col width="25%" align="center" ><Object name="无功发电量（KW）" /></Col>
+			<Col width="25%" align="center" ><Object datamapping="production_reactive_thismonth" /></Col>
+		</Row>
+		<Row>
+			<Col width="25%" align="center" ><Object name="有功耗电量（KW）" /></Col>
+			<Col width="25%" align="center" ><Object datamapping="consumption_active_thismonth" /></Col>
+		</Row>
+		<Row>
+        	<Col width="25%" align="center" ><Object name="无功耗电量（KW）" /></Col>
+			<Col width="25%" align="center" ><Object datamapping="consumption_reactive_thismonth" /></Col>
+		</Row>
+		<Row>
+        	<Col width="30%" align="center" ><Object name="月可利用率（%）" /></Col>     	       	
+			<Col width="25%" align="center" ><Object datamapping="Availability_buf_thismonth" /></Col>
+        </Row>
+     </Log>
+  </Page>
+  <!--** 年统计 **  -->
+  <Page name="3.6.4"> 
+  	<Log datamapping="2" Loglen="4" filemapping="年统计.csv">
+        <Row>
+        	<Col width="25%" align="center" ><Object name="时间（年）" /></Col>
+			<Col width="25%" align="center" ><Object datamapping="time_thisyear" /></Col> 
+        </Row>
+        <Row>
+			 <Col width="25%" align="center" ><Object name="有功发电量（KW）" /></Col>
+			 <Col width="25%" align="center" ><Object datamapping="production_active_thisyear" /></Col>
+	    </Row>
+		<Row>
+			<Col width="25%" align="center" ><Object name="无功发电量（KW）" /></Col>
+			<Col width="25%" align="center" ><Object datamapping="production_reactive_thisyear" /></Col>
+		</Row>
+		<Row>
+			<Col width="25%" align="center" ><Object name="有功耗电量（KW）" /></Col>
+			<Col width="25%" align="center" ><Object datamapping="consumption_active_thisyear" /></Col>
+		</Row>
+		<Row>
+        	<Col width="25%" align="center" ><Object name="无功耗电量（KW）" /></Col>
+			<Col width="25%" align="center" ><Object datamapping="consumption_reactive_thisyear" /></Col>
+		</Row>
+		<Row>
+        	<Col width="30%" align="center" ><Object name="年可利用率（%）" /></Col>     	       	
+			<Col width="25%" align="center" ><Object datamapping="Availability_buf_thisyear" /></Col>
+        </Row>
+     </Log>
+  </Page>
+  
+
+</ApplicationLayers>

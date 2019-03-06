@@ -1,0 +1,96 @@
+#delete-table{
+	width: 98%;
+	margin: auto;
+	text-align: center;
+	border-collapse: collapse;
+}
+#delete-table td,th{
+	border: 1px solid black;
+	line-height: 0.04rem;
+	color: white;
+}
+
+.delete-action{
+	padding:0.002rem 0.015rem;
+	background-color: #d9544F;
+	color: #fff;
+	border-radius:0.005rem;
+	cursor: pointer;
+}
+
+#delete-table tr:nth-child(even){
+	background-color: #f9f9f9;
+}
+
+/*#delete-table tr:nth-child(even):hover{
+	background-color: #ebebeb;
+}
+
+#delete-table tr:nth-child(odd):hover{
+	background-color: #ebebeb;
+}*/
+
+#delete-table tr:nth-child(odd){
+	background-color: #BBB7B7;
+}
+
+#delete-table tr:not(:first-child):hover{
+	background-color: #ebebeb;
+}
+
+.mask{
+	z-index: 1000;
+    background: #000;
+    opacity: 0.3;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    display: none;
+}
+/*弹出框样式*/
+#alert-div{
+	position: absolute;
+    top: 0.15rem;
+    left: 0.25rem;
+    width: 0.5rem;
+    height: 0.2rem;
+    background: #fff;
+    z-index: 1001;
+    border-radius: 0rem;
+    display: none;
+}
+
+#alert-head p{
+	padding-left: 0.01rem;
+    line-height: 0.04rem;
+    background-color: #555555;
+    color: #fff;
+}
+
+#alert-content {
+    margin-top: 0.035rem;
+    text-align: center;
+}
+
+#alert-btn {
+    text-align: center;
+    margin-top: 0.025rem;
+}
+
+.clear-btn {
+    display: inline-block;
+    width: 0.08rem;
+    color: #ffffff;
+    margin: 0 0.01rem;
+    line-height: 0.04rem;
+    border-radius: 0.005rem;
+}
+
+#delete-confirm {
+    background-color: #50BCE0;
+}
+
+#delete-cancel {
+    background-color: #ccc9c9;
+}

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>报表</title>
+		<link rel="stylesheet" href="../css/report.css" />
+	</head>
+	<body>
+	<!--	一级导航-->
+		<div id="reportForms-head">
+			<p id="reportForms-headName">报表</p>
+			
+			<div id="reportForms-btn-group">
+				<p id="reportForms-btn-content">
+				</p>				
+			</div>
+		</div>
+		<!--//报表内容区域-->
+		<div id="reportForms-content">
+			<table id="rep-content-table">
+			</table>
+		</div>
+		
+		<div id="alert-div">
+			<div id="alert-head">
+				<p style="background-color: #555555; color: #ffffff;">提示</p>
+			</div>
+			<div id="alert-content">
+				<p>确认清除数据？</p>
+			</div>
+			<div id="alert-btn">
+				<p>
+					<label id="clear-confirm" class="clear-btn">确认</label>
+					<label id="clear-cancel" class="clear-btn">取消</label>
+				</p>
+			</div>
+		</div>
+		<div id="reportForms-mask"></div>
+		<p>
+			<label id="resetData">历史数据清零</label>
+		</p>
+		<script type="text/javascript" src="../js/jquery-3.2.0.js" ></script>
+		<script type="text/javascript" src="../js/SelfAdaption.js"></script>
+		<script type="text/javascript" src="../js/load.js"></script>
+		<script type="text/javascript" src="../js/report.js"></script>
+	</body>
+</html>

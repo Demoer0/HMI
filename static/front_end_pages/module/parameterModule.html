@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script type="text/javascript" src="../js/jquery-3.2.0.js" ></script>
+		<link rel="stylesheet" href="../css/CSS.css" />
+		<style>
+			.data_table{
+				width: 100%;
+				background-color:transparent;
+				font-size: 0.02rem;
+				border-collapse:collapse;
+				border: 1px solid #fff;		
+				background: #F2F2F2;
+			}
+			#btnDown{
+				margin-top: 2px;
+				height: 0.03rem;
+			}
+			#drop{
+				border-radius: 0.009rem;
+				border: 1px solid #41719C;
+				background: #F2F2F2;
+				padding:0 10px;
+				float: right;
+			}
+		</style>
+		<script>
+			/*页面初始化时清空div内容，重新读取xml*/
+			function init() {
+				document.getElementById("nav").innerHTML="";
+				document.getElementById("page").innerHTML="";				
+				var location = document.getElementById("page").getAttribute("location");
+				loadXML(location);				
+			} 
+			
+	
+			/*更改div的location属性值*/
+			function changeLocation(page){
+				document.getElementById("page").setAttribute("location",page.id);
+				init();
+			}
+			/*读取XML文件*/
+			function loadXML(location){
+				var xmlDoc;
+				try{ //IE
+				xmlDoc = new ActiveXObject("Microsoft.XMLDOM");
+				}catch(e){ //firefox,opera
+				xmlDoc = document.implementation.createDocument("","",null);
+				}
+				try{
+				xmlDoc.asyc = false; //是否异步调用
+				xmlDoc.load("../HmiApp_170803.xml"); //文件路径
+				}catch(e){ //chrome
+				var xmlhttp = new window.XMLHttpRequest();
+				xmlhttp.open("GET","../HmiApp_170814.xml",false); //创建一个新的http请求，并指定此请求的方法、URL以及验证信息
+				xmlhttp.send(null);
+				xmlDoc = xmlhttp.responseXML;
+				}
+				//return xmlDoc;
+				/*创建id为nav的div的内容*/
+				var xmlRoot =xmlDoc.documentElement;
+				var label =xmlRoot.getElementsByTagName("MainPage");
+				createNav(label[0],location);
+				
+				
+				/*创建id为page的div的内容*/
+				var root =xmlDoc.documentElement;
+				var dataArr =root.getElementsByTagName("Page");
+				for (var j=0;j<dataArr.length;j++){
+					if(dataArr[j].getAttribute('name') == location){
+						createLog(dataArr[j].getElementsByTagName("Log")[0]);
+					}
+				}
+/*设置下拉框*/
+				var he = $(".checked").height();
+				$("#btnDiv").css({
+					"height":he+2+"px",
+					"overflow":"hidden"
+				})
+				var heightToTop=document.getElementById("header").offsetHeight+document.getElementById("btnDiv").offsetHeight;
+				$("#page").css({				
+					 	"margin-top":heightToTop,			 
+				})				
+				dropDown();
+			}
+			
+			/*根据读取xml的内容创建页面nav的innerhtml*/
+			function  createNav(label,location){
+				var pageStr = "Page."+location;
+				var page=label.getElementsByTagName(pageStr)[0];
+				var htmlStr1 = "";
+				var ModuleName = "";
+				var pageurl="";
+				temp = page;
+				while(temp.parentNode.tagName!="MainPage"){
+					htmlStr1="->"+temp.getAttribute("name")+htmlStr1;
+					var name=temp.getAttribute("name");					
+					temp=temp.parentNode;
+					var SecondPage = temp.tagName;/*和system的module略有不同*/
+				}
+				/*上面参数->系统参数栏*/
+				ModuleName=temp.getAttribute("name")+"->"+name;
+				
+				var ButtonNum = label.getElementsByTagName(SecondPage)[0].children.length;
+//				console.log(label.getElementsByTagName(SecondPage)[0].children)
+				var btnName;
+				var htmlStr2 = "";
+				var IOhtmStr2 = "";
+				var checkedStr="";
+				var uncheckedStr="";
+				for(var i=0;i<ButtonNum;i++){
+					console.log(label.getElementsByTagName(SecondPage)[0].children[i])
+					btnName=label.getElementsByTagName(SecondPage)[0].children[i].getAttribute("name");
+					console.log(btnName)
+					url=label.getElementsByTagName(SecondPage)[0].children[i].getAttribute("pageurl");
+					console.log(url);
+					pageurl=url.slice(5);
+					console.log(pageurl);
+//					alert(pageurl)
+					var ischecked = "";
+					if(label.getElementsByTagName(SecondPage)[0].children[i].tagName==pageStr){
+						ischecked="checked";
+						checkedStr = "<span  onclick = \"changeLocation(this)\" id=\""+pageurl+"\"  class=\"mod "+ischecked+"\">"+btnName+"</span>"+" ";
+					}else{
+						ischecked="unchecked";
+						uncheckedStr+="<span  onclick = \"changeLocation(this)\" id=\""+pageurl+"\"  class=\"mod "+ischecked+"\">"+btnName+"</span>"+" ";
+					}
+					htmlStr2+="<span  onclick = \"changeLocation(this)\" id=\""+pageurl+"\"  class=\"mod "+ischecked+"\">"+btnName+"</span>"+" ";
+				}
+
+				IOhtmlStr2 = checkedStr+uncheckedStr;
+				var setP1 =document.createElement('p');
+				setP1.innerHTML=ModuleName;
+				setP1.className="header";
+				setP1.id="header";
+				var setP2 =document.createElement('p');	
+				var btnDiv = document.createElement('div');
+				btnDiv.id = "btnDiv";
+				btnDiv.appendChild(setP2);
+				/*点击之后被选中的排在最前面*/
+				if(label.getElementsByTagName(SecondPage)[0].getAttribute('name')=="参数"){
+					setP2.innerHTML=IOhtmlStr2;
+				}else{
+					setP2.innerHTML=htmlStr2;
+				}
+
+				setP2.className="options";
+				setP2.id="btns";
+				document.getElementById("nav").appendChild(setP1);
+				document.getElementById("nav").appendChild(btnDiv);
+			}
+			
+			function changeLocation(page){
+				document.getElementById("page").setAttribute("location",page.id);
+				init();
+			}
+			
+			function dropDown(){
+				var divHeight = document.getElementById("btnDiv").offsetHeight;
+				var btnHeight = document.getElementById("btns").offsetHeight;
+			//	alert(divHeight)
+			//	alert(btnHeight)
+				if(divHeight<btnHeight){
+					var str = "<span  id='drop' onclick='dropAction()'>"+
+								"<img src=\"../img/scrollBottom1.png\" id=\"btnDown\"/>"+
+							"</span>";
+					document.getElementById("btns").innerHTML=str+document.getElementById("btns").innerHTML;
+				}
+			}
+			
+			function dropAction(){
+				/*
+				 *判断是上拉还是下拉 
+				 * */
+				var btnHeight = document.getElementById("btns").offsetHeight;
+				var divHeight = document.getElementById("btnDiv").offsetHeight;
+				if(divHeight<btnHeight){
+					document.getElementById("btnDiv").style.height=btnHeight+"px";
+					document.getElementById("btnDown").src="../img/scrollTop1.png";
+				}else{
+					document.getElementById("btnDiv").style.height=$(".checked").height()+2+"px";
+					document.getElementById("btnDown").src="../img/scrollBottom1.png";
+				}
+			var heightToTop=document.getElementById("header").offsetHeight+document.getElementById("btnDiv").offsetHeight;
+				$("#page").css({				
+					 	"margin-top":heightToTop,			 
+				})	
+			}
+			/*para-content*/
+			function createLog(log){
+//				alert(log.getAttribute("filemapping"))
+				var csvName = log.getAttribute("filemapping");
+				var setTable = document.createElement('table');
+				var tableText = "";
+				var thead ="";
+				var tbody ="";
+				var Rows = log.getElementsByTagName("Row")[0].getElementsByTagName("Col").length;
+				thead+="<tr>";
+				for(var i=0;i<Rows;i++){
+					var cel = log.getElementsByTagName("Row")[0].getElementsByTagName("Col")[i];
+					var wid = cel.getAttribute("width");
+					var content;
+					var align="";
+					if(cel.hasAttribute("align")){
+						align=cel.getAttribute("align");
+					}
+					var content = cel.getElementsByTagName("Object")[0].getAttribute("name");
+//					thead+='<td  align="'+align+'" style="width:'+wid+';">'+content+'</td>';
+					thead+='<td  align="center" style="width:'+wid+';">'+content+'</td>';
+				}
+				thead+="</tr>";
+				
+				var paraNum = log.getElementsByTagName("Para").length;
+				var order=0;
+				/*设置为同步执行*/
+				$.ajaxSettings.async = false;
+				for(var j=0;j<paraNum;j++){
+					order++;
+					tbody+="<tr>";
+					var paraName = log.getElementsByTagName("Para")[j].getAttribute("parameterNum");
+					var CnName = "";
+					var initVal = "";
+					var unit = "";
+//					alert(paraName)
+					$.get('../'+csvName,function(data){
+					    var dataStr = new String(data);
+					    var lines = dataStr.split(/[,\n]/);
+//					    alert(lines.length);
+						for(var i=0;i<lines.length;i++){
+							if(lines[i]==paraName){
+								CnName = lines[i+1];
+								initVal = lines[i+2];
+								unit = lines[i+3];
+								break;
+							}
+							
+						}
+					},dataType='text');
+					
+					tbody+='<td align=\'center\'>'+order+'</td>'+
+					'<td align=\'center\'>'+CnName+'</td>'+
+					'<td align=\'center\' class=\'paraVal\' id='+paraName+' CnName='+CnName+' style=\"cursor:pointer;\" onclick=\"changeVal(this)\">'+"10"+'</td>'+
+					'<td align=\'center\'>'+unit+'</td>';
+					tbody+='</tr>';
+				}
+	
+				setTable.innerHTML=thead+tbody;
+				setTable.className="data_table";
+				document.getElementById("page").appendChild(setTable);
+			}
+			/*恢复默认值*/
+			function revertToInit(){
+				var dom = document.getElementsByClassName("paraVal");
+//				alert(dom.length)
+				for(var i=0;i<dom.length;i++){
+					var paraID=dom[i].id;
+					var initVal="";
+					$.get('../parameter.csv',function(data){
+					    var dataStr = new String(data);
+					    var lines = dataStr.split(/[,\n]/);
+						for(var i=0;i<lines.length;i++){
+							if(lines[i]==paraID){
+								initVal = lines[i+2];
+								break;
+							}
+							
+						}
+					},dataType='text');
+					dom[i].innerHTML=initVal;
+				}
+			}
+			
+			/*修改值*/
+			function changeVal(x){
+				var h = -$("#nav").height()
+				$("#modify-input").attr("modify-id",x.id);
+				$("#para-title").html(x.getAttribute("CnName"));
+				$("#para-modify").css("display","block");
+				$("#mask").css("display","block");
+				$("#mask").height(document.body.scrollHeight);
+				$("#mask").width(document.documentElement.scrollWidth);
+			}
+			
+			function comfirmAction(){
+				var input = $("#modify-input").val();
+				var id = $("#modify-input").attr("modify-id");
+				$("#"+id).html(input);				
+				$("#para-modify").css("display","none");
+				$("#modify-input").val("");
+				$("#mask").css("display","none");
+				/*向后台传数据*/
+				
+			}
+			
+			function cancelAction(){
+				$("#para-modify").css("display","none")
+				$("#mask").css("display","none");
+			}			
+</script>
+	</head>
+	<body>		
+	</body>
+</html>

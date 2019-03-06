@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+ <!--让浏览器使用最新的IE内核进行渲染页面-->
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+ <!--设置适口宽度等于设备宽度，任何其他内容都*必须*跟随其后-->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+ <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+<title>东方电气风机监控系统-首页</title>
+        <link href="css/bootstrap.min.css" rel="stylesheet"> 
+		<link href="css/style.css" rel="stylesheet" type="text/css" />		
+		<script src="js/jquery-3.2.0.js"></script>
+		<script src="js/SelfAdaption.js"></script>
+		<script type=text/javascript" src="js/utils/cookie.js" ></script>
+		<script src="js/bootstrap.min.js"></script>
+        <script src="js/main.js"></script>
+</head>
+<body>
+<!--顶部导航栏-->
+<div class="top-body">
+        <div class="topleft" >
+    	<img class="logo-img" src="img/image/logo_dec.png" title="logo" />
+    	<label class="logo-name">东方电气风机监控系统</label> 
+   		 </div>
+    	<div class="topright">
+			<div class="user-area">	
+			<img id="permission" src="img/image/permission.png"/>
+			<img id="logincheck" pageTo="./user/main.html" src="img/image/logon.png" />
+		    </div>
+        </div>  
+</div>
+
+<!--中间内容部分-->
+<div class='container-area'>  
+    	<div class='left-body'>  
+            <ul class="list-group">
+				<li class="list-group-item"><span class="badge" datamapping="local_add" unit="">1</span>风机号</li>
+				<li class="list-group-item"><span class="badge" datamapping="run_state" unit="">发电</span>风机状态</li>
+				<li class="list-group-item"><span class="badge" id="location-now">机舱</span>当前位置</li>
+				<li class="list-group-item"><span class="badge" id="Repair-or-Maintain">维护/维修</span>维修/维护</li>
+				<li class="list-group-item">权限位置</li>
+				<li class="list-group-item"><span class="badge" datamapping="ave_Onesec_Wsp" unit="m/s">13.2m/s</span>当前风速</li>
+				<li class="list-group-item"><span class="badge" datamapping="angle_ave" unit="">2.31</span>桨叶速度</li>
+				<li class="list-group-item"><span class="badge" datamapping="Rotor_RSpd" unit="rpm">15.0rpm</span>主轴转速</li>
+				<li class="list-group-item"><span class="badge" datamapping="G_RSpd1" unit="rpm">1538rpm</span>发电机转速</li>
+				<li class="list-group-item"><span class="badge" datamapping="G_Power_FB">1530.2kw</span>发电功率</li>
+			</ul>
+
+		    <div class="btn-group-vertical" role="group" >
+  				<button type="button" class="btn btn-default" id="btn-stop">停机</button>
+  				<button type="button" class="btn btn-default" id="btn-reset">复位</button>
+  				<button type="button" class="btn btn-default" id="btn-start">起机</button>
+  				<button type="button" class="btn btn-default" id="btn-debug" isDebug = "false">调试</button>
+ 				<button type="button" class="btn btn-default" id="btn-exit">退出</button>
+			</div>     
+    	</div>  
+		
+        <div class='right-body'>
+			<div id="iframe-area">
+			<iframe id="window" src="index.html" pageurl="Page.3.1"></iframe>
+			</div>
+        </div>  
+ </div>  
+
+<!--底部页面切换-->
+	<div class="navbar" role="navigation" >
+	 	<ul class="nav">
+    		<li><label  style="display: none;" ></label><img src="img/image/homepage-white.png" pageTo="index.html" pageurl = "Page.3.1" usertype="1"/></li>
+    		<li><label  style="display: none;" ></label><img src="img/image/system-white.png" pageTo="./system/system-main.html" pageurl = "Page.3.2" usertype="1"/></li>
+    		<li><label  style="display: none;" ></label><img src="img/image/parameter-white.png" pageTo="./parameter/parameter.html" pageurl = "Page.3.3" usertype="3"/></li>
+    		<li><label  style="display: none;" ></label><img src="img/image/fault-white.png" pageTo="./fault/fault.html" pageurl = "Page.3.4" usertype="3"/></li>
+    		<li><label  style="display: none;" ></label><img src="img/image/trend-white.png" pageTo="./trend/trend_Curve.html" pageurl = "Page.3.5" usertype="3"/></li>
+    		<li><label  style="display: none;" ></label><img src="img/image/report-white.png" pageTo="./report/report.html" pageurl = "Page.3.6" usertype="3"/></li>
+	 	</ul>
+	</div>
+	<!--<script type="text/javascript">-->
+		<!--$(function(){-->
+		    <!--//websocket连接获取实时数据-->
+            <!--/*获取数据点名*/-->
+            <!--var data = $("[datamapping]");-->
+            <!--var pointList = [];-->
+            <!--for(var i = 0;i<data.length;i++){-->
+            	<!--pointList.push(data[i].getAttribute('datamapping'));-->
+            <!--}-->
+            <!--console.log(pointList);-->
+            <!--/*构造要发送给后台的数据*/-->
+            <!--var msgl = {'sessionId': 'indexLeft', 'command': '11'};-->
+            <!--msgl['points_name'] = pointList;-->
+            <!--console.log(msgl);-->
+            <!--var wsl = new WebSocket("ws://" + location.host + "/test2");-->
+            <!--wsl.onopen = function (ev) {-->
+                <!--wsl.send(JSON.stringify(msgl));-->
+            <!--};-->
+
+            <!--wsl.onmessage = function (ev) {-->
+                <!--var realtimedatal = eval('('+ev.data+')');-->
+		        <!--var showContentl = realtimedatal.data;-->
+		        <!--console.log(showContentl);-->
+		        <!--for(var i = 0;i<pointList.length;i++) {-->
+                    <!--var dataPoint = $("[datamapping=\"" + pointList[i] + "\"]");-->
+                    <!--console.log(dataPoint[i].innerHTML);-->
+                    <!--dataPoint[i].innerText(showContentl[pointList[i]]);-->
+                    <!--// dataPoint.each(function(){-->
+					<!--//     $(this).innerText(showContentl[pointList[i]]);-->
+			        <!--// })-->
+                <!--}-->
+            <!--};-->
+
+            <!--wsl.onerror = function(evt){-->
+                <!--console.log("发生错误");-->
+                <!--console.log(evt);-->
+            <!--};-->
+
+            <!--wsl.onclose = function(){-->
+                <!--console.log("断开连接");-->
+            <!--};-->
+
+			<!--//绑定底部点击事件-->
+			<!--$(".nav img").on("click",function(){-->
+				<!--/*按钮颜色变化*/-->
+				<!--$(".nav img").css({-->
+					 <!--"background": "linear-gradient(#185D91,#0F3462)"-->
+				<!--});-->
+				<!--$(this).css({-->
+					<!--"background": "linear-gradient(#0F3462,#185D91)"-->
+				<!--});-->
+				<!--/*页面跳转*/-->
+				<!--var content = document.getElementById("window");-->
+				<!--var page_to = $(this).attr("pageTo");-->
+				<!--var page_url = $(this).attr("pageurl");-->
+				<!--content.src = page_to;-->
+				<!--content.setAttribute("pageurl",page_url);-->
+			<!--});-->
+			<!--/*进入调试*/-->
+			<!--$("#btn-debug").click(function(){-->
+				<!--if($(this).attr('isDebug')=="false"){-->
+					<!--$(this).css({-->
+						<!--'background':'red',-->
+						<!--'font-size':"0.028rem"-->
+					<!--});-->
+					<!--$(this).html('退出调试');-->
+					<!--$(this).attr('isDebug','true');-->
+					<!--$("#window").contents().find(".forDebug").css('display','block');-->
+					<!--$("#window").contents().find(".debug-data").css('background','#747474');-->
+				<!--}else{-->
+					<!--$(this).css({-->
+						<!--'background': 'linear-gradient(#004873,#005D98)',-->
+						<!--'font-size':"0.028rem"-->
+					<!--});-->
+					<!--$(this).html('调试');-->
+					<!--$(this).attr('isDebug','false');-->
+					<!--$("#window").contents().find(".forDebug").css('display','none');-->
+					<!--$("#window").contents().find(".debug-data").css('background','transparent');-->
+				<!--}-->
+			<!--});-->
+
+			<!--/*登录查看*/-->
+			<!--$("#logincheck").click(function(){-->
+				<!--/*页面跳转*/-->
+				<!--var content = document.getElementById("window");-->
+				<!--var page_to = $(this).attr("pageTo");-->
+				<!--content.src = page_to;-->
+			<!--});-->
+
+			<!--/*停机*/-->
+			<!--$("#btn-stop").click(function () {-->
+				<!--/*封装数据*/-->
+				<!--var stopdata = {-->
+					<!--command: 21,-->
+					<!--point_name: 'Manual_stop',-->
+					<!--point_value: true-->
+				<!--};-->
+				<!--jQuery.ajax({-->
+					<!--type: 'GET',-->
+					<!--url: "http://" + location.host + "/staticData",-->
+					<!--data: stopdata,-->
+					<!--dataType: 'json',-->
+					<!--success: function (result) {-->
+						<!--var res = JSON.stringify(result);-->
+						<!--console.log(res);-->
+					<!--},-->
+					<!--error: function () {-->
+						<!--alert("返回数据失败");-->
+					<!--}-->
+				<!--});-->
+			<!--});-->
+
+			<!--/*复位*/-->
+			<!--$("#btn-reset").click(function () {-->
+				<!--/*封装数据*/-->
+				<!--var resetdata = {-->
+					<!--command: 21,-->
+					<!--point_name: 'stop_clear',-->
+					<!--point_value: true-->
+				<!--};-->
+				<!--jQuery.ajax({-->
+					<!--type: 'GET',-->
+					<!--url: "http://" + location.host + "/staticData",-->
+					<!--data: resetdata,-->
+					<!--dataType: 'json',-->
+					<!--success: function (result) {-->
+						<!--var res = JSON.stringify(result);-->
+						<!--console.log(res);-->
+					<!--},-->
+					<!--error: function () {-->
+						<!--alert("返回数据失败");-->
+					<!--}-->
+				<!--});-->
+			<!--});-->
+
+			<!--/*起机*/-->
+			<!--$("#btn-start").click(function () {-->
+				<!--/*封装数据*/-->
+				<!--var startdata = {-->
+					<!--command: 21,-->
+					<!--point_name: 'quick_start_up',-->
+					<!--point_value: true-->
+				<!--};-->
+				<!--jQuery.ajax({-->
+					<!--type: 'GET',-->
+					<!--url: "http://" + location.host + "/staticData",-->
+					<!--data: startdata,-->
+					<!--dataType: 'json',-->
+					<!--success: function (result) {-->
+						<!--var res = JSON.stringify(result);-->
+						<!--console.log(res);-->
+					<!--},-->
+					<!--error: function () {-->
+						<!--alert("返回数据失败");-->
+					<!--}-->
+				<!--});-->
+			<!--});-->
+
+			<!--/*退出：点击之后回到登录页面*/-->
+			<!--$("#btn-exit").click(function () {-->
+				<!--window.location="login.html";-->
+			<!--});-->
+		<!--})-->
+	<!--</script>-->
+</body>
+</html>

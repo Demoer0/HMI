@@ -1,0 +1,53 @@
+table{
+	width: 80%;
+	margin: 0.1rem auto 0;
+}
+tr{
+	height: 0.04rem;
+}
+
+td{
+	font-size: 0.025rem;
+	font-family: "黑体";
+}
+
+td input {
+	height: 0.042rem;
+	width: 0.35rem;
+	box-sizing: border-box;
+	font-size: 0.025rem;
+}
+
+.left-td{
+	text-align: right;
+	color: white;
+}
+
+.modifyAccount-btn{
+	text-align: center;
+    cursor: pointer;
+    /*border: 1px solid black;*/
+    padding: 0.012rem 0.03rem;
+    color: #fff;
+    border-radius: 0.005rem;
+}
+
+#modify-account-btns{
+	margin-top: 0.02rem;
+}
+
+.submit{
+	background-color: #004B74;
+}
+
+.reset{
+	background-color: #BBB7B7;
+}
+#oldpwd-warning{
+	color: #D9544F;
+	display: none;
+}
+#newpwd-warning{
+	color: #D9544F;
+	display: none;
+}

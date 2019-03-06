@@ -1,0 +1,89 @@
+table{
+	width: 80%;
+	margin: 0.1rem auto 0;
+}
+tr{
+	height: 0.04rem;
+}
+
+td{
+	font-size: 0.025rem;
+	font-family: "黑体";
+}
+
+td input {
+	height: 0.042rem;
+	width: 0.35rem;
+	box-sizing: border-box;
+	font-size: 0.025rem;
+}
+
+.left-td{
+	text-align: right;
+	color: white;
+}
+
+#AccountConfirm{
+	margin-top: 0.02rem;
+}
+
+.addAccount-btn{
+	text-align: center;
+    cursor: pointer;
+    /*border: 1px solid black;*/
+    padding: 0.012rem 0.03rem;
+    color: #fff;
+    border-radius: 0.005rem;
+}
+
+.submit{
+	background-color: #004B74;
+}
+
+.reset{
+	background-color: #BBB7B7;
+}
+
+
+/*下拉框*/
+.select-box{
+	width: 0.35rem;
+	height: 0.045rem;
+	font-size: 0.03rem;
+	/*margin-bottom: 0.02em;*/
+	background-color: #fff;
+	text-indent: 0.01rem;
+}
+
+.select-box .select-title{
+	height: 0.042rem;
+	line-height: 0.05rem;
+	display: block;
+	border: 1px solid #A9A9A9;
+	font-size: 0.03rem;
+	cursor: pointer;
+}
+
+.select-box ul{
+    border: 1px solid #ccc;
+}
+
+.select-box ul li{
+    height: 0.045rem;
+	line-height: 0.05rem;
+    /*list-style: none;*/
+    cursor: pointer;
+}
+
+.select-box ul li:hover{
+	background-color: #EBEBEB;
+}
+
+.block{
+	position: relative;
+	background-color: #fff;
+}
+
+.none{
+	display: none;
+}

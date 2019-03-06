@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script type="text/javascript" src="../js/jquery-3.2.0.js" ></script>
+		<script type="text/javascript" src="../js/highcharts.js" ></script>
+		<script type="text/javascript" src="../js/SelfAdaption.js" ></script>
+		<script type="text/javascript" src="../js/load.js" ></script>
+		<script type="text/javascript" src="../js/trendCurve/history.js" ></script>
+		<link rel="stylesheet" href="../css/trendCurve/history2.css" />
+	</head>
+<style>
+		.mask{
+			z-index: 1000;
+		    background: #000;
+		    opacity: 0.3;
+		    position: fixed;
+		    width: 100%;
+		    height: 100%;
+		    top: 0;
+		    display: none;
+		}
+
+		#set_xAxis_width{
+			width: 0.4rem;
+			height: 0.2rem;
+			/*border: 1px solid black;*/
+			background-color: #ffffff;
+			position: fixed;
+			margin: auto;
+			left: 0;
+			right: 0;
+			top: 0.1rem;
+			text-align: center;
+			z-index: 1001;
+			display: none;
+		}
+               #point-show{
+			width: 0.4rem;
+			height: 0.2rem;
+			border: 1px solid black;
+			background-color: #BFCFE6;
+			position: fixed;
+			margin: auto;
+			left: 0;
+			right: 0;
+			top: 0.1rem;
+			text-align: center;
+			z-index: 1001;
+			display: none;
+		}
+		.xAxis-width-val{
+			margin-top: 0.04rem;
+			display: inline-block;
+			width: 0.25rem;
+			height: 0.04rem;
+			font-size: 0.026rem;
+			line-height: 0.03rem;
+		}
+		
+		input::-webkit-outer-spin-button,  
+		input::-webkit-inner-spin-button{  
+		    -webkit-appearance: none !important;  
+		    margin: 0;  
+		}
+		
+		.setxAxis-btn{
+			    display: inline-block;
+			    width: 0.08rem;
+			    color: #ffffff;
+			    margin: 0.01rem 0.01rem;
+			    line-height: 0.04rem;
+			    border-radius: 0.005rem;
+                            cursor:pointer;
+		}
+		
+		#setxAxis-confirm,#pointShow-confirm{
+			background-color: #50BCE0;
+		}
+		
+		#setxAxis-cancel{
+			background-color: #CCC9C9;
+		}
+		
+		#input-warning{
+			color: #D9544F;
+			visibility: hidden;
+		}
+                #point-warning{
+			color: #D9544F;
+                        margin-top: 0.04rem;
+			display: inline-block;
+			width: 0.25rem;
+			height: 0.04rem;
+			font-size: 0.020rem;
+			line-height: 0.04rem;
+		}
+	</style>
+	<body>
+		<div id="layer1">
+			<div id="history-charts-group">
+				<!--	定义曲线区域-->
+				<div id="history-charts-content">
+					<div id="container1" class="chart"></div>
+					<div id="container2" class="chart"></div>
+					<div id="container3" class="chart"></div>
+					<div id="container4" class="chart"></div>
+				</div>					
+			</div>
+			<!--	右边的曲线名称以及数据显示区域-->
+			<div id="curve_name_value">
+				<p><label id="container1_name" class="curveName">曲线1：<br/><label id="curve1_name"></label></label></p>
+				<p><label id="container1_value" class="curveValue"></label></p>
+				<hr />
+				<p><label id="container2_name" class="curveName">曲线2：<br/><label id="curve2_name"></label></label></p>
+				<p><label id="container2_value" class="curveValue"></label></p>
+				<hr />
+				<p><label id="container3_name" class="curveName">曲线3：<br/><label id="curve3_name"></label></label></p>
+				<p><label id="container3_value" class="curveValue"></label></p>
+				<hr/>
+				<p><label id="container4_name" class="curveName">曲线4：<br/><label id="curve4_name"></label></label></p>
+				<p><label id="container4_value" class="curveValue"></label></p>
+			</div>
+			<!--	右边控制区域-->
+			<div id="history-option-btn">
+			<p><label id="point-choose">选择曲线</label></p>
+				<p id="choose-time">选择时间:</p>
+				<p><label id="time-choose">1h</label></p>
+<p id="adjust">
+					<img style="width: 0.05rem;" id="adjust_left" src="../img/left-icon.png"/>
+					<img style="width: 0.05rem;" id="adjust_right" src="../img/right-icon.png"/>
+				</p>
+				<p><label id="cancel">删除标识线</label></p>
+		</div>
+		</div>
+		
+		
+		<!-- 选择趋势点面板 -->
+		<div id="trend-point">
+
+			<div id="top-area">
+				<p>
+					<label id="point-confirm">确定</label>
+				</p>
+				<table>
+					<tr>
+						<td class="text-right">曲线1：</td>
+						<td class="text-left empty" id="curve1-name"></td>
+						<td class="text-right ">曲线2:</td>
+						<td class="text-left empty" id="curve2-name"></td>
+						<td class="text-right" >曲线3:</td>
+						<td class="text-left empty" id="curve3-name"></td>
+						<td class="text-right" >曲线4:</td>
+						<td class="text-left empty"id="curve4-name"></td>
+					</tr>
+				</table>
+			</div>
+			<hr style="margin-top: 0.01rem;" />
+			<div id="bottom-area">
+				<table id="point-table">
+					<tr>
+						<td datamapping="ave_Onesec_Wsp" class="data-point">瞬时风速</td>
+						<td datamapping="ave_Halfmin_Wsp" class="data-point">30s平均风速</td>
+						<td datamapping="ave_Tenmin_Wsp" class="data-point">10min平均风速</td>
+						<td datamapping="Rotor_RSpd" class="data-point">主轴转速</td>
+						<td datamapping="Gear_RSpd" class="data-point">齿轮箱转速</td>
+						<td datamapping="G_RSpd1" class="data-point">发电机转速</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<!--	设置x轴的宽度框-->
+		<div id="set_xAxis_width">
+			<p><label>
+				<input type="number" class="xAxis-width-val" value="1" min="0" max="72" />
+			</label></p>
+			<p><label id="input-warning">请输入0-72以内的数字！</label></p>
+			<p>
+				<label class="setxAxis-btn " id="setxAxis-confirm">确认</label>
+				<label class="setxAxis-btn " id="setxAxis-cancel">取消</label>
+			</p>
+		</div>
+                <!--	设置数据点不足提示框-->
+                <div id="point-show">
+			<p><label id="point-warning">数据点不足，请重新输入时间！</label></p>
+			<p>
+				<label class="setxAxis-btn " id="pointShow-confirm">确认</label>
+			</p>
+		</div>
+		<div class="mask">
+
+		</div>
+	</body>
+</html>

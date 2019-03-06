@@ -1,0 +1,128 @@
+* {
+	padding: 0;
+	margin: 0;
+	font-family: "微软雅黑";
+}
+
+th,td,p,span,label{
+	font-size:0.0205rem ;
+	color: white;
+}
+body{
+	overflow: hidden;
+	background: #005D98;
+}
+
+#reportForms-headName{
+	height: 0.047rem;
+    background-color: #004B74;
+    font-size: 0.03rem;
+    line-height: 0.047rem;
+    border-bottom: 1px solid #41719C;
+}
+
+#reportForms-btn-group label{
+	/*margin-top: 2px;*/
+	text-align: center;
+    font-size: 0.025rem;
+    line-height: 0.035rem;
+    height: 0.035rem;
+    background: #005D98;
+    width: 0.145rem;
+    border-radius: 0.009rem;
+    border: 1px solid #41719C;
+    display: inline-block;
+    margin-left: 0.005rem;
+    cursor:pointer;
+}
+
+#reportForms-btn-group label:first-of-type{
+	background: #004B74;
+}
+
+#reportForms-content{
+	width: 100%;
+    height: 0.62rem;
+     /*border: 1px solid black;*/ 
+    overflow: hidden;
+}
+
+#rep-content-table{
+	width: 100%;
+	border-collapse: collapse;
+}
+
+#rep-content-table td{
+	border: 1px solid #FFFFFF;
+    height: 0.047rem;
+    /*background: #c1d6b4;*/
+}
+
+#resetData{
+	position: absolute;
+	right: 0;
+	bottom: 0;
+    background: #004B74;
+	/*line-height: 0.04rem;*/
+	padding: 0.01rem;
+	border-radius: 0.01rem;
+	border: 1px solid #41719C;
+}
+
+#alert-div{
+	position: absolute;
+    top: 0.2rem;
+    left: 0.25rem;
+    width: 0.5rem;
+    height: 0.2rem;
+    /*border: 1px solid #bcbcbc;*/
+    background: #005D98;
+    z-index: 1001;
+    border-radius: 0rem;
+    display: none;
+}
+
+#alert-head p{
+	padding-left:0.01rem;
+	line-height: 0.04rem;
+}
+
+#alert-content{
+	margin-top: 0.035rem;
+	text-align: center;
+	
+}
+
+#alert-btn{
+	text-align: center;
+	margin-top: 0.025rem;
+}
+
+.clear-btn{
+	display: inline-block;
+	width: 0.08rem;
+	color: #ffffff;
+	margin: 0 0.01rem;
+	line-height: 0.04rem;
+	border-radius: 0.005rem;
+	
+}
+
+#clear-confirm{
+	background-color: #004B74;
+}
+
+#clear-cancel{
+	background-color: #ccc9c9;
+}
+
+#reportForms-mask{
+	z-index: 1000;
+    background: #000;
+    opacity: 0.3;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    display: none;
+}

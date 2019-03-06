@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="../css/common.css" />
+		<link rel="stylesheet" href="../css/loginCheck/modifyAccount.css" />
+	</head>
+	<body>
+		<table>
+			<tr>
+				<td style="width: 25%;" class="left-td">旧密码：</td>
+				<td style="width: 75%;">
+					<input type="password" name="oldPassword" />
+					<label id="oldpwd-warning">你输入的旧密码不对！</label>
+				</td>
+			</tr>
+			<tr>
+				<td class="left-td">新密码：</td>
+				<td>
+					<input type="password" name="newPassword" />
+					
+				</td>
+			</tr>
+			<tr>
+				<td class="left-td">确认新密码：</td>
+				<td>
+					<input type="password" name="newPasswordConfirm" />
+					<label id="newpwd-warning">您输入的密码不对！</label>
+				</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td>
+					<p id="modify-account-btns">
+						<label class="modifyAccount-btn submit" id="modify-account-submit">提交</label>
+						<label class="modifyAccount-btn reset"  id="modify-account-reset">重置</label>
+					</p>				
+				</td>
+			</tr>
+		</table>
+		<script type="text/javascript" src="../js/jquery-3.2.0.js" ></script>
+		<script type="text/javascript" src="../js/SelfAdaption.js" ></script>
+		<script type="text/javascript" src="../js/loginCheck/modifyAccount.js" ></script>
+	</body>
+</html>

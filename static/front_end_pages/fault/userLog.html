@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>currentFault</title>
+		<script type="text/javascript" src="../js/config.js" ></script>
+		<script type="text/javascript" src="../js/SelfAdaption.js"></script>
+	    <script src="../js/jquery-3.2.0.js"></script>
+	    <script type="text/javascript" src="../js/fault/userlog.js" ></script>
+	    <link rel="stylesheet" href="../css/CSS.css" />
+	    <link rel="stylesheet" href="../css/fault.css" />
+            <link rel="stylesheet" href="../css/scrollBtn.css" />
+	    <script type="text/javascript" src="../js/fault/fault.js" ></script>
+	    <style>
+	    	body{
+	    		background: #005D98;
+	    	}
+	    	.center{
+	    		text-align: center;
+	    	}
+	    	table{
+	    		border: 0;
+	    		border-collapse: collapse;
+	    		/*table-layout: fixed;*/
+	    	}
+		#user-log-table{
+		        width: 100%;
+	                border-collapse: collapse;
+	        }
+                #user-log-table td{
+                       background: #BBB7B7;
+                       border:1px solid black;
+	               text-align: center;
+	               height: 0.047rem;
+        }
+                 #userlog-content{
+	width: 100%;
+	overflow: hidden;
+	position: absolute;
+	top: 0.049rem;
+	bottom:0 ;
+}
+        #userlog-content table{
+        overflow: hidden;
+        background: transparent;
+	border-collapse: collapse;
+	width: 100%;
+}
+        #userlog-content-table td{
+        text-align: center;
+        border:1px solid black;
+        height: 0.047rem;
+	background: #005D98;
+			}
+                #userlog-content-table{
+                        border-top:none；
+                }
+                #userlog-content-table tr:first-of-type td{
+			border-top: none;
+			}
+		#userlog-content-table>tr td:first-of-type{
+			width:0.1rem;
+			}
+
+		#userlog-content-table>tr td:last-of-type{
+			width: 0.45rem;
+			}
+
+		#userlog-content-table>tr td {
+			width: 0.45rem;
+			}
+	    	.seq{
+	    		text-align: center;
+	    		width: 10%;
+	    	}
+	    	#rootData{
+	    		padding: 0.006rem;
+			cursor:pointer;
+			position: fixed;
+			background: #BDD7EE;
+			border: 1px solid #2E75B6;
+			border-radius: 0.008rem;
+			right: 0;
+			bottom: 0rem;
+	    	}
+	    </style>
+	</head>
+
+	<body style="overflow-x: hidden;overflow-y: hidden;">
+		<div>
+			<table id="user-log-table">
+				<tr>
+					<td class="seq">序号</td>
+					<td>下发指令</td>
+					<td>操作内容</td>
+				</tr>
+			</table>
+			
+		</div>
+		<div id="userlog-content" >
+			<table id="userlog-content-table">
+			</table>
+		</div>
+		<div id="scroll-btns">
+			<p><img src="../img/scrollTop1.png" id="pull-up"/></p>
+			<p><img src="../img/scrollBottom1.png" id="drop-down"/></p>
+		</div>
+		<!--<div>
+			<span id="rootData">清除历史数据</span>
+		</div>-->
+	</body>
+
+</html>

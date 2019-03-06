@@ -1,0 +1,5 @@
+root,$2b$10$DtRID7.LPix9fYN9pG7krOLCj5qdHcNN4ORQJ4uAGp.9AbElWpZyC,5
+admin,$2b$10$qxKhlwP/Vtkw5.Sus2fUZODpQDry1dQ1rY2WhsEzqksVj6l4iB7Yu,5
+user1,$2b$10$H3pzcgD3edL94TzM13uMtuRWR416FK/F1B.wEBCZobhTuYicPpXdC,4
+admin2,$2b$10$GazBGsMEcNKeXjur9zeyQuKOyjVjlRSmVatUdm0GhXfbkTxZKfLYW,1
+user2,$2b$12$TPycImN5FECRthxhjnpDOuAvYeYFLQA.Mz01jefRDT6JAdj5kpVb6,2

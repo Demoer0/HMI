@@ -1,0 +1,22 @@
+#scroll-btns{
+	position: fixed;
+	bottom: 0;
+	right: 0.01rem;
+	display: none;
+}
+
+#scroll-btns #drop-down{
+	position: fixed;
+	width: 0.07rem;
+	top: 0.55rem;
+	right: 0.01rem;
+        cursor: pointer;
+}
+
+#scroll-btns #pull-up{
+	position: fixed;
+	width: 0.07rem;
+	top: 0.46rem;
+	right: 0.01rem;
+        cursor: pointer;
+}

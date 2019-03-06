@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script type="text/javascript" src="../js/jquery-3.2.0.js" ></script>
+		<script type="text/javascript" src="../js/SelfAdaption.js" ></script>
+		<script type="text/javascript" src="../js/load.js" ></script>
+		<script type="text/javascript" src="../js/trendCurve/trend_Curve.js" ></script>
+		<link rel="stylesheet" href="../css/trendCurve/trend_Curve.css" />
+	</head>
+	<body>
+		<div id="trend-head">
+			<p class="title">趋势</p>
+			<div id="trend-btn-group">
+				<p>
+					<label pageto = "realtime2.html">实时趋势</label>
+					<label pageto = "history2.html">历史趋势</label>
+					<label pageto = "faultRecording2.html">故障录波</label>
+				</p>
+			</div>
+		</div>
+		<div id="trend-content">
+			<iframe id="trend-iframe" src="realtime2.html"></iframe>
+		</div>
+	</body>
+</html>

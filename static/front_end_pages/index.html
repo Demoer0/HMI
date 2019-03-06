@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>主页</title>
+		<link href="css/bootstrap.min.css" rel="stylesheet"> 
+		<link href="css/style.css" rel="stylesheet" type="text/css" />
+		
+		<script type="text/javascript" src="js/jquery-3.2.0.js" ></script>
+		<script type="text/javascript" src="js/index.js" ></script>
+		<script type="text/javascript" src="js/SelfAdaption.js" ></script>
+		<script src="js/bootstrap.min.js"></script>
+<!--<script language="javascript">		
+	$(function(){
+	var dataLen = $(".data").length;
+	var dataArr = new Array(dataLen);
+	function getData(){
+		for(var i = 0;i<dataLen;i++)
+	{
+//		$(".data")[i].getAttribute("unit");
+//		console.log($(".data")[5].innerHTML)
+		if($(".data")[i].getAttribute("unit")==""){
+			var tempData = (2000*Math.random()).toFixed(2)+"";
+			dataArr[i] = tempData
+//			$(".data")[i].innerHTML = tempData
+		}else if($(".data")[i].getAttribute("unit")=="rpm"){
+			var tempData = (1000*Math.random()).toFixed(2)+"rpm";
+			dataArr[i] = tempData
+//			$(".data")[i].innerHTML = tempData
+		}else if($(".data")[i].getAttribute("unit")=="m/s"){
+			var tempData = (15*Math.random()).toFixed(2)+"m/s";
+			dataArr[i] = tempData
+//			$(".data")[i].innerHTML = tempData
+		}else{
+			var tempData = (100*Math.random()).toFixed(2)+"";
+			dataArr[i] = tempData
+//			$(".data")[i].innerHTML = tempData
+		}
+	}
+	}
+	var timer = setInterval(function(){
+		getData();
+		for(var i = 0;i<dataLen;i++){
+			$(".data")[i].innerHTML = dataArr[i]
+		}
+	},1000)
+})
+</script>-->
+</head>
+<body>
+	<div class="home-body">
+		<div id="homePage-pic">
+			<div id="cabin-module">
+				<p>
+					<img src="img/yaw/yaw_bg.png"/>
+					<img src="img/yaw/yaw_fan.png" />
+					<img src="img/yaw/yaw_clockwise.png" />
+					<img src="img/yaw/yaw_windDirection.png" /> 
+				</p>				
+			</div>
+			<div id="pitch-system-alarm" class="indicator"></div>
+			<div id="trans-chain-alarm" class="indicator"></div>
+			<div id="converter-grid-alarm" class="indicator"></div>
+			<div id="off-course-alarm" class="indicator"></div>
+			<div id="safe-chain-alarm" class="indicator"></div>
+			<div id="io-module-alarm" class="indicator"></div>
+			<label id="safe-chain-label" class="labels">安全链</label>
+			<label id="io-module-label" class="labels">I/O模块</label>
+			<label id="pitch-system-label" class="labels">变桨系统</label>
+			<label id="trans-chain-label" class="labels">传动链</label>
+			<label id="converter-grid-label" class="labels">变频器&电网</label>
+			<label id="off-course-label" class="labels">对风偏航</label>
+			
+			<div id="pitch-data" class="homePage-data">
+				<p>桨角</p>
+				<div class="data-frame"><p id="data1" class="data" unit = "°" datamapping="Pitch.11.pitch1_angle">1234.00</p></div>
+				<div class="data-frame"><p id="data2" class="data" unit = "°" datamapping="Pitch.12.pitch2_angle">0.00</p></div>
+				<div class="data-frame"><p id="data3" class="data" unit = "°" datamapping="Pitch.13.pitch3_angle">0.00</p></div>
+			</div>
+			
+			<div id="gearbox-data" class="homePage-data">
+				<p>齿轮箱</p>
+				<div class="data-frame"><p id="data4" class="data" unit = "rpm" datamapping="DC.8.Gear_RSpd">1538rpm</p></div>
+			</div>
+			<div id="windspeed-data" class="homePage-data">
+				<p>风速</p>
+				<div class="data-frame"><p id="data5" class="data" unit = "m/s" datamapping="YAW.6.ave_onesec_wsp">8m/s</p></div>
+			</div>
+			<div id="alternator-data" class="homePage-data">
+				<p>发电机</p>
+				<div class="data-frame"><p id="data6" class="data" unit = "rpm" datamapping="DC.9.G_RSpd">1538rpm</p></div>
+			</div>
+			<div id="principal-axis-data" class="homePage-data">
+				<p>主轴</p>
+				<div class="data-frame"><p id="data7" class="data" unit = "rpm" datamapping="DC.5.Rotor_RSpd">15.0rpm</p></div>
+			</div>	
+		</div>
+		
+		<div class="separator-line2"></div>
+		
+		<div id="homePage-info">
+			<div id="fault-info">
+				<table>
+					<tr>
+						<td>远程通讯<img src="img/green.png"/></td>
+						<td>变桨通信<img src="img/green.png"/></td>
+					</tr>
+					<tr>
+						<td>有功管理<img src="img/green.png"/></td>
+						<td>振动模块通信<img src="img/green.png"/></td>
+					</tr>
+					<tr>
+						<td>无功管理<img src="img/green.png"/></td>
+						<td>电网模块通信<img src="img/green.png"/></td>
+					</tr>
+				</table>
+			</div>
+			<div id="version-info">
+				<p class="version">
+					<p class="version-name">主控版本号：1.0.1</p>
+					<p class="version-name">面板版本号：1.0.1</p>
+				</p>
+			</div>
+			<div id="maintain">
+				<table>
+					<tr>
+						<td>维护</td>
+						<td>维修</td>
+					</tr>
+					<tr>
+						<td>
+							<div id="maintain-btn" class="toggle1 toggle-off">
+								<div class='toggle-button'></div>
+								<div class='toggle-text-on'></div>	
+							</div>
+						</td>
+						<td>
+							<div id="repair-btn" class="toggle2 toggle-off">
+								<div class='toggle-button'></div>
+								<div class='toggle-text-on'></div>
+							</div>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>	
+</body>
+</html>

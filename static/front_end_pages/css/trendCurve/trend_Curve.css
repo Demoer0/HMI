@@ -1,0 +1,48 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+body{
+	overflow:hidden;
+}
+
+th,td,span,p,label{
+	font-size: 0.0205rem;
+	color: white;
+}
+
+#trend-head .title{
+	height: 0.047rem;
+    background-color: #004B74;
+    font-size: 0.03rem;
+    line-height: 0.047rem;
+    border-bottom: 1px solid #41719C;
+}
+
+#trend-btn-group p label{
+	/*margin-top: 2px;*/
+    text-align: center;
+    font-size: 0.025rem;
+    line-height: 0.035rem;
+    height: 0.035rem;
+    background: #005D98;
+    width: 0.145rem;
+    border-radius: 0.009rem;
+    border: 1px solid #41719C;
+    display: inline-block;
+    margin-left: 0.005rem;
+    cursor:pointer;
+}
+
+#trend-btn-group p label:first-of-type{
+	background:#004B74;
+}
+
+#trend-iframe{
+	float: left;
+	/*border: 1px solid black;*/
+	margin-top: 0.005rem;
+	border: none;
+	width: 100%;
+	height: 0.62rem;
+}

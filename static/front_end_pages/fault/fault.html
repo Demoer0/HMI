@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>fault</title>
+	    <link rel="stylesheet" href="../css/fault.css" />
+	    <link rel="stylesheet" href="../css/CSS.css" />
+	    <style>
+	    	body{
+	    		background: #005D98;
+	    	}
+	    	table{
+	    		border: 1px solid black;
+	    		border-collapse: collapse;
+	    		/*table-layout: fixed;*/
+	    	}
+	    	td{
+	    		text-align: center;
+	    		border: 1px solid black;
+	    		white-space:nowrap;
+	    		border-collapse: collapse;
+	    	}
+	    	.seq{
+	    		text-align: center;
+	    		width: 10%;
+	    	}
+			#iframe{
+				width: 100%;
+				float: left;
+				border: none;
+				height: 100%;
+	    	}	    	
+	    	#iframe-content{
+	    		width: 100%;
+	    		position: absolute;
+	    		top: 0.0875rem;
+	    		bottom: 0;
+	    		/*background: #85C440;*/
+	    	}
+                #header p span {
+				cursor: pointer;
+			}
+	    </style>
+	</head>
+	<body style="overflow-x: hidden;overflow-y: hidden;">
+		<div id="header">
+			<p class="header">故障>故障列表</p>
+			<p>
+				<span class="checked btn-menu"  id="realtime"  url="currentFault.html">当前故障</span>
+				<span class="unchecked btn-menu"  url="historicalFault.html">历史故障</span>
+				<span class="unchecked btn-menu"  url="userLog.html">用户日志</span>
+				<span class="unchecked btn-menu"  url="fanLog.html">风机日志</span>
+				<span class="unchecked btn-menu"  url="faultList.html">故障列表</span>
+				<span class="unchecked btn-menu"  url="shieldedFault.html">已屏蔽故障</span>
+			</p>
+		</div>
+		<div id="iframe-content">
+			<iframe src="currentFault.html" id="iframe"></iframe>
+		</div>	
+		<script type="text/javascript" src="../js/SelfAdaption.js"></script>
+	    <script src="../js/jquery-3.2.0.js"></script>	
+	    <script type="text/javascript" src="../js/fault/fault.js" ></script>
+	</body>
+</html>

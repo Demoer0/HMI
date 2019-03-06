@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+	</head>
+	<style>
+		.box{
+			border:1px solid black;
+			width: 60px;
+			height: 60px;
+			margin-right: 10px;
+			display: inline-block;
+			text-align: center;
+			/*line-height: 30px;*/
+		}
+	</style>
+	<script type="text/javascript" src="js/jquery-3.2.0.js" ></script>
+	<body>
+		<div class="box" id="STATS.2.running_state"></div>
+		<div class="box" id="STATS.3.total_generated"></div>
+		<div class="box" id="STATS.4.total_reactive"></div>
+		<div class="box" id="STATS.5.total_consume"></div>
+		<script>
+			 var ws = new WebSocket("ws://172.16.10.55:8888/test2");
+			 var pointList = ["STATS.2.running_state","STATS.3.total_generated","STATS.4.total_reactive","STATS.5.total_consume"];
+			 var command = "11"
+			 var msg = {'command': '11', 'data': ['Pitch.1.sys', 'Pitch.2.state', 'Pitch.3.DI', 'DC.1.state', 'para.1.16.max_Wind_spd', 'para.2.2.Power_rpm']}
+			 ws.onopen = function(event){
+				//ws.send("connect success");
+				ws.send("11");
+				//a('onopen');
+				};
+
+				ws.onmessage = function(e){
+					var data = eval('(' + e.data + ')');
+					var list = [];
+					var showContent = data.data;
+					console.log(data);
+					for(var key in showContent){
+						list.push(showContent[key]);
+					}
+
+					$(".box").each(function(index){
+						var val = list[index];
+						$(this).html(val)
+					})
+					
+				};
+				ws.onerror = function(evt){
+					console.log("发生错误")
+				};
+				ws.onclose = function(){
+					console.log("断开连接")
+					ws.close();
+				};
+
+			/*setTimeout(function () {
+				console.log('setTimeout'+ws.readyState);
+				ws.send(["box5","box6","box7","box8"])
+            },5000);*/
+			function a(x) {
+			    console.log(x+ws.readyState);
+				ws.send(["box5","box6","box7","box8"])
+            }
+			//模拟页面请求静态数据
+	var da = ["STATS.2.running_state","STATS.3.total_generated","STATS.4.total_reactive","STATS.5.total_consume"];
+	var data3={
+		'command':'11',
+		'data':JSON.stringify(da),
+	};
+	//模拟写入数据请求
+	var da2 ={
+		"DIN.1.1.Brake1_FB":true,
+		"DIN.1.2.Brake2_FB":true,
+	}
+	var data2 ={
+		'command':'21',
+		'data':JSON.stringify(da2),
+	}
+	/*var data3={
+	    'command':'41'
+	}*/
+    /*$.ajax({
+
+        type: "GET",
+        url: "http://127.0.0.1:8000/staticData",
+		data:data3,
+        dataType: 'json',
+        success: function(result){
+        	var content = JSON.stringify(result);
+        	alert(result);
+        	console.log(content);
+        	console.log(result);
+        },
+        error: function(result){
+			alert("返回数据失败");
+        }
+    });*/
+
+
+		</script>
+	</body>
+</html>
+

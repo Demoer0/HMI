@@ -1,0 +1,42 @@
+		#upAndDown{
+				margin: auto;
+				left:0; right:0;
+				top: 0.1rem;
+				width: 0.4rem;
+				height: 0.14rem;
+				background: #B8E0FC;
+				text-align: center;
+				position: fixed;
+				z-index: 1;
+				display: none;
+			}
+			.btn{
+				margin-top: 0.01rem;
+				width: 0.06rem;
+				height: 0.06rem;
+				display: inline-block;
+				text-align: center;
+				line-height: 0.06rem;
+				border: 1px solid rosybrown;
+				background: #E5F1FE;
+			}
+			#timeValue{
+				margin-top: 0.01rem;
+				width: 0.08rem;
+				height: 0.06rem;
+				display: inline-block;
+				text-align: center;
+				line-height: 0.06rem;
+				background: white;
+			}
+			#upAndDown input{
+				margin-top: 0.02rem;
+				margin-left:0.02rem;
+				margin-right:0.02rem;
+				width: 0.08rem;
+				height: 0.04rem;
+				background: #E5F1FE;
+				line-height: 0.04rem;
+				outline: none;
+				border: 0;
+			}

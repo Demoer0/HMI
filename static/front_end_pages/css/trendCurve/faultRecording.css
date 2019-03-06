@@ -1,0 +1,142 @@
+* {
+	padding: 0;
+	margin: 0;
+	font-family: "微软雅黑";
+}
+
+body {
+	border: none;
+	font-size: 0.012rem;
+	overflow: hidden;
+}
+
+th,
+td,
+p,
+span,
+label {
+	font-size: 0.018rem;
+}
+#page_table{
+	display: block;
+}
+
+#sure0{
+	text-align: center;
+	background: #9DC3E6;
+	width: 0.09rem;
+	font-size: 0.02rem;
+	line-height: 0.03rem;
+	border-radius: 0.009rem;
+	border: 1px solid #41719C;	
+	margin-left: 0.893rem;
+}
+
+#table {
+	width: 1rem;
+	margin:0.01rem 0.15rem 0.01rem 0.015rem;
+}
+
+#table td,
+th {
+	text-align: center;
+	background: #F2F2F2;
+	width: 0.43rem;
+	height: 0.043rem;
+	border-collapse: collapse;
+}
+
+#table th {
+	width: 0.1rem;
+	text-align: center;
+}
+
+/*显示区域*/
+#showDiv{
+    display: none;
+    height: 0.598rem;
+}
+
+/*图表曲线名称*/
+#recordingTime{
+	width: 0.97rem;
+	height: 0.03rem;
+	font-size: 0.02rem;
+	margin-left: 0.03rem;
+}
+
+/*左边*/
+#leftContent {
+	width: 0.02rem;
+	height: 0.58rem;
+	float: left;
+	list-style: none;	
+}
+
+/*中间图表部分*/
+#charts {
+	width: 0.842rem;
+	height: 0.52rem;
+	margin: 0rem 0rem 0rem 0.01rem;
+	float: left;
+}
+
+#charts div {
+	width: 0.741rem;
+	height: 0.14rem;
+	margin: 0.002rem 0rem 0rem 0rem;
+	background: white;	
+}
+
+/*右边*/
+/*隐藏div部分*/
+#popDiv{
+	width: 0.99rem;
+    height: 0.59rem;
+    position: absolute;
+    margin: -0.598rem 0.001rem 0 0.001rem;
+    display: none;
+}
+
+/*按钮样式*/
+#choose,#sure{
+	text-align: center;
+	background: #9DC3E6;
+	width: 0.09rem;
+	font-size: 0.02rem;
+	line-height: 0.03rem;
+	border-radius: 0.009rem;
+	border: 1px solid #41719C;	
+	float: right;
+}
+
+/*隐藏部分第一二行*/
+#header{
+	width: 0.95rem;
+	height: 0.03rem;
+	font-size: 0.02rem;
+	margin-left: 0.04rem;
+}
+#center{
+	margin-top: 0.01rem;
+	margin-bottom: 0.008rem;
+}
+#center span{
+	margin-left: 0.042rem;
+}
+#center input{
+	width: 0.12rem;
+}
+
+/*隐藏部分表格*/
+#nameMenu{
+	margin-top: 0.01rem;
+}
+#nameMenu td,th{
+	text-align:center;
+	background: #F2F2F2;
+	width: 0.25rem;
+	height: 0.035rem;
+	border-collapse: collapse;
+}
+#nameMenu th{text-align: center;}

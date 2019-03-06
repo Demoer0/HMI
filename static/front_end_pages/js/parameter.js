@@ -1,0 +1,309 @@
+var xmlContent;
+var csvContent  = loadCSV("../parameter.csv");
+$(function(){
+    //加载xml文件
+    xmlContent = loadXML("../HmiApp_181009.xml");
+    var pageUrl = parent.document.getElementById("window").getAttribute("pageurl");
+    var pageNode = xmlContent.getElementsByTagName(pageUrl)[0];
+    console.log(pageNode);
+    /*生成界面顶部按钮  */
+    //遍历pageNode下的所有子元素
+    for(var i=0;i<pageNode.children.length;i++){
+        var setLabel =document.createElement("label");
+        setLabel.textContent = pageNode.children[i].getAttribute("name");
+        //给对应的label添加相应的pageurl属性
+        setLabel.setAttribute("pageurl",pageNode.children[i].getAttribute("pageurl"));
+        document.getElementById("btn-content").appendChild(setLabel);
+        //给报表的内容区域添加contentUrl的属性
+        document.getElementById("parameter-content").setAttribute("contentUrl",pageNode.children[0].getAttribute("pageurl"));
+    }
+    /*设置顶部按钮点击事件*/
+    $("#btn-content label").click(function(){
+        $("#btn-content label").css("background","#005D98");
+        $(this).css("background","#004B74");
+        /*设置content区域的地址,有xml下MainPage下的pageurl 3.6.1决定*/
+        $("#parameter-content").attr("contenturl",$(this).attr("pageurl"));
+        setParaContent($("#parameter-content").attr("contentUrl"),csvContent);
+
+    });
+    setParaContent($("#parameter-content").attr("contentUrl"),csvContent);
+    /*一键恢复初始值*/
+    $("#para-init-Data").click(function(){
+        resetParaContent($("#parameter-content").attr("contentUrl"));
+    });
+    /*判断是否需要下拉按钮开始*/
+    var btnHeight = document.getElementById("btn-content").getElementsByTagName("label")[0].offsetHeight;
+    var btnContentHeight = document.getElementById("btn-content").offsetHeight;
+    $("#btn-group").css({
+        "height":btnHeight
+    });
+    var divHeight = document.getElementById("btn-group").offsetHeight;
+    if(btnContentHeight>divHeight){
+        $("#drop-btn").css("display","block");
+    }else{
+        $("#drop-btn").css("display","none");
+    }
+    /*判断是否需要下拉按钮结束*/
+    /*点击下拉菜单事件*/
+    $("#drop-btn").click(function(){
+        dropDown();
+    });
+    /*点击修改参数值*/
+    $("#para-mask,#modify-cancel").click(function(){
+        hideMask();
+    });
+});
+
+/*点击下拉按钮执行函数*/
+function dropDown(){
+    /*单行按钮高度*/
+    var btnHeight = document.getElementById("btn-content").getElementsByTagName("label")[0].offsetHeight;
+    /*所有按钮总高度*/
+    var btnContentHeight = document.getElementById("btn-content").offsetHeight;
+    var divHeight = document.getElementById("btn-group").offsetHeight;
+    if(divHeight<btnContentHeight){
+        $("#btn-group").css({
+            "height":btnContentHeight
+        });
+        $("#drop-btn img").attr("src","../img/fold.png");
+        $("#parameter-content").css('top','0.165rem');
+    }else{
+        $("#btn-group").css({
+            "height":btnHeight
+        });
+        $("#drop-btn img").attr("src","../img/unfold.png");
+        $("#parameter-content").css('top','0.130rem');
+    }
+}
+
+function setParaContent(pageurl,csvContent){
+    var xmlContent = loadXML("../HmiApp_181009.xml");
+    $("#para-table tr").remove();
+    var urlName = pageurl.slice(5);
+    //var pageName =$("#btn-group p label:first-of-type").html();
+    //console.log(pageName);
+    // var ContentUrl = $("#btn-group p label:first-of-type").attr('pageurl');
+    var Page  = xmlContent.getElementsByTagName("Page");
+    var ParaList=null;
+    var dataMapping = new Array(); //保存数据点的名字
+    var ParaName = new Array();//保存参数的参数号
+    var ParaCn = new Array();//保存参数的中文名字
+    var unit = new Array();//保存参数的单位
+    var min = new Array();//保存参数的最小值
+    var max = new Array();//保存参数的最大值
+    var referValue = new Array();//保存参数的参考值
+    /*从XML中获取参数*/
+    for(var i=0;i<Page.length;i++){
+        if(Page[i].getAttribute("name")==urlName)
+        {
+            ParaList = Page[i].getElementsByTagName('Para');
+            break;
+        }
+    }
+    /*从XML中获取中文描述*/
+    for(var i=0;i<ParaList.length;i++){
+        ParaName.push(ParaList[i].getAttribute('parameterNum'));
+    }
+    //console.log(ParaName);
+    /*从XML中获取数据点名*/
+    for(var i=0;i<ParaList.length;i++){
+        dataMapping.push(ParaList[i].getAttribute('datamapping'));
+    }
+    // console.log(dataMapping.length);
+    //console.log(dataMapping);
+    /*从CSV中获取内容*/
+    var strs = csvContent.split(/[,\n]/);
+    //console.log( strs);
+    for(var i=0;i<ParaName.length;i++){
+        for(var j=0;j<strs.length;j++){
+            if(strs[j]==ParaName[i]){
+                ParaCn.push(strs[j+1]);
+                referValue.push(strs[j+2]);
+                max.push(strs[j+3]);
+                min.push(strs[j+4]);
+                unit.push(strs[j+5]);
+                break;
+            }
+        }
+    }
+    //console.log(max);
+    //console.log(ParaName);
+    /*创建表格*/
+    for(var k=0;k<ParaName.length;k++){
+        var tdContent="";
+        var setTr = document.createElement("tr");
+        var setTd1  = document.createElement("td");//序号
+        var setTd2  = document.createElement("td");//参数名
+        var setTd3  = document.createElement("td");//当前值
+        var setTd4  = document.createElement("td");//单位
+        setTd1.innerHTML = k;
+        //console.log(i);
+        setTd2.className="ParaName";
+        setTd2.innerHTML = ParaCn[k];
+        setTd3.textContent = tdContent;
+        setTd3.setAttribute("id",dataMapping[k]);
+        setTd3.className="ParaValue";
+        setTd3.setAttribute("datamapping", dataMapping[k]);
+        setTd4.innerHTML = unit[k];
+        setTr.appendChild(setTd1);
+        setTr.appendChild(setTd2);
+        setTr.appendChild(setTd3);
+        setTr.appendChild(setTd4);
+        document.getElementById("para-table").appendChild(setTr);
+    }
+
+    $(document).ready(function () {
+        var msg = {"command": 11};
+        var points_name = new Array();
+        var datas = $("[datamapping]");
+        //console.log(datas);
+        for (var i = 0; i < datas.length; i++){
+            points_name.push(datas[i].getAttribute("datamapping"));
+        }
+        msg["points_name"] = points_name;
+        //console.log(points_name);
+        // console.log('pp',msg);
+        $.ajax({
+            type: "POST",
+            url: "http://" + location.host + "/queryparameter",
+            data: msg,
+            dataType: 'json',
+            success:function (result) {
+                //console.log(result);
+                if(result != undefined){
+                    for (var i in result.data) {
+                        if (result.data.hasOwnProperty(i) && typeof result.data[i] != "function") {
+                            //console.log("对象属性: ", i);
+                            document.getElementById(i).innerHTML = result.data[i];
+                        }
+                    }
+                }
+            }
+        });
+    });
+
+    /*参数值修改添加点击事件*/
+    $(".ParaValue").click(function(){
+        $("#input-warning").css("visibility","hidden");
+        for(var i=0;i<ParaName.length;i++){
+            //console.log($(".ParaName").text());
+            if($(this).attr("id")==dataMapping[i]){
+                document.getElementById("min").innerHTML=min[i];
+                document.getElementById("max").innerHTML=max[i];
+                document.getElementById("refer-value").innerHTML=referValue[i];
+            }
+        }
+        if($("#btn-debug",window.top.document).attr('isDebug') == "true") {
+            point_name = $(this).attr("datamapping");
+            // console.log(point_name);
+            showMask();
+        }
+    });
+    $("#modify-comfirm").click(function () {
+            var _input = document.getElementById("message").value;
+            var Min= parseFloat(document.getElementById("min").innerHTML);
+            var Max= parseFloat(document.getElementById("max").innerHTML);
+            console.log( _input);
+            console.log( Min);
+            console.log( Max);
+            if(_input<Min||_input>Max){
+                $("#input-warning").css("visibility","visible");
+                //document.getElementById("message").value="";
+                return
+            }
+            else {
+                sendMessage();
+            }
+        })
+
+    /*判定是否需要滚动按钮*/
+    var contentHeight = document.getElementById("parameter-content").clientHeight;
+    var tableHeight = document.getElementById("para-table").scrollHeight;
+    console.log(contentHeight);
+    console.log(tableHeight);
+    if(contentHeight>tableHeight){
+        $("#scroll-btns").css("display","none");
+    }else{
+        $("#scroll-btns").css("display","block");
+    }
+    scrollBtnClick();
+}
+
+function resetParaContent(pageurl){
+    var xmlContent = loadXML("../HmiApp_181009.xml");
+    var csvContent  = loadCSV("../parameter.csv");
+    var initVal = new Array();//保存参数的初始值
+    var dataMapping = new Array(); //保存数据点的名字
+    initVal = [];
+    var initStr = csvContent.split(/[,\n]/);
+    var ParaName = new Array();//保存参数的参数号
+    // var ContentUrl = $("#btn-content label ").attr('pageurl');
+    var urlName = pageurl.slice(5);
+    console.log(urlName);
+    var Page  = xmlContent.getElementsByTagName("Page");
+    var ParaList=null;
+    for(var i=0;i<Page.length;i++){
+        if(Page[i].getAttribute("name")==urlName)
+        {
+            ParaList = Page[i].getElementsByTagName('Para');
+            break;
+        }
+    }
+    for(var i=0;i<ParaList.length;i++){
+        dataMapping.push(ParaList[i].getAttribute('datamapping'));
+    }
+    /*从XML中获取中文描述*/
+    for(var i=0;i<ParaList.length;i++){
+        ParaName.push(ParaList[i].getAttribute('parameterNum'));
+        // console.log(ParaName);
+    }
+    for(var i=0;i<ParaName.length;i++){
+        for(var j=0;j<initStr.length;j++){
+            if(initStr[j]==ParaName[i]){
+                initVal.push(initStr[j+2]);
+                //console.log(initVal);
+                break;
+            }
+        }
+    }
+    for(var i=0;i<ParaName.length;i++){
+        document.getElementById(dataMapping[i]).innerHTML = initVal[i];
+    }
+
+}
+
+function showMask(){
+    $("#para-mask,#para-modify").css("display","block");
+}
+function hideMask(){
+    $("#para-mask,#para-modify").css("display","none");
+}
+
+/*send the change data to the server*/
+function sendMessage(){
+    // console.log(point_name);
+    var point_value = document.getElementById("message").value;
+    // console.log("pp", point_value);
+    var msg = {
+        command: 21,
+        point_name: point_name,
+        point_value: point_value
+    };
+    console.log(msg);
+    $.ajax({
+        type: 'POST',
+        url: "http://" + location.host + "/changeparameter",
+        data: msg,
+        dataType: 'json',
+        success: function(result){
+            console.log(result);
+            // console.log($("[datamapping=\"" + point_name + "\"]"));
+            $("[datamapping=\"" + point_name + "\"]").text(point_value);
+            //console.log($(#P_00_01).innerHTML);
+            hideMask();
+        },
+        error: function(){
+            alert("failed to return data");
+        }
+    });
+}
