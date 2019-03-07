@@ -157,7 +157,7 @@ class historyRecordHandler(threading.Thread):
         :rtype: object
         """
         #  向主控发送请求时间间隔
-        timeInterval = 60
+        timeInterval = 2
         # 数组长度
         arrayLength = 864
         # 当前时间获取
